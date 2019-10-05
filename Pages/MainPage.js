@@ -33,11 +33,13 @@
 
 		toggleButton.SetOnClick(() => {
 			console.log("Attempting to play Cherry Smile");
-			SC.get("https://soundcloud.com/pauli-niemi/cherry-smile", function(track) {
+			SC.get("http://cors.io/?https://soundcloud.com/pauli-niemi/cherry-smile", function(track) {
+				if (!track) { console.log("Failed to load track!"); return; }
 				console.log("Loaded track!");
 				console.log(track);
 				SC.stream(track.uri).then(function(player) {
-					console.log("Playing");
+					if (!player) { console.log("Failed to load player!"); return; }
+					console.log("Player created!");
 					console.log(player);
 					player.play();
 				});
