@@ -30,6 +30,18 @@
 		});
 		container.appendChild(toggleButton.content);
 
+		toggleButton.SetOnClick(() => {
+			SC.get("https://soundcloud.com/pauli-niemi/cherry-smile", function(track) {
+				console.log("Loaded track!");
+				console.log(track);
+				SC.stream(track.uri).then(function(player) {
+					console.log("Playing");
+					console.log(player);
+					player.play();
+				});
+			});
+		});
+
 		/*
 		widget.bind(SC.Widget.Events.READY, function() {
 			console.log("READY");
