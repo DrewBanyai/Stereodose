@@ -13,6 +13,7 @@
 		SC.initialize({ client_id: "dV0jpQ1RaaPeGmiJcmR05K9OPzSaUAZJ", /*redirect_uri: "CALLBACK_URL"*/ });
 		
 		SC.get("/tracks", function(response) {
+			console.log("Loaded track list:");
 			console.log(response);
 			//for (var i = 0; i < response.length; i++) {
 			//  $("ul").append("<li>" + response[i].title + "</li>");
@@ -31,6 +32,7 @@
 		container.appendChild(toggleButton.content);
 
 		toggleButton.SetOnClick(() => {
+			console.log("Attempting to play Cherry Smile");
 			SC.get("https://soundcloud.com/pauli-niemi/cherry-smile", function(track) {
 				console.log("Loaded track!");
 				console.log(track);
