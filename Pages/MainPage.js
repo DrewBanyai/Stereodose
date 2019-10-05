@@ -1,4 +1,6 @@
-	class MainPage {
+let player = null;
+
+class MainPage {
 	constructor() {
 		//this.setupSoundcloudWidgetAccess();
 		this.content = this.GenerateContent();
@@ -31,42 +33,17 @@
 		});
 		container.appendChild(toggleButton.content);
 
-		toggleButton.SetOnClick(() => {
+		toggleButton.SetOnClick(async () => {
 			console.log("Attempting to play Cherry Smile");
-			SC.get("http://cors.io/?https://soundcloud.com/pauli-niemi/cherry-smile", function(track) {
-				if (!track) { console.log("Failed to load track!"); return; }
-				console.log("Loaded track!");
-				console.log(track);
-				SC.stream(track.uri).then(function(player) {
-					if (!player) { console.log("Failed to load player!"); return; }
-					console.log("Player created!");
-					console.log(player);
-					player.play();
-				});
-			});
+			let resource = await SC.resolve("https://soundcloud.com/pauli-niemi/cherry-smile");
+			if (!resource) { console.log("Failed to load resource!"); return; }
+			console.log(resource);
+
+			if (!player) { player = await SC.stream(`/tracks/${resource.id}`); }
+			if (!player) { console.log("Failed to load player!"); return; }
+			if (player.isPlaying()) { player.pause(); } else { player.play(); }
 		});
 
-		/*
-		widget.bind(SC.Widget.Events.READY, function() {
-			console.log("READY");
-			toggleButton.SetOnClick(() => { widget.toggle(); })
-			widget.bind(SC.Widget.Events.PLAY, function() {
-				console.log("PLAY");
-				// get information about currently playing sound
-				widget.getCurrentSound(function(currentSound) {
-					console.log(currentSound);
-					console.log('sound ' + currentSound.title + 'began to play');
-				});
-			});
-			// get current level of volume
-			widget.getVolume(function(volume) {
-				console.log('current volume value is ' + volume);
-			});
-			// set new volume level
-			widget.setVolume(50);
-			// get the value of the current position
-		});
-		*/
 		return container;
 	}
 }
