@@ -1,5 +1,3 @@
-let player = null;
-
 class MainPage {
 	constructor() {
 		//this.setupSoundcloudWidgetAccess();
