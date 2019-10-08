@@ -33,3 +33,12 @@ function setStyle(container, style) {
 
 	for (let key in style) { container.style[key] = style[key]; }
 }
+
+function setAttributes(container, attributes) {
+	//  Ensure we have a proper container, a proper style, and that the attributes passed in isn't empty
+	if (!container) { console.log("Invalid container was passed into setStyle"); return; }
+	if (!attributes) { console.log("Invalid attributes was passed into setAttributes"); return; }
+	if (Object.keys(attributes).length === 0) { return; }
+
+	for (let key in attributes) { container.setAttribute(key, attributes[key]); }
+}

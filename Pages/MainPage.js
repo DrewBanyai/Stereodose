@@ -5,18 +5,14 @@ class MainPage {
 	}
 	
 	GenerateContent() {
-		let container = document.createElement("div");
-		container.id = "MainPageContainer";
-		container.style.width = "100%";
-		container.style.backgroundImage = "linear-gradient(to bottom right, rgb(10, 10, 10), rgb(70, 70, 70))";
+		let container = new Container({ id: "MainPageContainer", style: { width: "100%", backgroundImage: "linear-gradient(to bottom right, rgb(10, 10, 10), rgb(70, 70, 70))" } });;
 
-		let soundcloudPlayer = new SoundcloudPlayer({
-			soundcloudLinkList: [
-				"https://soundcloud.com/pauli-niemi/cherry-smile",
-				"https://soundcloud.com/pauli-niemi/clouds",
-			],
-		});
-		container.appendChild(soundcloudPlayer.content);
+		let trackList = [
+			"https://soundcloud.com/pauli-niemi/cherry-smile",
+			"https://soundcloud.com/pauli-niemi/clouds",
+		]
+		let soundBar = new SoundBar({ id: "SoundBarTest", trackList: trackList });
+		container.appendChild(soundBar.content);
 
 		let songURLInput = new TextInput({
 			id: "SongURLInput",
@@ -53,6 +49,6 @@ class MainPage {
 		});
 		container.appendChild(songSubmitButton.content);
 
-		return container;
+		return container.content;
 	}
 }

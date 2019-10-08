@@ -14,7 +14,6 @@ class Label {
 	GenerateContent() {
 		this.LabelElement = document.createElement(this.DivType);
 		this.LabelElement.id = this.LabelName + "Label";
-		this.LabelElement.style.height = "20px";
 		
 		this.LabelElement.SetText = (text) => this.SetText(text);
 		

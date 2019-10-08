@@ -6,11 +6,6 @@ class PrimaryButton {
 		this.ButtonTextLabel = null;
 		this.content = this.GenerateContent();
 
-		//  Generic options application
-		this.content.id = (options && options.id) ? options.id : "PrimaryButton";
-		if (options && options.attributes) { for (let key in options.attributes) { this.content[key] = options.attributes[key] } }
-		if (options && options.style) { for (let key in options.style) { this.content.style[key] = options.style[key] } }
-
 		this.ButtonTextLabel.SetText(this.content.value);
 	}
 	
@@ -19,22 +14,29 @@ class PrimaryButton {
 		let mouseDownGradient = "linear-gradient(to right, rgba(140, 140, 140, 0.6), rgba(170, 170, 170, 0.4))";
 		
 		//  Create the main button, a rounded box
-		this.ButtonElement = document.createElement("div");
-		this.ButtonElement.id = this.options.id;
-		this.ButtonElement.style.width = "200px";
-		this.ButtonElement.style.height = "25px";
-		this.ButtonElement.style.borderRadius = "5px";
-		this.ButtonElement.style.backgroundImage = "linear-gradient(to right, rgb(255, 99, 0), rgb(255, 165, 0))";
-		this.ButtonElement.style.display = "flex";
+		this.ButtonElement = new Container({
+			id: this.options.id,
+			style: {
+				width: "200px",
+				height: "25px",
+				borderRadius: "5px",
+				backgroundImage: "linear-gradient(to right, rgb(255, 99, 0), rgb(255, 165, 0))",
+				display: "flex",
+			}
+		});
+		this.ButtonElement.applyOptions(this.options);
 		
-		this.ButtonGradient = document.createElement("div");
-		this.ButtonGradient.id = this.options.id + "ButtonGradient";
-		this.ButtonGradient.style.width = "100%";
-		this.ButtonGradient.style.height = "100%";
-		this.ButtonGradient.style.lineHeight = "25px";
-		this.ButtonGradient.style.borderRadius = "5px";
-		this.ButtonElement.style.display = "flex";
-		this.ButtonElement.appendChild(this.ButtonGradient);
+		this.ButtonGradient = new Container({
+			id: this.options.id + "ButtonGradient",
+			style: {
+				width: "100%",
+				height: "100%",
+				lineHeight: "25px",
+				borderRadius: "5px",
+				display: "flex",
+			}
+		});
+		this.ButtonElement.appendChild(this.ButtonGradient.content);
 		
 		//  Create a centered label on the button
 		this.ButtonTextLabel = new Label(this.options.id + "ButtonText", "", "'Titillium Web', sans-serif", "", "div");
@@ -46,24 +48,24 @@ class PrimaryButton {
 		this.ButtonGradient.appendChild(this.ButtonTextLabel.content);
 		
 		//  Set mouse reactions
-		this.ButtonElement.onmouseover = () => { if (!this.ButtonElement.disabled) {  this.ButtonGradient.style.backgroundImage = highlightGradient; } }
-		this.ButtonElement.onmouseout = () => { if (!this.ButtonElement.disabled) { this.ButtonGradient.style.backgroundImage = ""; } }
-		this.ButtonElement.onmousedown = () => { if (!this.ButtonElement.disabled) {  this.ButtonGradient.style.backgroundImage = mouseDownGradient; } }
-		this.ButtonElement.onmouseup = () => { if (!this.ButtonElement.disabled) { this.ButtonGradient.style.backgroundImage = highlightGradient; } }
+		this.ButtonElement.content.onmouseover = () => { if (!this.ButtonElement.content.disabled) {  this.ButtonGradient.content.style.backgroundImage = highlightGradient; } }
+		this.ButtonElement.content.onmouseout = () => { if (!this.ButtonElement.content.disabled) { this.ButtonGradient.content.style.backgroundImage = ""; } }
+		this.ButtonElement.content.onmousedown = () => { if (!this.ButtonElement.content.disabled) {  this.ButtonGradient.content.style.backgroundImage = mouseDownGradient; } }
+		this.ButtonElement.content.onmouseup = () => { if (!this.ButtonElement.content.disabled) { this.ButtonGradient.content.style.backgroundImage = highlightGradient; } }
 		
-		return this.ButtonElement;
+		return this.ButtonElement.content;
 	}
 	
 	SetText(text) { this.ButtonTextLabel.SetText(text); }
 	SetFont(font) { this.ButtonTextLabel.SetFont(font); }
 	SetFontSize(size) { this.ButtonTextLabel.SetFontSize(size); }
 	
-	SetOnClick(callback) { this.ButtonElement.onclick = () => { if (this.ButtonElement.disabled) { return; } callback(); }; }
+	SetOnClick(callback) { this.ButtonElement.content.onclick = () => { if (this.ButtonElement.content.disabled) { return; } callback(); }; }
 	
 	SetEnabledState(enabled) {
-		this.ButtonElement.disabled = (!enabled);
-		this.ButtonGradient.disabled = (!enabled);
+		this.ButtonElement.content.disabled = (!enabled);
+		this.ButtonGradient.content.disabled = (!enabled);
 		
-		if (!enabled) { this.ButtonGradient.style.backgroundImage = ""; }
+		if (!enabled) { setStyle(this.ButtonGradient.content, { backgroundImage: "", }); }
 	}
 }
