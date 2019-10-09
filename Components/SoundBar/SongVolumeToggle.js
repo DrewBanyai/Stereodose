@@ -18,7 +18,7 @@ class SongVolumeToggle {
             id: (this.options && this.options.id) ? this.options.id : "SongVolumeToggle",
             style: {
                 position: "relative",
-                left: "-10px",
+                left: "0px",
                 top: "-10px",
                 width: "40px",
                 height: "40px",
@@ -26,7 +26,7 @@ class SongVolumeToggle {
         });
         container.applyOptions(this.options);
 
-        this.volumeSymbol = new Fontawesome({ id: "VolumeToggleSymbol", style: { fontSize: "16px", color: "rgb(120, 120, 120)", position: "relative", left: "10px", top: "10px", }, className: "fas fa-volume-up" });
+        this.volumeSymbol = new Fontawesome({ id: "VolumeToggleSymbol", style: { fontSize: "16px", color: "rgb(120, 120, 120)", position: "relative", left: "12px", top: "10px", }, className: "fas fa-volume-up" });
         container.appendChild(this.volumeSymbol.content);
         
         container.appendChild(this.createSliderMenu());
@@ -48,7 +48,7 @@ class SongVolumeToggle {
                 width: "36px",
                 height: "130px",
                 position: "absolute",
-                left: "-2px",
+                left: "2px",
                 top: `${this.sliderMenuOffsetY}px`,
                 display: "none",
             }

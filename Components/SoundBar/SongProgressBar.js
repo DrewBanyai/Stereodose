@@ -23,14 +23,19 @@ class SongProgressBar {
     }
 
     generateContent() {
-        let container = document.createElement("div");
-        setStyle(container, { borderRadius: "4px", width: "600px", height: this.barHeight, backgroundColor: this.colors.mainBarBG, position: "relative" });
-        container.onmouseover = () => { this.setHighlightOn(true); }
-        container.onmouseout = () => { this.setHighlightOn(false); }
-        container.onclick = (e) => {
-            let newProgress = (e.layerX / e.target.offsetWidth * 100).toFixed(3);
-            this.setProgress(newProgress, true);
-        }
+        let barWidth = (this.options && this.options.style && this.options.style.width) ? this.options.style.width : "600px";
+        let container = new Container({
+            id: "SongProgressBar",
+            style: { borderRadius: "4px", width: "600px", height: this.barHeight, backgroundColor: this.colors.mainBarBG, position: "relative" },
+            events: {
+                mouseover: () => { this.setHighlightOn(true); },
+                mouseout: () => { this.setHighlightOn(false); },
+                click: (e) => {
+                    let newProgress = (e.layerX / e.target.offsetWidth * 100).toFixed(3);
+                    this.setProgress(newProgress, true);
+                },
+            },
+        });
 
         this.progressBar = document.createElement("div");
         this.progressBar.id = "SongProgress";
@@ -46,7 +51,7 @@ class SongProgressBar {
         this.progressBarMover.appendChild(mover);
         container.appendChild(this.progressBarMover);
 
-        return container;
+        return container.content;
     }
 
     setHighlightOn(highlightOn) {

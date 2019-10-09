@@ -67,14 +67,14 @@ class SoundBar {
     }
 
     createProgressBar() {
-        let progressBarContainer = new Container({ id: "ProgressBarContainer", style: { width: "700px", display: "inline-block", padding: "0px 0px 0px 10px", textAlign: "center" } });
+        let progressBarContainer = new Container({ id: "ProgressBarContainer", style: { display: "inline-block", padding: "0px 0px 0px 0px", textAlign: "center" } });
 
         this.progressTimerLabel = new Label("ProgressTimerLabel", "0:00", "'Titillium Web', sans-serif", "12px", "div", "none");
         setStyle(this.progressTimerLabel.content, { color: "rgb(200, 90, 90)", display: "inline-block", margin: "0px 10px 0px 0px", position: "relative", top: "-2px", });
         progressBarContainer.appendChild(this.progressTimerLabel.content);
 
         this.progressBar = new SongProgressBar({
-            style: { display: "inline-block", position: "relative", top: "-2px" },
+            style: { display: "inline-block", position: "relative", top: "-2px", width: "400px" },
             progressCallback: (newProgress) => {
                 if (!this.player) { return; }
                 let duration = this.player.getDuration();
