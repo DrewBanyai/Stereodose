@@ -71,12 +71,7 @@ class SoundcloudPlayer {
         if ((this.songIndex < 0) || (this.songIndex >= this.trackLinkList.length)) { console.log("Invalid song index:", this.songIndex); return; }
         if (!this.trackLinkDataMap.hasOwnProperty(this.trackLinkList[this.songIndex])) { console.log("Could not find track data:", this.trackLinkList[this.songIndex]); return; }
         let trackData = this.trackLinkDataMap[this.trackLinkList[this.songIndex]];
-        console.log(trackData);
-        console.log(trackData.artwork_url);
-        console.log(trackData.genre);
-        console.log(trackData.permalink_url);
-        console.log(trackData.tag_list);
-        console.log(trackData.title);
+        if (this.setTrackData) { this.setTrackData(trackData); }
     }
 
     async loadSong(songIndex) {

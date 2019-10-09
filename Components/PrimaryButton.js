@@ -6,7 +6,7 @@ class PrimaryButton {
 		this.ButtonTextLabel = null;
 		this.content = this.GenerateContent();
 
-		this.ButtonTextLabel.SetText(this.content.value);
+		this.ButtonTextLabel.setText(this.content.value);
 	}
 	
 	GenerateContent() {
@@ -39,12 +39,18 @@ class PrimaryButton {
 		this.ButtonElement.appendChild(this.ButtonGradient.content);
 		
 		//  Create a centered label on the button
-		this.ButtonTextLabel = new Label(this.options.id + "ButtonText", "", "'Titillium Web', sans-serif", "", "div");
-		this.ButtonTextLabel.content.style.position = "relative";
-		this.ButtonTextLabel.content.style.margin = "auto";
-		this.ButtonTextLabel.content.style.cursor = "default";
-		this.ButtonTextLabel.content.style.userSelect = "none";
-		this.ButtonTextLabel.content.style.textAlign = "center";
+		this.ButtonTextLabel = new Label({
+			id: this.options.id + "ButtonText",
+			attributes: { value: "" },
+			style: {
+				fontFamily: "'Titillium Web', sans-serif",
+				position: "relative",
+				margin: "auto",
+				cursor: "default",
+				userSelect: "none",
+				textAlign: "center",
+			},
+		});
 		this.ButtonGradient.appendChild(this.ButtonTextLabel.content);
 		
 		//  Set mouse reactions
@@ -56,9 +62,9 @@ class PrimaryButton {
 		return this.ButtonElement.content;
 	}
 	
-	SetText(text) { this.ButtonTextLabel.SetText(text); }
-	SetFont(font) { this.ButtonTextLabel.SetFont(font); }
-	SetFontSize(size) { this.ButtonTextLabel.SetFontSize(size); }
+	setText(text) { this.ButtonTextLabel.setText(text); }
+	setFont(font) { this.ButtonTextLabel.setFont(font); }
+	setFontSize(size) { this.ButtonTextLabel.setFontSize(size); }
 	
 	SetOnClick(callback) { this.ButtonElement.content.onclick = () => { if (this.ButtonElement.content.disabled) { return; } callback(); }; }
 	

@@ -1,27 +1,20 @@
 class Label {
-	constructor(name, text, font, size, divType, userSelect = "none") {
-		this.LabelName = name;
-		this.LabelElement = null;
-		this.DivType = (divType !== undefined) ? divType : "span";
+	constructor(options) {
+		this.options = options;
 		this.content = this.GenerateContent();
-		this.content.style.userSelect = userSelect;
-		this.SetText(text);
-		this.SetFont(font);
-		this.SetFontSize(size);
-		
+		this.setText(this.content.value);
 	}
 	
 	GenerateContent() {
-		this.LabelElement = document.createElement(this.DivType);
-		this.LabelElement.id = this.LabelName + "Label";
-		
-		this.LabelElement.SetText = (text) => this.SetText(text);
-		
-		return this.LabelElement;
+		if (!this.options.id) { this.options.id = "Label"; }
+
+		let container = new Container(this.options);
+		container.content.setText = (text) => this.setText(text);
+		return container.content;
 	}
 	
-	SetText(text) { this.LabelElement.innerHTML = text; }
-	SetFont(font) { this.LabelElement.style.fontFamily = font; }
-	SetFontSize(size) { this.LabelElement.style.fontSize = size; }
-	SetColor(color) { this.LabelElement.style.color = color; }
+	setText(text) { this.content.innerHTML = text; }
+	setFont(font) { this.content.style.fontFamily = font; }
+	setFontSize(size) { this.content.style.fontSize = size; }
+	setColor(color) { this.content.style.color = color; }
 }

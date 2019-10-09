@@ -4,6 +4,7 @@ class SoundBar {
         this.buttons = { seekBackwards: null, playPause: null, seekForward: null };
         this.callbacks = { play: null, pause: null, seekBackwards: null, seekForward: null };
         this.soundcloudPlayer = null;
+        this.currentSongBox = null;
         this.content = this.generateContent();
     }
 
@@ -13,10 +14,11 @@ class SoundBar {
             style: { width: "100%", height: "40px", margin: "0px", backgroundColor: "rgb(20, 20, 20)", position: "fixed", bottom: "0px", }
         });
 
-        let centeredContainer = new Container({ id: "SoundControlButtons", style: { width: "920px", margin: "auto", } });
+        let centeredContainer = new Container({ id: "SoundBarCentered", style: { width: "920px", margin: "auto", } });
         centeredContainer.appendChild(this.createSeekAndPlayButtons());
         centeredContainer.appendChild(this.createProgressBar());
         centeredContainer.appendChild(this.createVolumeToggle());
+        centeredContainer.appendChild(this.createCurrentSongBox());
         container.appendChild(centeredContainer.content);
 
         //  Save off the Soundcloud Player instance, which is used to play and control songs
@@ -24,6 +26,7 @@ class SoundBar {
         this.player.setCallbacks(this.callbacks);
         this.player.setPlayingState = (playing) => { this.setPlayingState(playing); }
         this.player.updateProgress = (progress, duration) => { this.updateProgress(progress, duration); };
+        this.player.setTrackData = (trackData) => { this.currentSongBox.setTrackData(trackData); };
 
         return container.content;
     }
@@ -69,7 +72,7 @@ class SoundBar {
     createProgressBar() {
         let progressBarContainer = new Container({ id: "ProgressBarContainer", style: { display: "inline-block", padding: "0px 0px 0px 0px", textAlign: "center" } });
 
-        this.progressTimerLabel = new Label("ProgressTimerLabel", "0:00", "'Titillium Web', sans-serif", "12px", "div", "none");
+        this.progressTimerLabel = new Label({ id: "ProgressTimerLabel", attributes: { value: "0:00" }, style: { fontFamily: "'Titillium Web', sans-serif", fontSize: "12px", userSelect: "none" } });
         setStyle(this.progressTimerLabel.content, { color: "rgb(200, 90, 90)", display: "inline-block", margin: "0px 10px 0px 0px", position: "relative", top: "-2px", });
         progressBarContainer.appendChild(this.progressTimerLabel.content);
 
@@ -90,7 +93,7 @@ class SoundBar {
     updateProgress(progress, duration) {
         if (!this.progressBar) { return; }
         if (!duration) { return; }
-        if (this.progressTimerLabel) this.progressTimerLabel.SetText(Convert.SecondsToMinutesAndSeconds(progress));
+        if (this.progressTimerLabel) this.progressTimerLabel.setText(Convert.SecondsToMinutesAndSeconds(progress));
         this.progressBar.setProgress(((progress / duration) * 100).toFixed(3));
     }
 
@@ -99,5 +102,10 @@ class SoundBar {
         volumeToggle.setGetVolumeCallback(() => { return this.player.getVolume(); });
         volumeToggle.setSetVolumeCallback((volume) => { return this.player.setVolume(volume); });
         return volumeToggle.content;
+    }
+
+    createCurrentSongBox() {
+        this.currentSongBox = new CurrentSongBox({});
+        return this.currentSongBox.content;
     }
 }
