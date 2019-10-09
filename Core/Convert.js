@@ -9,4 +9,10 @@ class Convert {
         minutes -= hours * 60;
         return (hours > 0) ? `${hours}:${Convert.NumberToTwoDigits(minutes)}:${Convert.NumberToTwoDigits(seconds)}` : `${minutes}:${Convert.NumberToTwoDigits(seconds)}`;
     }
+
+    static RatioToPercent(ratio, clean, string) {
+        let percentage = ratio * 100;
+        if (clean) { percentage = Math.round(percentage); }
+        return string ? `${percentage}%` : percentage;
+    }
 }

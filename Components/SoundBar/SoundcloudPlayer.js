@@ -7,6 +7,7 @@ class SoundcloudPlayer {
         this.controlButtons = null;
         this.playButton = null;
         this.progressBar = null;
+        this.lastSetVolume = 1.0;
 
         this.initialize(trackLinkList);
     }
@@ -51,7 +52,7 @@ class SoundcloudPlayer {
 
     play() {
         if (!this.player) { console.log("No valid player was found!"); return; }
-        if (!this.player.isPlaying()) { this.player.play(); this.loadTrackInformation(); this.setPlayingState(false); return true; }
+        if (!this.player.isPlaying()) { this.player.play(); this.loadTrackInformation(); this.setPlayingState(false); this.setVolume(this.lastSetVolume); return true; }
         return false;
     }
 
@@ -64,7 +65,7 @@ class SoundcloudPlayer {
     seek(seekPoint) { if (!this.player) { console.warn("Attempted to seek within a song while no player was active"); return 0; } return this.player.seek(seekPoint); }
 
     getVolume() { if (!this.player) { console.warn("Attempted to get current volume while no player was active"); return 0; } return this.player.getVolume(); }
-    setVolume(volume) { if (!this.player) { console.warn("Attempted to get current volume while no player was active"); return 0; } return this.player.setVolume(volume); }
+    setVolume(volume) { this.lastSetVolume = volume; if (!this.player) { console.warn("Attempted to get current volume while no player was active"); return 0; } return this.player.setVolume(volume); }
 
     loadTrackInformation() {
         if ((this.songIndex < 0) || (this.songIndex >= this.trackLinkList.length)) { console.log("Invalid song index:", this.songIndex); return; }
