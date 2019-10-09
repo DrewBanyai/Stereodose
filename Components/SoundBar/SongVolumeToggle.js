@@ -5,6 +5,11 @@ class SongVolumeToggle {
         this.savedVolume = 1.0;
         this.volumeSymbol = null;
         this.sliderMenu = null;
+        this.sliderMenuHeight = 90;
+        this.bufferSpaceY = 20;
+        this.verticalOffset = 10;
+        this.sliderMenuOffsetY = -(this.sliderMenuHeight + this.bufferSpaceY + this.verticalOffset);
+        this.moverSize = 9;
         this.content = this.generateContent();
     }
 
@@ -13,18 +18,22 @@ class SongVolumeToggle {
             id: (this.options && this.options.id) ? this.options.id : "SongVolumeToggle",
             style: {
                 position: "relative",
+                left: "-10px",
+                top: "-10px",
+                width: "40px",
+                height: "40px",
             }
         });
         container.applyOptions(this.options);
 
-        this.volumeSymbol = new Fontawesome({ id: "VolumeToggleSymbol", style: { fontSize: "16px", color: "rgb(120, 120, 120)" }, className: "fas fa-volume-up" });
+        this.volumeSymbol = new Fontawesome({ id: "VolumeToggleSymbol", style: { fontSize: "16px", color: "rgb(120, 120, 120)", position: "relative", left: "10px", top: "10px", }, className: "fas fa-volume-up" });
         container.appendChild(this.volumeSymbol.content);
         
         container.appendChild(this.createSliderMenu());
 
         container.content.onmouseenter = () => { this.setSliderMenuOpen(true); };
         container.content.onmouseleave = () => { this.setSliderMenuOpen(false); };
-        this.volumeSymbol.content.onclick = () => { this.toggleVolumeMute(); }
+        this.volumeSymbol.content.onclick = () => { console.log("test"); this.toggleVolumeMute(); }
 
         return container.content;
     }
@@ -39,8 +48,8 @@ class SongVolumeToggle {
                 width: "36px",
                 height: "130px",
                 position: "absolute",
-                left: "-12px",
-                top: "-100px",
+                left: "-2px",
+                top: `${this.sliderMenuOffsetY}px`,
                 display: "none",
             }
         });
@@ -49,10 +58,21 @@ class SongVolumeToggle {
             id: "VolumeSliderMenuVisible",
             style: {
                 width: "36px",
-                height: "90px",
+                height: `${this.sliderMenuHeight + this.bufferSpaceY}px`,
                 backgroundColor: "rgb(80, 80, 80)",
                 border: "1px solid rgba(90, 90, 90, 0.2)",
                 position: "relative",
+            },
+            events: {
+                click: (e) => {
+                    if (e.layerY < (this.bufferSpaceY / 2) || e.layerY > (this.sliderMenuHeight + (this.bufferSpaceY / 2))) { return; }
+                    if (this.muted) { this.toggleVolumeMute(); }
+                    let yPos = this.sliderMenuHeight - (e.layerY - (this.bufferSpaceY / 2));
+                    let newVolume = (yPos / this.sliderMenuHeight);
+                    if (newVolume <= 0.05) { newVolume = 0; }
+                    if (newVolume >= 0.95) { newVolume = 1; }
+                    this.setVolume(newVolume);
+                }
             }
         });
         this.sliderMenu.appendChild(sliderMenuVisible.content);
@@ -60,14 +80,55 @@ class SongVolumeToggle {
         let sliderBarOuter = new Container({
             id: "VolumeSliderBarOuter",
             style: {
-                width: "4px",
-                height: "80px",
-                margin: "5px auto 5px auto",
+                width: "3px",
+                height: `${this.sliderMenuHeight}px`,
+                margin: `${(this.bufferSpaceY / 2)}px auto ${(this.bufferSpaceY / 2)}px auto`,
                 borderRadius: "2px",
                 backgroundColor: "rgb(200, 40, 40)",
+                position: "relative",
+                userSelect: "none",
+                pointerEvents: "none",
+            },
+            events: {
+                click: (e) => { e.stopPropagation(); }
             },
         });
         sliderMenuVisible.appendChild(sliderBarOuter.content);
+
+        this.volumeSliderInner = new Container({
+            id: "VolumeSliderBarInner",
+            style: {
+                width: "3px",
+                height: "0%",
+                borderRadius: "2px",
+                backgroundColor: "rgb(100, 100, 100)",
+                userSelect: "none",
+                pointerEvents: "none",
+            },
+            events: {
+                click: (e) => { e.stopPropagation(); }
+            },
+        });
+        sliderBarOuter.appendChild(this.volumeSliderInner.content);
+
+        this.volumeBarSlider = new Container({
+            id: "VolumeSliderBarSlider",
+            style: {
+                width: `${this.moverSize}px`,
+                height: `${this.moverSize}px`,
+                borderRadius: "4px",
+                backgroundColor: "rgb(200, 40, 40)",
+                position: "absolute",
+                left: "-3px",
+                top: "-4px",
+                userSelect: "none",
+                pointerEvents: "none",
+            },
+            events: {
+                click: (e) => { e.stopPropagation(); }
+            },
+        });
+        sliderBarOuter.appendChild(this.volumeBarSlider.content);
 
         return this.sliderMenu.content;
     }
@@ -83,21 +144,24 @@ class SongVolumeToggle {
         else { return "fas fa-volume-up"; }
     }
 
+    setVolume(volume) {
+        if (this.setVolumeCallback) { this.setVolumeCallback(volume); }
+        if (this.volumeSymbol && this.getVolumeCallback) { this.volumeSymbol.setSymbol(this.getVolumeSymbolClassName(volume)); }
+        
+        setStyle(this.volumeSliderInner.content, { height: Convert.RatioToPercent(1 - volume, true, true), });
+        setStyle(this.volumeBarSlider.content, { top: `${Math.round(this.volumeSliderInner.content.offsetHeight) - Math.round(this.moverSize / 2)}px` });
+    }
+
     toggleVolumeMute() {
         if (!this.muted) {
             this.muted = true;
             this.savedVolume = (this.getVolumeCallback ? this.getVolumeCallback() : 1.0);
-            if (this.setVolumeCallback) { this.setVolumeCallback(0); }
+            this.setVolume(0);
         }
         else {
             this.muted = false;
             let volume = ((this.savedVolume !== undefined) && (this.savedVolume !== null)) ? this.savedVolume : 1.0;
-            if (this.setVolumeCallback) { this.setVolumeCallback(volume); }
-        }
-
-        //  Set the volume symbol
-        if (this.volumeSymbol && this.getVolumeCallback) {
-            this.volumeSymbol.setSymbol(this.getVolumeSymbolClassName(this.getVolumeCallback()));
+            this.setVolume(volume);
         }
     }
 }
