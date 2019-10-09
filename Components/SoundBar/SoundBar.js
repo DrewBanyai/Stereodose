@@ -5,6 +5,8 @@ class SoundBar {
         this.callbacks = { play: null, pause: null, seekBackwards: null, seekForward: null };
         this.soundcloudPlayer = null;
         this.currentSongBox = null;
+        this.playlistMenu = null;
+        this.currentSongFavorited = false;
         this.content = this.generateContent();
     }
 
@@ -15,11 +17,13 @@ class SoundBar {
         });
 
         let centeredContainer = new Container({ id: "SoundBarCentered", style: { width: "920px", margin: "auto", } });
+        container.appendChild(centeredContainer.content);
+
         centeredContainer.appendChild(this.createSeekAndPlayButtons());
         centeredContainer.appendChild(this.createProgressBar());
         centeredContainer.appendChild(this.createVolumeToggle());
         centeredContainer.appendChild(this.createCurrentSongBox());
-        container.appendChild(centeredContainer.content);
+        this.createFavoriteAndPlaylist(centeredContainer);
 
         //  Save off the Soundcloud Player instance, which is used to play and control songs
         this.player = new SoundcloudPlayer(this.options.trackList);
@@ -37,12 +41,12 @@ class SoundBar {
         button.content.onclick = () => callback();
 
         let symbolColors = { mouseOver: "rgb(160, 160, 160", mouseOut: "rgb(120, 120, 120)" };
-        let symbol = new Fontawesome({ id: id + "_Symbol", style: { color: symbolColors.mouseOut, fontSize: "16px", lineHeight: h, userSelect: "none", }, className: fontAwesome });
+        let symbol = new Fontawesome({ id: id + "_Symbol", attributes: { className: fontAwesome }, style: { color: symbolColors.mouseOut, fontSize: "16px", lineHeight: h, userSelect: "none", },  });
         symbol.content.onmouseover = () => { setStyle(symbol.content, { color: symbolColors.mouseOver, }); };
         symbol.content.onmouseout = () => { setStyle(symbol.content, { color: symbolColors.mouseOut, }); };
         button.appendChild(symbol.content);
 
-        button.content.changeSymbol = (fontAwesome) => { symbol.content.className = fontAwesome; };
+        button.content.changeSymbol = (fontAwesome) => { symbol.setSymbol(fontAwesome); };
         button.symbol = symbol.content;
 
         return button.content;
@@ -107,5 +111,28 @@ class SoundBar {
     createCurrentSongBox() {
         this.currentSongBox = new CurrentSongBox({});
         return this.currentSongBox.content;
+    }
+
+    async createFavoriteAndPlaylist(container) {
+        let favoriteAndPlaylist = new Container({ id: "FavoriteAndPlaylist", style: { width: "80px", display: "inline-block", textAlign: "right", }, });
+        container.appendChild(favoriteAndPlaylist.content);
+
+        // TODO: Make an async call to get the favorites list, save it off, and determine this.currentSongFavorited
+
+        let favoriteSymbol = new Fontawesome({
+            id: "FavoriteSymbol",
+            attributes: { className: "fas fa-heart", },
+            style: { fontSize: "15px", color: "rgb(100, 100, 100)", margin: "0px 5px 0px 0px", display: "inline-block", },
+            events: {
+                mouseenter: (e) => { setStyle(favoriteSymbol.content, { color: this.currentSongFavorited ? "rgb(120, 120, 120)" : "rgb(255, 70, 70)" }); },
+                mouseleave: (e) => { setStyle(favoriteSymbol.content, { color: this.currentSongFavorited ? "rgb(255, 40, 40)" : "rgb(100, 100, 100)" }); },
+                click: (e) => { this.currentSongFavorited = !this.currentSongFavorited; },
+            },
+        });
+        favoriteAndPlaylist.appendChild(favoriteSymbol.content);
+
+        this.playlistMenu = new PlaylistMenu();
+        favoriteAndPlaylist.appendChild(this.playlistMenu.content);
+
     }
 }

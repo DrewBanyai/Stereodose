@@ -26,7 +26,7 @@ class SongVolumeToggle {
         });
         container.applyOptions(this.options);
 
-        this.volumeSymbol = new Fontawesome({ id: "VolumeToggleSymbol", style: { fontSize: "16px", color: "rgb(120, 120, 120)", position: "relative", left: "12px", top: "10px", }, className: "fas fa-volume-up" });
+        this.volumeSymbol = new Fontawesome({ id: "VolumeToggleSymbol", attributes: { className: "fas fa-volume-up" }, style: { fontSize: "16px", color: "rgb(120, 120, 120)", position: "relative", left: "12px", top: "10px", }, });
         container.appendChild(this.volumeSymbol.content);
         
         container.appendChild(this.createSliderMenu());

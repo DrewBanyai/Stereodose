@@ -8,7 +8,7 @@ class Fontawesome {
         let container = new Container({
             id: (this.options && this.options.id) ? this.options.id : "FontAwesome",
             attributes: {
-                className: (this.options && this.options.className) ? this.options.className : "",
+                className: (this.options && this.options.attributes && this.options.attributes.clasName) ? this.options.attributes.clasName : "far fa-question-circle",
             },
             style: {
                 containerType: "i",

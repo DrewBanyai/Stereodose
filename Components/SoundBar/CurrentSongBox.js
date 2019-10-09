@@ -12,7 +12,7 @@ class CurrentSongBox {
         let container = new Container({
             id: "CurrentSongBox",
             style: {
-                width: "280px",
+                width: "254px",
                 height: "100%",
                 display: "inline-block",
                 position: "relative",
