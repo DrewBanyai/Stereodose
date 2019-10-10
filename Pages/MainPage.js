@@ -10,6 +10,18 @@ class MainPage {
 		let trackList = [
 			"https://soundcloud.com/pauli-niemi/cherry-smile",
 			"https://soundcloud.com/pauli-niemi/clouds",
+			"https://soundcloud.com/pauli-niemi/warm-thoughts-w-omar",
+			"https://soundcloud.com/pauli-niemi/drowning-in-her-eyes",
+			"https://soundcloud.com/pauli-niemi/i-was-a-fool-for-you-1",
+			"https://soundcloud.com/pauli-niemi/lust-or-love",
+			"https://soundcloud.com/user-51502133/ferris-wheel",
+			"https://soundcloud.com/rxseboy/im-sad-that-ur-gone",
+			"https://soundcloud.com/tsuki_uzu/eyes-on-you",
+			"https://soundcloud.com/iam6teen/tranquil",
+			"https://soundcloud.com/pauli-niemi/youre-not-real",
+			"https://soundcloud.com/musicbysxul/remember-to-remember",
+			"https://soundcloud.com/pauli-niemi/so-into-you",
+			"https://soundcloud.com/pauli-niemi/warm-but-not-in-love",
 		]
 		let soundBar = new SoundBar({ id: "SoundBarTest", trackList: trackList });
 		container.appendChild(soundBar.content);

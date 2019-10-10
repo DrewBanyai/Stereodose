@@ -33,7 +33,7 @@ class SongVolumeToggle {
 
         container.content.onmouseenter = () => { this.setSliderMenuOpen(true); };
         container.content.onmouseleave = () => { this.setSliderMenuOpen(false); };
-        this.volumeSymbol.content.onclick = () => { console.log("test"); this.toggleVolumeMute(); }
+        this.volumeSymbol.content.onclick = () => { this.toggleVolumeMute(); }
 
         return container.content;
     }

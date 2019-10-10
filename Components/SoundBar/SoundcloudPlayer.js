@@ -8,6 +8,7 @@ class SoundcloudPlayer {
         this.playButton = null;
         this.progressBar = null;
         this.lastSetVolume = 1.0;
+        this.tracksLoadedCallback = null;
 
         this.initialize(trackLinkList);
     }
@@ -25,6 +26,8 @@ class SoundcloudPlayer {
         callbackMap.seekBackwards = () => { return this.seekBackwards(); };
         callbackMap.seekForward = () => { return this.seekForward(); };
     }
+
+    setTracksLoadedCallback(callback) { this.tracksLoadedCallback = callback; }
 
     seekBackwards() {
         console.log("State:", this.player.getState());
@@ -67,9 +70,12 @@ class SoundcloudPlayer {
     getVolume() { if (!this.player) { console.warn("Attempted to get current volume while no player was active"); return 0; } return this.player.getVolume(); }
     setVolume(volume) { this.lastSetVolume = volume; if (!this.player) { console.warn("Attempted to get current volume while no player was active"); return 0; } return this.player.setVolume(volume); }
 
+    getTrackListData() { return { trackList: this.trackLinkList, trackData: this.trackLinkDataMap }; }
+
     loadTrackInformation() {
         if ((this.songIndex < 0) || (this.songIndex >= this.trackLinkList.length)) { console.log("Invalid song index:", this.songIndex); return; }
         if (!this.trackLinkDataMap.hasOwnProperty(this.trackLinkList[this.songIndex])) { console.log("Could not find track data:", this.trackLinkList[this.songIndex]); return; }
+
         let trackData = this.trackLinkDataMap[this.trackLinkList[this.songIndex]];
         if (this.setTrackData) { this.setTrackData(trackData); }
     }
@@ -106,6 +112,7 @@ class SoundcloudPlayer {
     async addTrackLink(linkURL) {
         try { this.trackLinkDataMap[linkURL] = await SC.resolve(linkURL); } catch (error) { delete this.trackLinkDataMap[linkURL]; console.log(error); }
         if (!this.trackLinkDataMap[linkURL]) { console.log("Failed to load track link: ", linkURL); return; }
+
         this.trackLinkList.push(linkURL);
     }
 
@@ -114,5 +121,6 @@ class SoundcloudPlayer {
         for (let i = 0; i < linkList.length; ++i) { await this.addTrackLink(linkList[i]); }
 
         await this.loadSong(this.songIndex);
+        if (this.tracksLoadedCallback) { this.tracksLoadedCallback(this.getTrackListData()); }
     }
 }

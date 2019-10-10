@@ -3,7 +3,7 @@ class SoundBar {
         this.options = options;
         this.buttons = { seekBackwards: null, playPause: null, seekForward: null };
         this.callbacks = { play: null, pause: null, seekBackwards: null, seekForward: null };
-        this.soundcloudPlayer = null;
+        this.player = null;
         this.currentSongBox = null;
         this.playlistMenu = null;
         this.currentSongFavorited = false;
@@ -28,6 +28,7 @@ class SoundBar {
         //  Save off the Soundcloud Player instance, which is used to play and control songs
         this.player = new SoundcloudPlayer(this.options.trackList);
         this.player.setCallbacks(this.callbacks);
+        this.player.setTracksLoadedCallback((data) => { this.setPlaylistData(data); });
         this.player.setPlayingState = (playing) => { this.setPlayingState(playing); }
         this.player.updateProgress = (progress, duration) => { this.updateProgress(progress, duration); };
         this.player.setTrackData = (trackData) => { this.currentSongBox.setTrackData(trackData); };
@@ -109,8 +110,13 @@ class SoundBar {
     }
 
     createCurrentSongBox() {
-        this.currentSongBox = new CurrentSongBox({});
+        this.currentSongBox = new CurrentSongBox({ style: { height: "0px", bottom: "22px" } });
         return this.currentSongBox.content;
+    }
+
+    setPlaylistData(playlistData) {
+        if (!this.playlistMenu) { console.warn("Attempting to set plaulist data with no playlist menu"); }
+        this.playlistMenu.loadPlaylistData(playlistData);
     }
 
     async createFavoriteAndPlaylist(container) {

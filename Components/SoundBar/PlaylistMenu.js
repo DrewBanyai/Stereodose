@@ -42,14 +42,27 @@ class PlaylistMenu {
                 width: "300px",
                 height: "500px",
                 position: "absolute",
-                top: "-518px",
-                left: "-260px",
+                bottom: "58px",
+                right: "0px",
                 backgroundColor: "rgb(40, 40, 40)",
                 border: "1px solid rgba(200, 200, 200, 0.5)",
+                textAlign: "left",
+                overflowY: "auto",
+                boxSizing: "content-box",
                 display: "none",
             },
         });
 
         return this.playlistMenuBox.content;
+    }
+
+    loadPlaylistData(playlistData) {
+        this.playlistMenuBox.childNodes = [];
+        for (let i = 0; i < playlistData.trackList.length; ++i) {
+            let trackData = playlistData.trackData[playlistData.trackList[i]];
+            let songBox = new CurrentSongBox({ style: { height: "34px" } });
+            songBox.setTrackData(trackData);
+            this.playlistMenuBox.appendChild(songBox.content);
+        }
     }
 }
