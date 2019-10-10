@@ -44,6 +44,7 @@ class CurrentSongBox {
                 fontWeight: "500",
                 position: "absolute",
                 left: "42px",
+                userSelect: "none",
             }
         });
         container.appendChild(this.trackUserNameLabel.content);
@@ -61,6 +62,7 @@ class CurrentSongBox {
                 position: "absolute",
                 left: "42px",
                 top: "10px",
+                userSelect: "none",
             }
         });
         container.appendChild(this.trackSongNameLabel.content);

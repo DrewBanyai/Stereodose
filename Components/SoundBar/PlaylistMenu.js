@@ -36,19 +36,20 @@ class PlaylistMenu {
     }
 
     createPlaylistMenuBox() {
+        let topPaddingPixels = 2;
         this.playlistMenuBox = new Container({
             id: "PlaylistMenuBox",
             style: {
                 width: "300px",
-                height: "500px",
+                maxHeight: `${34 * config.MaximumSongsPerPlaylist + topPaddingPixels}px`,
+                minHeight: "0px",
                 position: "absolute",
                 bottom: "58px",
                 right: "0px",
                 backgroundColor: "rgb(40, 40, 40)",
                 border: "1px solid rgba(200, 200, 200, 0.5)",
+                padding: `${topPaddingPixels}px 0px 0px 2px`,
                 textAlign: "left",
-                overflowY: "auto",
-                boxSizing: "content-box",
                 display: "none",
             },
         });
@@ -60,7 +61,7 @@ class PlaylistMenu {
         this.playlistMenuBox.childNodes = [];
         for (let i = 0; i < playlistData.trackList.length; ++i) {
             let trackData = playlistData.trackData[playlistData.trackList[i]];
-            let songBox = new CurrentSongBox({ style: { height: "34px" } });
+            let songBox = new CurrentSongBox({ style: { display: "", height: "34px" } });
             songBox.setTrackData(trackData);
             this.playlistMenuBox.appendChild(songBox.content);
         }

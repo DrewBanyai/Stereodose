@@ -20,8 +20,6 @@ class MainPage {
 			"https://soundcloud.com/iam6teen/tranquil",
 			"https://soundcloud.com/pauli-niemi/youre-not-real",
 			"https://soundcloud.com/musicbysxul/remember-to-remember",
-			"https://soundcloud.com/pauli-niemi/so-into-you",
-			"https://soundcloud.com/pauli-niemi/warm-but-not-in-love",
 		]
 		let soundBar = new SoundBar({ id: "SoundBarTest", trackList: trackList });
 		container.appendChild(soundBar.content);
