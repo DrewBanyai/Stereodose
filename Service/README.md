@@ -10,7 +10,7 @@ This service acts as a single entity which controls all API calls for the Stereo
 	- returns Result and Token value in JSON
 	
 3) POST API/playlist/create
-	- accepts PlaylistName, PlaylistDescription, PlaylistImageSrc, and Playlist values in JSON
+	- accepts Name, Description, ImageSource, and TrackList values in JSON
 	- returns Result and PlaylistID in JSON
 	
 4) POST API/playlist/delete

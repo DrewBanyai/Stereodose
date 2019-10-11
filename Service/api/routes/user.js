@@ -1,20 +1,14 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/', (req, res, next) => { res.status(200).json({ message: "User get request (GET not supported)", }); });
+const userRegisterController = require('../controllers/userRegister');
+const userLoginController = require('../controllers/userLogin');
 
-router.post('/login', (req, res, next) => {
-    res.status(200).json({
-        //  TODO: Handle api/user/login call
-        message: "User login post request",
-    });
-});
+router.get('/', (req, res, next) => { res.status(200).json({ message: "/user get request (GET not supported)", }); });
+router.get('/register', (req, res, next) => { res.status(200).json({ message: "/user/register get request (GET not supported)", }); });
+router.get('/login', (req, res, next) => { res.status(200).json({ message: "/user/login get request (GET not supported)", }); });
 
-router.post('/register', (req, res, next) => {
-    res.status(200).json({
-        //  TODO: Handle api/user/register call
-        message: "User register post request",
-    });
-});
+router.post('/register', userRegisterController.userRegister);
+router.post('/login', userLoginController.userLogin);
 
 module.exports = router;

@@ -1,0 +1,1 @@
+exports.check = (varName, type, body) => { return (body.hasOwnProperty(varName) && (Object.prototype.toString.call(body[varName]) === `[object ${type}]`)); }
