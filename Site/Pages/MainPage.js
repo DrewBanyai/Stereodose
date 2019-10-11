@@ -1,28 +1,16 @@
 class MainPage {
 	constructor() {
-		//this.setupSoundcloudWidgetAccess();
+		this.soundBar = null;
+
 		this.content = this.GenerateContent();
+		this.loadTestPlaylist();
 	}
 	
 	GenerateContent() {
 		let container = new Container({ id: "MainPageContainer", style: { width: "100%", backgroundImage: "linear-gradient(to bottom right, rgb(10, 10, 10), rgb(70, 70, 70))" } });;
 
-		let trackList = [
-			"https://soundcloud.com/pauli-niemi/cherry-smile",
-			"https://soundcloud.com/pauli-niemi/clouds",
-			"https://soundcloud.com/pauli-niemi/warm-thoughts-w-omar",
-			"https://soundcloud.com/pauli-niemi/drowning-in-her-eyes",
-			"https://soundcloud.com/pauli-niemi/i-was-a-fool-for-you-1",
-			"https://soundcloud.com/pauli-niemi/lust-or-love",
-			"https://soundcloud.com/user-51502133/ferris-wheel",
-			"https://soundcloud.com/rxseboy/im-sad-that-ur-gone",
-			"https://soundcloud.com/tsuki_uzu/eyes-on-you",
-			"https://soundcloud.com/iam6teen/tranquil",
-			"https://soundcloud.com/pauli-niemi/youre-not-real",
-			"https://soundcloud.com/musicbysxul/remember-to-remember",
-		]
-		let soundBar = new SoundBar({ id: "SoundBarTest", trackList: trackList });
-		container.appendChild(soundBar.content);
+		this.soundBar = new SoundBar({ id: "SoundBarTest", trackList: [] });
+		container.appendChild(this.soundBar.content);
 
 		let songURLInput = new TextInput({
 			id: "SongURLInput",
@@ -60,5 +48,10 @@ class MainPage {
 		container.appendChild(songSubmitButton.content);
 
 		return container.content;
+	}
+
+	async loadTestPlaylist() {
+		let result = await PostOffice.GetTestPlaylist();
+		if (result && this.soundBar && this.soundBar.player) { await this.soundBar.player.loadTrackLinks(result.Playlist); }
 	}
 }

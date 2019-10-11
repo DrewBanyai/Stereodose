@@ -139,6 +139,5 @@ class SoundBar {
 
         this.playlistMenu = new PlaylistMenu();
         favoriteAndPlaylist.appendChild(this.playlistMenu.content);
-
     }
 }
