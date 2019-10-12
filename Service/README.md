@@ -19,8 +19,8 @@ This service acts as a single entity which controls all API calls for the Stereo
 	
 5) POST API/playlist/details
 	- accepts PlaylistID value in JSON
-	- returns PlaylistName, PlaylistID, and Playlist values in JSON
+	- returns PlaylistName, PlaylistDescription, and Tracklist values in JSON
 
 6) POST API/playlist/favorite
-	- accepts PlaylistID value in JSON
+	- accepts PlaylistID, Username, and Password value in JSON
 	- returns Result in JSON

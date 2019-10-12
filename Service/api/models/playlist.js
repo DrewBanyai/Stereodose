@@ -5,7 +5,7 @@ const playlistSchema = mongoose.Schema({
     name: String,
     description: String,
     imageSource: String,
-    playlist: [],
+    trackList: [],
 });
 
 module.exports = mongoose.model("Playlist", playlistSchema);
