@@ -32,10 +32,6 @@ let loadSoundBar = async () => {
 	//  The SoundBar which will be attached to the bottom of the screen and persists across all pages
 	SitewideSoundBar = new SoundBar({});
 	document.body.appendChild(SitewideSoundBar.content);
-
-	//  DEBUG: Load a test playlist
-	let result = await PostOffice.GetTestPlaylist();
-	if (result && SitewideSoundBar && SitewideSoundBar.player) { await SitewideSoundBar.player.loadTrackLinks(result.TrackList); }
 }
 
 function setStyle(container, style) {
