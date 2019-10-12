@@ -29,7 +29,7 @@ class SoundcloudPlayer {
     setTracksLoadedCallback(callback) { this.tracksLoadedCallback = callback; }
 
     seekBackwards() {
-        if (!this.player) { console.log("No valid player was found!"); return; }
+        if (!this.player) { console.log("Can't seek backwards... No valid player was found!"); return; }
         if (!(["playing", "paused", "ended"].includes(this.player.getState()))) { return; }
 
         if ((this.player.currentTime() < 5000) && (this.songIndex !== 0) && (this.player.getState() !== "paused")) {
@@ -43,13 +43,13 @@ class SoundcloudPlayer {
     }
 
     seekForward() {
-        if (!this.player) { console.log("No valid player was found!"); return; }
+        if (!this.player) { console.log("Can't seek forward... No valid player was found!"); return; }
         if (!(["playing", "paused", "ended"].includes(this.player.getState()))) { return; }
         if (this.songIndex < this.trackLinkList.length - 1) { if (this.loadSong(this.songIndex + 1)) { ++this.songIndex; }; }
     }
 
     play() {
-        if (!this.player) { console.log("No valid player was found!"); return false; }
+        if (!this.player) { console.log("Can't play...No valid player was found!"); return false; }
         if (this.player.isPlaying()) { console.log("Player is already playing!"); return false; }
         
         this.player.play();
@@ -60,7 +60,7 @@ class SoundcloudPlayer {
     }
 
     pause() {
-        if (!this.player) { console.log("No valid player was found!"); return false; }
+        if (!this.player) { console.log("Can't pause...No valid player was found!"); return false; }
         if (!this.player.isPlaying()) { console.log("Player is not playing!"); return false; }
         
         this.player.pause();
