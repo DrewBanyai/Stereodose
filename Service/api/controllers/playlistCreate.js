@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
-const varcheck = require('../varcheck');
+const mongoose = require("mongoose");
+const varcheck = require("../varcheck");
 
-const playlistModel = require('../models/playlist');
+const playlistModel = require("../models/playlist");
 
 exports.playlistCreate = async (req, res, next) => {
     //  Ensure we have a valid 'Name', 'Description', 'ImageSource', and 'TrackList' value

@@ -1,6 +1,6 @@
-const varcheck = require('../varcheck');
+const varcheck = require("../varcheck");
 
-const playlistModel = require('../models/playlist');
+const playlistModel = require("../models/playlist");
 
 exports.playlistDetails = async (req, res, next) => {
     //  Ensure we have a valid 'PlaylistID' value
@@ -11,7 +11,6 @@ exports.playlistDetails = async (req, res, next) => {
 	if (!playlist) { res.status(200).json({ error: "No playlist with that ID exists" }); return; }
 
     res.status(200).json({
-		message: "TEST",
         PlaylistName: playlist.name,
         PlaylistDescription: playlist.description,
         TrackList: playlist.trackList,

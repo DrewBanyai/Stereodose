@@ -52,6 +52,6 @@ class MainPage {
 
 	async loadTestPlaylist() {
 		let result = await PostOffice.GetTestPlaylist();
-		if (result && this.soundBar && this.soundBar.player) { await this.soundBar.player.loadTrackLinks(result.Playlist); }
+		if (result && this.soundBar && this.soundBar.player) { await this.soundBar.player.loadTrackLinks(result.TrackList); }
 	}
 }

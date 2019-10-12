@@ -54,12 +54,24 @@ class SoundcloudPlayer {
     }
 
     play() {
-        if (!this.player) { console.log("No valid player was found!"); return; }
-        if (!this.player.isPlaying()) { this.player.play(); this.loadTrackInformation(); this.setPlayingState(false); this.setVolume(this.lastSetVolume); return true; }
-        return false;
+        if (!this.player) { console.log("No valid player was found!"); return false; }
+        if (this.player.isPlaying()) { console.log("Player is already playing!"); return false; }
+        
+        this.player.play();
+        this.loadTrackInformation();
+        this.setPlayingState(true);
+        this.setVolume(this.lastSetVolume);
+        return true;
     }
 
-    pause() { if (this.player && this.player.isPlaying()) { this.player.pause(); this.setPlayingState(true); return true; } return false; }
+    pause() {
+        if (!this.player) { console.log("No valid player was found!"); return false; }
+        if (!this.player.isPlaying()) { console.log("Player is not playing!"); return false; }
+        
+        this.player.pause();
+        this.setPlayingState(false);
+        return true;
+    }
 
     stop() { if (this.player && ["playing", "paused"].includes(this.player.getState())) { this.player.pause(); this.player.seek(0); } }
 

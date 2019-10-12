@@ -57,7 +57,7 @@ class SoundBar {
     async pressPlayPause() { if (this.callbacks.play && this.callbacks.play()) {} else if (this.callbacks.pause && this.callbacks.pause()) {} }
     async pressSeekForward() { if (this.callbacks.seekForward) { this.callbacks.seekForward(); } }
 
-    setPlayingState(playing) { this.buttons.playPause.changeSymbol(playing ? "fas fa-play" : "fas fa-pause"); }
+    setPlayingState(playing) { this.buttons.playPause.changeSymbol(playing ? "fas fa-pause" : "fas fa-play"); }
 
     createSeekAndPlayButtons(soundBar) {
         let controlButtons = new Container({ id: "ControlButtons", style: { display: "inline-block" }});

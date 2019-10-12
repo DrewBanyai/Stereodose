@@ -1,6 +1,6 @@
-const varcheck = require('../varcheck');
+const varcheck = require("../varcheck");
 
-const userModel = require('../models/user');
+const userModel = require("../models/user");
 
 exports.userLogin = async (req, res, next) => {
     //  Ensure we have a valid 'Username' and 'Password' value
