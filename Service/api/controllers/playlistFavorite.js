@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const varcheck = require('../varcheck');
 
 const playlistModel = require('../models/playlist');

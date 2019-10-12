@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const varcheck = require('../varcheck');
 
 const userModel = require('../models/user');

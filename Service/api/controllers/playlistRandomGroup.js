@@ -1,6 +1,3 @@
-const mongoose = require('mongoose');
-const varcheck = require('../varcheck');
-
 exports.playlistRandomGroup = async (req, res, next) => {
     res.status(200).json({
         message: "api/Playlist/randomGroup post request",
