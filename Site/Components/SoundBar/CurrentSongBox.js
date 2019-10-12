@@ -34,9 +34,7 @@ class CurrentSongBox {
 
         this.trackUserNameLabel = new Label({
             id: "TrackUserLabel",
-            attributes: {
-                value: "",
-            },
+            attributes: { value: "", },
             style: {
                 fontFamily: "'Titillium Web', sans-serif",
                 fontSize: "10px",
@@ -51,9 +49,7 @@ class CurrentSongBox {
 
         this.trackSongNameLabel = new Label({
             id: "TrackSongLabel",
-            attributes: {
-                value: "",
-            },
+            attributes: { value: "", },
             style: {
                 fontFamily: "'Titillium Web', sans-serif",
                 fontSize: "10px",
@@ -72,8 +68,18 @@ class CurrentSongBox {
 
     setTrackData(trackData) {
         if (!trackData) { console.warn("Attempted to load invalid track data"); return; }
-        if (trackData.artwork_url) { setStyle(this.trackImage.content, { backgroundImage: "url(" + trackData.artwork_url + ")", border: "1px solid rgba(200, 200, 200, 0.6)", }); }
-        if (trackData.user && trackData.user.username) { this.trackUserNameLabel.setText(trackData.user.username); }
-        if (trackData.title) { this.trackSongNameLabel.setText(trackData.title); }
+        if (trackData.artwork_url) { this.setImage(trackData.artwork_url); }
+        if (trackData.user && trackData.user.username) { this.setUserName(trackData.user.username); }
+        if (trackData.title) { this.setSongName(trackData.title); }
     }
+
+    clear() {
+        this.setImage(null);
+        this.setUserName("");
+        this.setSongName("");
+    }
+
+    setImage(imageURL) { setStyle(this.trackImage.content, { backgroundImage: (imageURL ? "url(" + imageURL + ")" : ""), border: (imageURL ? "1px solid rgba(200, 200, 200, 0.6)" : ""), }); }
+    setUserName(userName) { this.trackUserNameLabel.setText(userName); }
+    setSongName(songName) { this.trackSongNameLabel.setText(songName); }
 }

@@ -3,6 +3,8 @@ let MainContent = null;
 let SiteName = "Stereodose Redux";
 let SiteWidth = "920px";
 
+let SitewideSoundBar = null;
+
 function LoadPage(page) {
 	if (MainContent === null) {
 		console.log("MainContent is null! Can not load new page");
@@ -23,6 +25,17 @@ function LoadSiteContent() {
 	
 	//  Load the default first page users should see
 	LoadPage(new MainPage());
+	loadSoundBar();
+}
+
+let loadSoundBar = async () => {
+	//  The SoundBar which will be attached to the bottom of the screen and persists across all pages
+	SitewideSoundBar = new SoundBar({});
+	document.body.appendChild(SitewideSoundBar.content);
+
+	//  DEBUG: Load a test playlist
+	let result = await PostOffice.GetTestPlaylist();
+	if (result && SitewideSoundBar && SitewideSoundBar.player) { await SitewideSoundBar.player.loadTrackLinks(result.TrackList); }
 }
 
 function setStyle(container, style) {
@@ -41,4 +54,8 @@ function setAttributes(container, attributes) {
 	if (Object.keys(attributes).length === 0) { return; }
 
 	for (let key in attributes) { container.setAttribute(key, attributes[key]); }
+}
+
+function clearChildren(container) {
+	while (container.firstChild) { container.removeChild(container.firstChild); }
 }

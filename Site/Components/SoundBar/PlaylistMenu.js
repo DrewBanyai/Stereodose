@@ -58,7 +58,7 @@ class PlaylistMenu {
     }
 
     loadPlaylistData(playlistData) {
-        this.playlistMenuBox.childNodes = [];
+        this.clear();
         for (let i = 0; i < playlistData.trackList.length; ++i) {
             let trackData = playlistData.trackData[playlistData.trackList[i]];
             let songBox = new CurrentSongBox({ style: { display: "", height: "34px" } });
@@ -66,4 +66,6 @@ class PlaylistMenu {
             this.playlistMenuBox.appendChild(songBox.content);
         }
     }
+
+    clear() { clearChildren(this.playlistMenuBox.content); }
 }

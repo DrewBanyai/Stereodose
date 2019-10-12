@@ -1,26 +1,53 @@
 # Stereodose Service
 This service acts as a single entity which controls all API calls for the Stereodose site. The calls are as follows:
 
-1) POST API/user/login
-	- accepts Username and Password values in JSON
-	- returns Token value in JSON
+## /user/ routes 
 	
-2) POST API/user/register
+> POST API/user/register
 	- accepts Username and Password values in JSON
 	- returns Result and Token value in JSON
+
+> POST API/user/login
+	- accepts Username and Password values in JSON
+	- returns Token value in JSON
+
+> POST API/user/delete
+	- accepts Username and Password values in JSON
+	- returns result value in JSON
+
+> POST API/user/getFavorites
+	- accepts Username and Password values in JSON
+	- returns favorites list value in JSON
 	
-3) POST API/playlist/create
+
+## /playlist/ routes
+
+> POST API/playlist/create
 	- accepts Name, Description, ImageSource, and TrackList values in JSON
 	- returns Result and PlaylistID in JSON
 	
-4) POST API/playlist/delete
+> POST API/playlist/delete
 	- accepts PlaylistID value in JSON
 	- returns Result in JSON
 	
-5) POST API/playlist/details
+> POST API/playlist/details
 	- accepts PlaylistID value in JSON
 	- returns PlaylistName, PlaylistDescription, and Tracklist values in JSON
 
-6) POST API/playlist/favorite
-	- accepts PlaylistID, Username, and Password value in JSON
+> POST API/playlist/favorite
+	- accepts Username, Password, and PlaylistID, value in JSON
 	- returns Result in JSON
+
+> POST API/playlist/randomGroup
+	- accepts an empty body
+	- returns Result in JSON
+
+## /admin/ routes
+
+> POST API/admin/getAllPlaylists
+	- accepts AdminPasscode value in JSON
+	- returns Playlist collection in JSON
+
+> POST API/admin/getAllUsers
+	- accepts AdminPasscode value in JSON
+	- returns User collection in JSON

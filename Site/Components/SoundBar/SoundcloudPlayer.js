@@ -16,8 +16,7 @@ class SoundcloudPlayer {
     async initialize(trackLinkList) {
         //  Initialize the Soundcloud API, and load the track link list
         this.player = await SC.initialize({ client_id: "dV0jpQ1RaaPeGmiJcmR05K9OPzSaUAZJ", /*redirect_uri: "CALLBACK_URL"*/ });
-        await this.loadTrackLinks(trackLinkList);
-        console.log("Soundcloud player initialized");
+        if (trackLinkList) { await this.loadTrackLinks(trackLinkList); }
     }
 
     setCallbacks(callbackMap) {
@@ -30,10 +29,6 @@ class SoundcloudPlayer {
     setTracksLoadedCallback(callback) { this.tracksLoadedCallback = callback; }
 
     seekBackwards() {
-        console.log("State:", this.player.getState());
-        console.log("Song Index:", this.songIndex);
-        console.log("Current Time:", this.player.currentTime());
-
         if (!this.player) { console.log("No valid player was found!"); return; }
         if (!(["playing", "paused", "ended"].includes(this.player.getState()))) { return; }
 
@@ -128,8 +123,20 @@ class SoundcloudPlayer {
         this.trackLinkList.push(linkURL);
     }
 
+    async clearAllTrackData() {
+        if (this.player) { 
+            this.seek(0);
+            this.stop();
+        }
+        this.songIndex = 0;
+        this.trackLinkList = [];
+        this.trackLinkDataMap = {};
+        this.clearAllTrackDataFromUI();
+    }
+
     async loadTrackLinks(linkList) {
         if (!linkList || linkList.length === 0) { console.log("Attempted to load an empty track link list."); return; }
+        await this.clearAllTrackData();
         for (let i = 0; i < linkList.length; ++i) { await this.addTrackLink(linkList[i]); }
 
         await this.loadSong(this.songIndex);

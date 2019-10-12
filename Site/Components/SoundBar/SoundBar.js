@@ -32,6 +32,7 @@ class SoundBar {
         this.player.setPlayingState = (playing) => { this.setPlayingState(playing); }
         this.player.updateProgress = (progress, duration) => { this.updateProgress(progress, duration); };
         this.player.setTrackData = (trackData) => { this.currentSongBox.setTrackData(trackData); };
+        this.player.clearAllTrackDataFromUI = async () => { this.clearAllTrackData(); }
 
         return container.content;
     }
@@ -117,6 +118,11 @@ class SoundBar {
     setPlaylistData(playlistData) {
         if (!this.playlistMenu) { console.warn("Attempting to set plaulist data with no playlist menu"); }
         this.playlistMenu.loadPlaylistData(playlistData);
+    }
+
+    async clearAllTrackData() {
+        this.playlistMenu.clear();
+        this.currentSongBox.clear();
     }
 
     async createFavoriteAndPlaylist(container) {
