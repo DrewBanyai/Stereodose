@@ -40,7 +40,7 @@ class PlaylistMenu {
         this.playlistMenuBox = new Container({
             id: "PlaylistMenuBox",
             style: {
-                width: "300px",
+                width: "331px",
                 maxHeight: `${34 * config.MaximumSongsPerPlaylist + topPaddingPixels}px`,
                 minHeight: "0px",
                 position: "absolute",
@@ -61,7 +61,7 @@ class PlaylistMenu {
         this.clear();
         for (let i = 0; i < playlistData.trackList.length; ++i) {
             let trackData = playlistData.trackData[playlistData.trackList[i]];
-            let songBox = new CurrentSongBox({ style: { display: "", height: "34px" } });
+            let songBox = new CurrentSongBox({ style: { display: "", width: "331px", height: "34px" } });
             songBox.setTrackData(trackData);
             this.playlistMenuBox.appendChild(songBox.content);
         }

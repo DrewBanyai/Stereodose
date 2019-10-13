@@ -1,33 +1,40 @@
+let authToken = "";
+
 class PostOffice {
     ////////////////////////////////////////
     //////////    USER ROUTES     //////////
     ////////////////////////////////////////
     
     static async UserRegister(username, password) {
-        return await makeRequest({
+        let result = await makeRequest({
             endpoint: config.MicroserviceURL + "user/register",
             body: JSON.stringify({ Username: username, Password: password, }) 
         });
+        if (result && result.success) { authToken = result.token; }
+        return result;
+
     }
 
     static async UserLogin(username, password) {
-        return await makeRequest({
+        let result = await makeRequest({
             endpoint: config.MicroserviceURL + "user/login",
             body: JSON.stringify({ Username: username, Password: password, }) 
         });
+        if (result && result.success) { authToken = result.token; }
+        return result;
     }
 
     static async UserDelete(username, password) {
         return await makeRequest({
             endpoint: config.MicroserviceURL + "user/delete",
-            body: JSON.stringify({ Username: username, Password: password, }) 
+            body: JSON.stringify({ Username: username, Password: password, token: authToken }) 
         });
     }
 
     static async UserGetFavorites(username, password) {
         return await makeRequest({
             endpoint: config.MicroserviceURL + "user/getFavorites",
-            body: JSON.stringify({ Username: username, Password: password, }),
+            body: JSON.stringify({ Username: username, Password: password, token: authToken }),
         });
     }
 
@@ -44,6 +51,7 @@ class PostOffice {
                 Description: desc,
                 ImageSrc: imageSrc,
                 TrackList: trackList,
+                token: authToken,
             }),
         });
     }
@@ -52,6 +60,7 @@ class PostOffice {
         return await makeRequest({
             endpoint: config.MicroserviceURL + "playlist/delete",
             body: JSON.stringify({ PlaylistID: playlistID, }),
+            token: authToken,
         });
     }
 
@@ -69,6 +78,7 @@ class PostOffice {
                 Username: username,
                 Password: password,
                 PlaylistID: playlistID,
+                token: authToken,
             }),
         });
     }
@@ -86,6 +96,7 @@ class PostOffice {
         return await makeRequest({
             endpoint: config.MicroserviceURL + "admin/getAllPlaylists",
             body: JSON.stringify({ AdminPasscode: adminPasscode, }),
+            token: authToken,
         });
     }
 
@@ -93,6 +104,7 @@ class PostOffice {
         return await makeRequest({
             endpoint: config.MicroserviceURL + "admin/getAllUsers",
             body: JSON.stringify({ AdminPasscode: adminPasscode, }),
+            token: authToken,
         });
     }
 }

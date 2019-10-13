@@ -4,7 +4,7 @@ class MainPage {
 	}
 	
 	GenerateContent() {
-		let container = new Container({ id: "MainPageContainer", style: { width: "100%", backgroundImage: "linear-gradient(to bottom right, rgb(10, 10, 10), rgb(70, 70, 70))" } });;;
+		let container = new Container({ id: "MainPageContainer", style: { width: "920px", height: "100%", margin: "auto", } });;;
 
 		container.appendChild(this.createPlaylistListBox());
 

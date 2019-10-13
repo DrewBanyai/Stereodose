@@ -1,4 +1,7 @@
+const jwt = require("jsonwebtoken");
+
 const varcheck = require("../varcheck");
+const digest = require('../digest');
 
 const userModel = require("../models/user");
 
@@ -8,10 +11,12 @@ exports.userLogin = async (req, res, next) => {
     if (!varcheck.check("Password", "String", req.body)) {  res.status(400).json({ error: "A valid 'Password' value must be provided" }); return; }
 
     //  If a user with that name already exists, return a failure
-    let existingUser = await userModel.findOne({ username: req.body.Username, password: req.body.Password }).exec();
+    let username = req.body.Username.toLowerCase();
+    let passwordHash = await digest.digestMessage(username + req.body.Password);
+    let existingUser = await userModel.findOne({ username: username, password: passwordHash }).exec();
     if (!existingUser) { res.status(200).json({ success: false, message: "No user exists with that combination of Username and Password"}); return; }
 
-    //  TODO: Return a token if successful
-    res.status(200).json({ success: true, message: "User login successful", });
-
+    //  Return a token if successful
+    const token = jwt.sign({ username: username, password: passwordHash, }, process.env.JWT_KEY, { expiresIn: "1d" });
+    res.status(200).json({ success: true, token: token, message: "User login successful", });
 }

@@ -10,13 +10,17 @@ class TextInput {
     }
 
     generateContent() {
+        let inputType = (this.options && this.options.type) ? this.options.type : "text";
+
         let container = document.createElement("input");
-        container.setAttribute("type", "text");
+        container.setAttribute("type", inputType);
+
+        container.style.backgroundColor = "white";
+        container.style.color = "black";
 
         return container;
     }
 
-    setValue(value) {
-        this.content.value = value;
-    }
+    getValue() { return this.content.value; }
+    setValue(value) { this.content.value = value; }
 }

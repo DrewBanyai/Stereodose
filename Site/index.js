@@ -3,11 +3,13 @@ let MainContent = null;
 let SiteName = "Stereodose Redux";
 let SiteWidth = "920px";
 
+let SitewideHeader = null;
+let SitePageContent = null;
 let SitewideSoundBar = null;
 
 function LoadPage(page) {
-	if (MainContent === null) {
-		console.log("MainContent is null! Can not load new page");
+	if (SitePageContent === null) {
+		console.log("SitePageContent is null! Can not load new page");
 		return;
 	}
 	if (page === undefined || page === null) {
@@ -15,17 +17,38 @@ function LoadPage(page) {
 		return;
 	}
 	
-	MainContent.innerHTML = "";
-	MainContent.appendChild(page.content);
+	SitePageContent.innerHTML = "";
+	SitePageContent.appendChild(page.content);
 }
 
 function LoadSiteContent() {
-	MainContent = document.getElementById("Stereodose_Redux");
-	MainContent.style.width = "100%";
-	
 	//  Load the default first page users should see
-	LoadPage(new MainPage());
+	loadSiteHeader();
+	loadMainContent();
 	loadSoundBar();
+
+	LoadPage(new MainPage());
+}
+
+let loadSiteHeader = () => {
+	//  The SiteHeader which will be attached to the top of the screen and persists across all pages
+	SitewideHeader = new SiteHeader({});
+	document.body.appendChild(SitewideHeader.content);
+}
+
+let loadMainContent = () => {
+	document.body.style.backgroundColor = "rgb(16, 16, 16)";
+
+	//  The SitePageContent which will be between the site header and soundbar, and will switch with different pages
+	let pageContent = new Container({
+		id: "PageContent",
+		style: {
+			width: "100%",
+			height: "100%",
+			textAlign: "center",
+		}
+	});
+	document.body.appendChild(SitePageContent = pageContent.content);
 }
 
 let loadSoundBar = async () => {

@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
+
 const varcheck = require("../varcheck");
+const digest = require('../digest');
 
 const userModel = require("../models/user");
 
@@ -9,21 +12,21 @@ exports.userRegister = async (req, res, next) => {
     if (!varcheck.check("Password", "String", req.body)) {  res.status(400).json({ error: "A valid 'Password' value must be provided" }); return; }
 
     //  If a user with that name already exists, return a failure
-    let userExists = await userModel.findOne({ username: req.body.Username }).exec();
+    let username = req.body.Username.toLowerCase();
+    let userExists = await userModel.findOne({ username: username }).exec();
     if (userExists) { res.status(200).json({ success: false, message: "A user already exists with that username"}); return; }
 
-    //  If we've gotten this far, register the account into the database and return a success
-    const userEntry = new userModel({
+    let passwordHash = await digest.digestMessage(username + req.body.Password);
+    userEntry = new userModel({
         _id: new mongoose.Types.ObjectId(),
-        username: req.body.Username,
-        password: req.body.Password,
+        username: username,
+        password: passwordHash,
         signupDate: new Date(),
         favoritePlaylists: [],
         favoriteTracks: [],
     });
-    let result = await userEntry.save();
-    console.log(result);
+    await userEntry.save();
 
-    //  TODO:  Handle the Username and Password values and attempt to register, and return a token if successful
-    res.status(200).json({ success: true, message: "User registration successful", });
+    const token = jwt.sign({ username: username, password: passwordHash, }, process.env.JWT_KEY, { expiresIn: "1d" });
+    res.status(200).json({ success: true, token: token, message: "User registration successful", });
 }

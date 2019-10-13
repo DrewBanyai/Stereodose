@@ -1,1 +1,4 @@
 /Service/node_modules
+/Service/nodemon.json
+/Service/_test_data/Playlists.txt
+/Service/package-lock.json

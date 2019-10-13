@@ -10,6 +10,6 @@ exports.playlistDelete = async (req, res, next) => {
 	try { playlist = await playlistModel.findOne({ _id: req.body.PlaylistID }).exec(); } catch (e) { console.log("ERROR:", e.message); }
     if (!playlist) { res.status(200).json({ error: "No playlist with that ID exists" }); return; }
     
-    await playlistModel.findOne({ _id: req.body.PlaylistID }).remove().exec();
+    await playlistModel.deleteOne({ _id: req.body.PlaylistID }).exec();
     res.status(200).json({  success: true, message: "Playlist successfully deleted", });
 }
