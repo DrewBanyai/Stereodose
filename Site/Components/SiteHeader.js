@@ -2,7 +2,6 @@ class SiteHeader {
     constructor(options) {
         this.options = options;
         this.headerExpanded = false;
-        this.rightHandButtonBox = null;
         this.loggedInUsernameLabel = null;
         this.accountButtons = { mainNavigation: null, loginRegister: null, loggedInAs: null };
         this.loginBox = null;
@@ -15,18 +14,24 @@ class SiteHeader {
         let centeredHeader = new Container({ id: "CenteredHeader", style: { margin: "auto", width: "920px", height: "100%", overflow: "hidden", }, });
         container.appendChild(centeredHeader.content);
 
+        let siteNameBox = new Container({ id: "SiteNameBox", style: { height: siteHeaderHeight.collapsed, display: "inline-flex", float: "left", }, });
+        centeredHeader.appendChild(siteNameBox.content);
+
+        let rightHandButtonBox = new Container({ id: "RightHandButtonBox", style: { height: siteHeaderHeight.collapsed, float: "right", }, });
+        centeredHeader.appendChild(rightHandButtonBox.content);
+        
+        this.loginInputMenu = new Container({ id: "LoginInputMenu", style: { textAlign: "right", position: "relative", top: siteHeaderHeight.collapsed, display: "none", }, });
+        centeredHeader.appendChild(this.loginInputMenu.content);
+
         //  Load the different parts of the header menu
-        this.loadSiteNameBox(centeredHeader);
-        this.loadRightHandButtonBox(centeredHeader);
-        this.loadLoginInputMenu(centeredHeader);
+        this.loadSiteNameBox(siteNameBox);
+        this.loadRightHandButtonBox(rightHandButtonBox);
+        this.loadLoginInputMenu(this.loginInputMenu);
 
         return container.content;
     }
 
-    loadSiteNameBox(container) {
-        let siteNameBox = new Container({ id: "SiteNameBox", style: { height: siteHeaderHeight.collapsed, display: "inline-flex", float: "left", }, });
-        container.appendChild(siteNameBox.content);
-
+    async loadSiteNameBox(siteNameBox) {
         let siteTitleLabel1 = new Label({ id: "SiteNameLabel1", attributes: { value: "Stereodose ", }, style: styleTemplate.SiteTitleLabel1, });
         siteNameBox.appendChild(siteTitleLabel1.content);
 
@@ -34,27 +39,27 @@ class SiteHeader {
         siteNameBox.appendChild(siteNameLabel2.content);
     }
 
-    loadRightHandButtonBox(container) {
-        this.rightHandButtonBox = new Container({ id: "RightHandButtonBox", style: { height: siteHeaderHeight.collapsed, float: "right", }, });
-        container.appendChild(this.rightHandButtonBox.content);
+    async loadRightHandButtonBox(rightHandButtonBox) {
+        //  Get our authorization data, and act according to whether we are logged in
+        let authData = PostOffice.getAuthorization();
 
         //  Make the main navigation box and fill it
-        this.accountButtons.mainNavigation = new Container({ id: "MainNavigationBox", style: { height: siteHeaderHeight.collapsed, textAlign: "right", lineHeight: "22px", display: "none" }, });
-        this.rightHandButtonBox.appendChild(this.accountButtons.mainNavigation.content);
+        this.accountButtons.mainNavigation = new Container({ id: "MainNavigationBox", style: { height: siteHeaderHeight.collapsed, textAlign: "right", lineHeight: "22px", display: (authData.username ? "inline-flex" : "none") }, });
+        rightHandButtonBox.appendChild(this.accountButtons.mainNavigation.content);
         this.loadMainNavigationBox(this.accountButtons.mainNavigation);
 
         //  Make the login and register button box and fill it
-        this.accountButtons.loginRegister = new Container({ id: "LoginAndRegisterButtonsBox", style: { height: siteHeaderHeight.collapsed, textAlign: "right", lineHeight: "22px", display: "inline-flex" }, });
-        this.rightHandButtonBox.appendChild(this.accountButtons.loginRegister.content);
+        this.accountButtons.loginRegister = new Container({ id: "LoginAndRegisterButtonsBox", style: { height: siteHeaderHeight.collapsed, textAlign: "right", lineHeight: "22px", display: (authData.username ? "none" : "inline-flex") }, });
+        rightHandButtonBox.appendChild(this.accountButtons.loginRegister.content);
         this.loadLoginAndRegisterButtons(this.accountButtons.loginRegister);
 
         //  Make the account link button box and fill it
-        this.accountButtons.loggedInAs = new Container({ id: "LoggedInAsLabel", style: { height: siteHeaderHeight.collapsed, textAlign: "right", lineHeight: "24px", display: "none" }, });
-        this.rightHandButtonBox.appendChild(this.accountButtons.loggedInAs.content);
+        this.accountButtons.loggedInAs = new Container({ id: "LoggedInAsLabel", style: { height: siteHeaderHeight.collapsed, textAlign: "right", lineHeight: "24px", display: (authData.username ? "inline-flex" : "none") }, });
+        rightHandButtonBox.appendChild(this.accountButtons.loggedInAs.content);
         this.loadAccountLinkButton(this.accountButtons.loggedInAs);
     }
 
-    loadMainNavigationBox(mainNavigationBox) {
+    async loadMainNavigationBox(mainNavigationBox) {
         let createPlaylistButton = new Label({
             id: "CreatePlatlistButton",
             attributes: { value: "CREATE PLAYLIST", },
@@ -67,12 +72,12 @@ class SiteHeader {
         mainNavigationBox.appendChild(divider1.content);
     }
 
-    loadLoginAndRegisterButtons(loginAndRegisterButtonBox) {
+    async loadLoginAndRegisterButtons(loginAndRegisterButtonBox) {
         let loginButton = new Label({
             id: "LoginButton",
             attributes: { value: "LOGIN", },
             style: styleTemplate.SiteHeaderMenuButton,
-            events: { click: () => { this.loginBox.setMode("login"); this.toggleExpandedHeader(true); } },
+            events: { click: () => { this.loginBox.setMode("login"); this.toggleExpandedHeader(); } },
         });
         loginAndRegisterButtonBox.appendChild(loginButton.content);
 
@@ -83,12 +88,12 @@ class SiteHeader {
             id: "RegisterButton",
             attributes: { value: "REGISTER", },
             style: styleTemplate.SiteHeaderMenuButton,
-            events: { click: () => { this.loginBox.setMode("register"); this.toggleExpandedHeader(true); } },
+            events: { click: () => { this.loginBox.setMode("register"); this.toggleExpandedHeader(); } },
         });
         loginAndRegisterButtonBox.appendChild(registerButton.content);
     }
 
-    loadAccountLinkButton(accountLinkBox) {
+    async loadAccountLinkButton(accountLinkBox) {
         let loggedInAsLabel = new Label({ id: "LoggedInAsLabel", attributes: { value: "Logged in as: " }, style: styleTemplate.LoggedInAsText, });
         accountLinkBox.appendChild(loggedInAsLabel.content);
 
@@ -100,12 +105,9 @@ class SiteHeader {
         accountLinkBox.appendChild(this.loggedInUsernameLabel.content);
     }
 
-    loadLoginInputMenu(container) {
-        this.loginInputMenu = new Container({ id: "LoginInputMenu", style: { textAlign: "right", position: "relative", top: siteHeaderHeight.collapsed, display: "none", }, });
-        container.appendChild(this.loginInputMenu.content);
-
+    async loadLoginInputMenu(loginInputMenu) {
         this.loginBox = new LoginBox({});
-        this.loginInputMenu.appendChild(this.loginBox.content);
+        loginInputMenu.appendChild(this.loginBox.content);
         
         this.loginBox.callbacks.login = (username) => {
             setStyle(this.accountButtons.mainNavigation.content, { display: "inline-flex" });
@@ -117,8 +119,8 @@ class SiteHeader {
         this.loginBox.callbacks.register = this.loginBox.callbacks.login;
     }
 
-    toggleExpandedHeader(open) { 
-        this.headerExpanded = open;
+    async toggleExpandedHeader(open) { 
+        this.headerExpanded = (open !== undefined) ? open : !this.headerExpanded;
         setStyle(this.loginInputMenu.content, { display: "" });
         setStyle(this.content, { height: this.headerExpanded ? siteHeaderHeight.expanded : siteHeaderHeight.collapsed });
     }

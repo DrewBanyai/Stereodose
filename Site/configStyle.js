@@ -76,6 +76,5 @@ let styleTemplate = {
         color: "rgb(140, 140, 140)",
         display: "inline-flex",
         userSelect: "none",
-        float: "left",
     },
 }

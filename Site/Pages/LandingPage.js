@@ -1,5 +1,6 @@
 class LandingPage {
-	constructor() {
+	constructor(options) {
+		this.options = options;
 		this.content = this.GenerateContent();
 	}
 	

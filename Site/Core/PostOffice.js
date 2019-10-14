@@ -1,6 +1,23 @@
-let authToken = "";
+let authData = { username: null, token: null, expires: null };
 
 class PostOffice {
+    static getAuthorization() {
+        if (authData.username && authData.token && authData.expires) { return authData; }
+        authData = {
+            username: localStorage.getItem(config.SiteName + "_Username"),
+            token: localStorage.getItem(config.SiteName + "_AutoToken"),
+            expires: localStorage.getItem(config.SiteName + "_AuthExpires"),
+        };
+        return authData;
+    }
+
+    static setAuthorization(username, token, expires) {
+        localStorage.setItem(config.SiteName + "_Username", username);
+        localStorage.setItem(config.SiteName + "_AutoToken", token);
+        localStorage.setItem(config.SiteName + "_AuthExpires", expires);
+        authData = { username: username, token: token, expires: expires };
+    }
+
     ////////////////////////////////////////
     //////////    USER ROUTES     //////////
     ////////////////////////////////////////
@@ -10,7 +27,7 @@ class PostOffice {
             endpoint: config.MicroserviceURL + "user/register",
             body: JSON.stringify({ Username: username, Password: password, }) 
         });
-        if (result && result.success) { authToken = result.token; }
+        if (result && result.success) { PostOffice.setAuthorization(username, result.token, (new Date()) + 1); }
         return result;
 
     }
@@ -20,21 +37,21 @@ class PostOffice {
             endpoint: config.MicroserviceURL + "user/login",
             body: JSON.stringify({ Username: username, Password: password, }) 
         });
-        if (result && result.success) { authToken = result.token; }
+        if (result && result.success) { PostOffice.setAuthorization(username, result.token, (new Date()) + 1); }
         return result;
     }
 
     static async UserDelete(username, password) {
         return await makeRequest({
             endpoint: config.MicroserviceURL + "user/delete",
-            body: JSON.stringify({ Username: username, Password: password, token: authToken }) 
+            body: JSON.stringify({ Username: username, Password: password, token: authData.token }) 
         });
     }
 
     static async UserGetFavorites(username, password) {
         return await makeRequest({
             endpoint: config.MicroserviceURL + "user/getFavorites",
-            body: JSON.stringify({ Username: username, Password: password, token: authToken }),
+            body: JSON.stringify({ Username: username, Password: password, token: authData.token }),
         });
     }
 
@@ -49,9 +66,9 @@ class PostOffice {
             body: JSON.stringify({
                 Name: name,
                 Description: desc,
-                ImageSrc: imageSrc,
+                ImageSource: imageSrc,
                 TrackList: trackList,
-                token: authToken,
+                token: authData.token,
             }),
         });
     }
@@ -60,7 +77,7 @@ class PostOffice {
         return await makeRequest({
             endpoint: config.MicroserviceURL + "playlist/delete",
             body: JSON.stringify({ PlaylistID: playlistID, }),
-            token: authToken,
+            token: authData.token,
         });
     }
 
@@ -78,7 +95,7 @@ class PostOffice {
                 Username: username,
                 Password: password,
                 PlaylistID: playlistID,
-                token: authToken,
+                token: authData.token,
             }),
         });
     }
@@ -96,7 +113,7 @@ class PostOffice {
         return await makeRequest({
             endpoint: config.MicroserviceURL + "admin/getAllPlaylists",
             body: JSON.stringify({ AdminPasscode: adminPasscode, }),
-            token: authToken,
+            token: authData.token,
         });
     }
 
@@ -104,7 +121,7 @@ class PostOffice {
         return await makeRequest({
             endpoint: config.MicroserviceURL + "admin/getAllUsers",
             body: JSON.stringify({ AdminPasscode: adminPasscode, }),
-            token: authToken,
+            token: authData.token,
         });
     }
 }
