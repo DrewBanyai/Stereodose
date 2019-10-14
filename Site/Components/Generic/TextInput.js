@@ -1,6 +1,7 @@
 class TextInput {
     constructor(options) {
         this.options = options;
+        this.callbacks = { return: null };
         this.content = this.generateContent();
 
 		//  Generic options application
@@ -14,6 +15,8 @@ class TextInput {
 
         let container = document.createElement("input");
         container.setAttribute("type", inputType);
+
+        container.addEventListener("keyup", (e) => { if ((e.keyCode === 13) && (this.callbacks.return)) { this.callbacks.return(); } })
 
         container.style.backgroundColor = "white";
         container.style.color = "black";
