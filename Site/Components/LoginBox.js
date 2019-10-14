@@ -12,8 +12,9 @@ class LoginBox {
             id: "LoginBox",
             style: {
                 width: "200px",
-                height: "200px",
+                height: "170px",
                 margin: "0px 0px 0px auto",
+                position: "relative",
             },
         });
 
@@ -26,7 +27,9 @@ class LoginBox {
                 fontSize: "14px",
                 padding: "0px 0px 0px 0px",
                 color: "rgb(140, 140, 140)",
-                display: "flex",
+                float: "left",
+                position: "relative",
+                top: "-54px",
             }
         });
         container.appendChild(loginUsernameLabel.content);
@@ -40,6 +43,8 @@ class LoginBox {
                 fontFamily: "Open Sans",
                 fontWeight: "bold",
                 display: "block",
+                position: "relative",
+                top: "-54px",
             },
         });
         container.appendChild(this.elements.usernameInput.content);
@@ -53,7 +58,9 @@ class LoginBox {
                 fontSize: "14px",
                 padding: "0px 0px 0px 0px",
                 color: "rgb(140, 140, 140)",
-                display: "flex",
+                float: "left",
+                position: "relative",
+                top: "-54px",
             }
         });
         container.appendChild(loginPasswordLabel.content);
@@ -68,12 +75,14 @@ class LoginBox {
                 fontFamily: "Open Sans",
                 fontWeight: "bold",
                 display: "block",
+                position: "relative",
+                top: "-54px",
             },
         });
         container.appendChild(this.elements.passwordInput.content);
 
         this.elements.submitButton = new PrimaryButton({
-            id: "LoginRegisterButton",
+            id: "SubmitButton",
             attributes: { value: "LOGIN" },
             style: {
                 width: "200px",
@@ -81,6 +90,8 @@ class LoginBox {
                 margin: "12px 0px 0px 0px",
                 fontFamily: "Open Sans Condensed",
                 fontSize: "12px",
+                position: "relative",
+                top: "-54px",
             },
             events: {
                 click: async () => { await this.submitData(); },

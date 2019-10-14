@@ -1,10 +1,10 @@
-class MainPage {
+class LandingPage {
 	constructor() {
 		this.content = this.GenerateContent();
 	}
 	
 	GenerateContent() {
-		let container = new Container({ id: "MainPageContainer", style: { width: "920px", height: "100%", margin: "auto", } });;;
+		let container = new Container({ id: "LandingPageContainer", style: { width: "920px", height: "100%", margin: "auto", } });;;
 
 		container.appendChild(this.createPlaylistListBox());
 

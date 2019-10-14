@@ -61,7 +61,7 @@ class PlaylistMenu {
         this.clear();
         for (let i = 0; i < playlistData.trackList.length; ++i) {
             let trackData = playlistData.trackData[playlistData.trackList[i]];
-            let songBox = new CurrentSongBox({ style: { display: "", width: "331px", height: "34px" } });
+            let songBox = new SongDisplayBox({ style: { display: "", width: "331px", height: "34px" } });
             songBox.setTrackData(trackData);
             this.playlistMenuBox.appendChild(songBox.content);
         }

@@ -27,7 +27,7 @@ function LoadSiteContent() {
 	loadMainContent();
 	loadSoundBar();
 
-	LoadPage(new MainPage());
+	LoadPage(new LandingPage());
 }
 
 let loadSiteHeader = () => {
@@ -55,6 +55,15 @@ let loadSoundBar = async () => {
 	//  The SoundBar which will be attached to the bottom of the screen and persists across all pages
 	SitewideSoundBar = new SoundBar({});
 	document.body.appendChild(SitewideSoundBar.content);
+}
+
+function addStyle(style1, style2) {
+	if (!style1 || !style2) { console.warn("Can not run addStyle with invalid or null style objects"); }
+	let newStyle = {};
+	for (let key in style1) { newStyle[key] = style1[key]; }
+	for (let key in style2) { newStyle[key] = style2[key]; }
+	return newStyle;
+
 }
 
 function setStyle(container, style) {

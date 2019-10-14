@@ -1,4 +1,4 @@
-class CurrentSongBox {
+class SongDisplayBox {
     constructor(options) {
         this.options = options;
         this.trackImage = null;
@@ -10,7 +10,7 @@ class CurrentSongBox {
 
     generateContent() {
         let container = new Container({
-            id: "CurrentSongBox",
+            id: "SongDisplayBox",
             style: {
                 width: "254px",
                 display: "inline-block",

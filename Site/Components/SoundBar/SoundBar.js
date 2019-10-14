@@ -4,7 +4,7 @@ class SoundBar {
         this.buttons = { seekBackwards: null, playPause: null, seekForward: null };
         this.callbacks = { play: null, pause: null, seekBackwards: null, seekForward: null };
         this.player = null;
-        this.currentSongBox = null;
+        this.songDisplayBox = null;
         this.playlistMenu = null;
         this.currentSongFavorited = false;
         this.content = this.generateContent();
@@ -22,7 +22,7 @@ class SoundBar {
         centeredContainer.appendChild(this.createSeekAndPlayButtons());
         centeredContainer.appendChild(this.createProgressBar());
         centeredContainer.appendChild(this.createVolumeToggle());
-        centeredContainer.appendChild(this.createCurrentSongBox());
+        centeredContainer.appendChild(this.createSongDisplayBox());
         this.createFavoriteAndPlaylist(centeredContainer);
 
         //  Save off the Soundcloud Player instance, which is used to play and control songs
@@ -31,7 +31,7 @@ class SoundBar {
         this.player.setTracksLoadedCallback((data) => { this.setPlaylistData(data); });
         this.player.setPlayingState = (playing) => { this.setPlayingState(playing); }
         this.player.updateProgress = (progress, duration) => { this.updateProgress(progress, duration); };
-        this.player.setTrackData = (trackData) => { this.currentSongBox.setTrackData(trackData); };
+        this.player.setTrackData = (trackData) => { this.songDisplayBox.setTrackData(trackData); };
         this.player.clearAllTrackDataFromUI = async () => { this.clearAllTrackData(); }
 
         return container.content;
@@ -110,9 +110,9 @@ class SoundBar {
         return volumeToggle.content;
     }
 
-    createCurrentSongBox() {
-        this.currentSongBox = new CurrentSongBox({ style: { height: "0px", bottom: "22px" } });
-        return this.currentSongBox.content;
+    createSongDisplayBox() {
+        this.songDisplayBox = new SongDisplayBox({ style: { height: "0px", bottom: "22px" } });
+        return this.songDisplayBox.content;
     }
 
     setPlaylistData(playlistData) {
@@ -122,7 +122,7 @@ class SoundBar {
 
     async clearAllTrackData() {
         this.playlistMenu.clear();
-        this.currentSongBox.clear();
+        this.songDisplayBox.clear();
     }
 
     async createFavoriteAndPlaylist(container) {
