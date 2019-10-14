@@ -77,4 +77,18 @@ let styleTemplate = {
         display: "inline-flex",
         userSelect: "none",
     },
+    SongPreviewUser: {
+        fontFamily: "'Titillium Web', sans-serif",
+        fontSize: "10px",
+        color: "rgb(160, 160, 160)",
+        fontWeight: "500",
+        userSelect: "none",
+    },
+    SongPreviewTitle: {
+        fontFamily: "'Titillium Web', sans-serif",
+        fontSize: "10px",
+        color: "rgb(200, 200, 200)",
+        fontWeight: "500",
+        userSelect: "none",
+    },
 }

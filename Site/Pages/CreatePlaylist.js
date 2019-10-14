@@ -87,8 +87,10 @@ class CreatePlaylist {
 		if (!trackData) { console.warn("Attempted to get track data but could not find anything with the given link"); return; }
 		if (!this.playlistPreviewBox) { console.warn("Could not locate PlaylistPreviewBox"); return; }
 
-		let currentCount = this.playlistPreviewBox.content.childNodes.length;
-		if (currentCount >= 12) { console.warn("Can not add more than 12 tracks to a playlist"); return; }
-		this.playlistPreviewBox.appendChild((new TrackPreview({ trackLink: trackLink, trackNumber: currentCount + 1, trackData: trackData })).content)
+		let newCount = this.playlistPreviewBox.content.childNodes.length + 1;
+		if (newCount > 12) { console.warn("Can not add more than 12 tracks to a playlist"); return; }
+		this.playlistPreviewBox.appendChild((new TrackPreview({ trackLink: trackLink, trackNumber: newCount, fullCount: newCount, trackData: trackData })).content)
+
+		for (let i = 0; i < newCount; ++i) { this.playlistPreviewBox.content.childNodes[i].setTrackNumber(i + 1, newCount); }
 	}
 }
