@@ -80,6 +80,6 @@ class CurrentSongBox {
     }
 
     setImage(imageURL) { setStyle(this.trackImage.content, { backgroundImage: (imageURL ? "url(" + imageURL + ")" : ""), border: (imageURL ? "1px solid rgba(200, 200, 200, 0.6)" : ""), }); }
-    setUserName(userName) { this.trackUserNameLabel.setText(userName); }
-    setSongName(songName) { this.trackSongNameLabel.setText(songName); }
+    setUserName(userName) { this.trackUserNameLabel.setValue(userName); }
+    setSongName(songName) { this.trackSongNameLabel.setValue(songName); }
 }

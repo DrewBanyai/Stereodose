@@ -74,7 +74,7 @@ class PlaylistDisplay {
     }
 
     setImage(imageURL) { setStyle(this.playlistImage.content, { backgroundImage: "url(" + imageURL + ")", border: "1px solid rgba(200, 200, 200, 0.6)", }); }
-    setPlaylistName(playlistName) { this.playlistName.setText(playlistName); }
-    setPlaylistDesc(playlistDesc) { this.playlistDesc.setText(playlistDesc); }
+    setPlaylistName(playlistName) { this.playlistName.setValue(playlistName); }
+    setPlaylistDesc(playlistDesc) { this.playlistDesc.setValue(playlistDesc); }
     setTrackList(trackList) { this.trackList = trackList; }
 }

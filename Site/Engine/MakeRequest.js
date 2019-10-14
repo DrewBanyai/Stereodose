@@ -11,7 +11,7 @@ let makeRequest = async (options, recvJSON = true, sendJSON = true, forceRespons
             "Content-Type": "application/json",
             "Cache-Control": "no-cache",
             'Access-Control-Allow-Origin': '*',
-            "Authorization": null,//"Bearer" + localStorage.getItem(config.SiteName + "_accessToken"),
+            "Authorization": null,
         })
     };
 

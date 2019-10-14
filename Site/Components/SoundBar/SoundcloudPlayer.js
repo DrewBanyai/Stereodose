@@ -87,7 +87,7 @@ class SoundcloudPlayer {
         if (this.setTrackData) { this.setTrackData(trackData); }
     }
 
-    async loadSong(songIndex) {
+    async loadSong(songIndex, playOverride) {
         if (songIndex < 0) { console.log("Can not load song of an index below zero!"); return false; }
         if (!this.trackLinkList || (this.trackLinkList.length <= songIndex)) { console.log(`Can not load a song at index ${songIndex} with a list of length ${this.trackLinkList.length}`); return false; }
 
@@ -112,7 +112,8 @@ class SoundcloudPlayer {
             }
         });
 
-        if (wasPlaying) { this.play(); }
+        console.log(playOverride);
+        if (wasPlaying || playOverride) { this.play(); }
         return true;
     }
 
@@ -121,6 +122,7 @@ class SoundcloudPlayer {
         if (!this.trackLinkDataMap[linkURL]) { console.log("Failed to load track link: ", linkURL); return; }
 
         this.trackLinkList.push(linkURL);
+        if (this.tracksLoadedCallback) { this.tracksLoadedCallback(this.getTrackListData()); }
     }
 
     async clearAllTrackData() {
@@ -137,9 +139,8 @@ class SoundcloudPlayer {
     async loadTrackLinks(linkList) {
         if (!linkList || linkList.length === 0) { console.log("Attempted to load an empty track link list."); return; }
         await this.clearAllTrackData();
-        for (let i = 0; i < linkList.length; ++i) { await this.addTrackLink(linkList[i]); }
-
-        await this.loadSong(this.songIndex);
-        if (this.tracksLoadedCallback) { this.tracksLoadedCallback(this.getTrackListData()); }
+        await this.addTrackLink(linkList[0]);
+        await this.loadSong(0, true);
+        for (let i = 1; i < linkList.length; ++i) { await this.addTrackLink(linkList[i]);}
     }
 }

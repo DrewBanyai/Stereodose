@@ -99,7 +99,7 @@ class SoundBar {
     updateProgress(progress, duration) {
         if (!this.progressBar) { return; }
         if (!duration) { return; }
-        if (this.progressTimerLabel) this.progressTimerLabel.setText(Convert.SecondsToMinutesAndSeconds(progress));
+        if (this.progressTimerLabel) this.progressTimerLabel.setValue(Convert.SecondsToMinutesAndSeconds(progress));
         this.progressBar.setProgress(((progress / duration) * 100).toFixed(3));
     }
 

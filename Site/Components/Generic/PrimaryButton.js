@@ -6,7 +6,7 @@ class PrimaryButton {
 		this.ButtonTextLabel = null;
 		this.content = this.GenerateContent();
 
-		this.ButtonTextLabel.setText(this.content.value);
+		this.ButtonTextLabel.setValue(this.content.value);
 	}
 	
 	GenerateContent() {
@@ -62,7 +62,7 @@ class PrimaryButton {
 		return this.ButtonElement.content;
 	}
 	
-	setText(text) { this.ButtonTextLabel.setText(text); }
+	setValue(text) { this.ButtonTextLabel.setValue(text); }
 	setFont(font) { this.ButtonTextLabel.setFont(font); }
 	setFontSize(size) { this.ButtonTextLabel.setFontSize(size); }
 	

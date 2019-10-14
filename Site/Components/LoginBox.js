@@ -89,7 +89,7 @@ class LoginBox {
                     if (!result) { console.warn(`Failed to return any result when attempting to ${this.mode}`); return; }
                     if (result.success) {
                         if (!this.mode || !this.callbacks.hasOwnProperty(this.mode) || !this.callbacks[this.mode]) { return; }
-                        this.callbacks[this.mode]();
+                        this.callbacks[this.mode](this.elements.usernameInput.getValue());
                         this.elements.usernameInput.setValue("");
                         this.elements.passwordInput.setValue("");
                     }
@@ -106,6 +106,6 @@ class LoginBox {
         if (!["login", "register"].includes(mode)) { console.log("Attempted to switch LoginBox to unknown mode:", mode); return; }
         this.mode = mode;
         
-        this.elements.submitButton.setText(mode.toUpperCase());
+        this.elements.submitButton.setValue(mode.toUpperCase());
     }
 }
