@@ -8,6 +8,8 @@ class PostOffice {
             token: localStorage.getItem(config.SiteName + "_AutoToken"),
             expires: localStorage.getItem(config.SiteName + "_AuthExpires"),
         };
+        let now = new Date();
+        if (!authData.expires || (now > authData.expires)) { authData = this.setAuthorization(null, null, null); }
         return authData;
     }
 
@@ -16,6 +18,7 @@ class PostOffice {
         localStorage.setItem(config.SiteName + "_AutoToken", token);
         localStorage.setItem(config.SiteName + "_AuthExpires", expires);
         authData = { username: username, token: token, expires: expires };
+        return authData;
     }
 
     ////////////////////////////////////////
@@ -27,7 +30,7 @@ class PostOffice {
             endpoint: config.MicroserviceURL + "user/register",
             body: JSON.stringify({ Username: username, Password: password, }) 
         });
-        if (result && result.success) { PostOffice.setAuthorization(username, result.token, (new Date()) + 1); }
+        if (result && result.success) { let expires = new Date(); expires.setDate(expires.getDate() + 1); PostOffice.setAuthorization(username, result.token, expires); }
         return result;
 
     }
@@ -37,7 +40,7 @@ class PostOffice {
             endpoint: config.MicroserviceURL + "user/login",
             body: JSON.stringify({ Username: username, Password: password, }) 
         });
-        if (result && result.success) { PostOffice.setAuthorization(username, result.token, (new Date()) + 1); }
+        if (result && result.success) { let expires = new Date(); expires.setDate(expires.getDate() + 1); PostOffice.setAuthorization(username, result.token, expires); }
         return result;
     }
 

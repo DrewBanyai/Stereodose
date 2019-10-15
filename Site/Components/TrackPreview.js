@@ -2,6 +2,7 @@ class TrackPreview {
     constructor(options) {
         this.options = options;
         this.trackData = (options && options.trackData) ? options.trackData : null;
+        this.trackNumber = (options && options.trackNumber) ? options.trackNumber : -1;
         this.optionBox = { sortUp: null, remove: null, sortDown: null };
         this.content = this.generateContent();
 
@@ -92,16 +93,19 @@ class TrackPreview {
         trackOptionsBox.appendChild(this.optionBox.sortUp.content);
         trackOptionsBox.appendChild(this.optionBox.remove.content);
         trackOptionsBox.appendChild(this.optionBox.sortDown.content);
-        this.optionBox.sortUp.appendChild((new Fontawesome({ id: "TrackSortUpIcon", attributes: { className: "fas fa-sort-up" }, style: { fontSize: "18px", color: "rgb(160, 160, 160)", position: "relative", left: "8px", top: "5px", }, })).content);
+        this.optionBox.sortUp.appendChild((new Fontawesome({ id: "TrackSortUpIcon", attributes: { className: "fas fa-sort-up" }, style: { fontSize: "18px", color: "rgb(160, 160, 160)", position: "relative", left: "8px", top: "5px", cursor: "pointer", }, events: { click: () => { this.swapEntries(this.trackNumber, this.trackNumber - 1); }, } })).content);
         this.optionBox.remove.appendChild((new Fontawesome({ id: "TrackRemoveIcon", attributes: { className: "fas fa-window-close" }, style: { fontSize: "16px", color: "rgb(160, 160, 160)", position: "relative", left: "6px", top: "2px", cursor: "pointer", }, events: { click: () => { this.removeEntry(); }, } })).content);
-        this.optionBox.sortDown.appendChild((new Fontawesome({ id: "TrackSortDownIcon", attributes: { className: "fas fa-sort-down" }, style: { fontSize: "18px", color: "rgb(160, 160, 160)", position: "relative", left: "8px", top: "-2px", }, })).content);
+        this.optionBox.sortDown.appendChild((new Fontawesome({ id: "TrackSortDownIcon", attributes: { className: "fas fa-sort-down" }, style: { fontSize: "18px", color: "rgb(160, 160, 160)", position: "relative", left: "8px", top: "-2px", cursor: "pointer", }, events: { click: () => { this.swapEntries(this.trackNumber, this.trackNumber + 1); }, } })).content);
     }
+
+    swapEntries(entryA, entryB) { if (this.options.swapFunc) { this.options.swapFunc(entryA, entryB); } }
 
     removeEntry() {
         this.content.parentElement.removeChild(this.content);
     }
 
     setTrackNumber(number, fullCount) {
+        this.trackNumber = number;
         this.trackNumberLabel.setValue(number);
         setStyle(this.optionBox.sortUp.content, { visibility: (number === 1) ? "hidden" : "visible" });
         setStyle(this.optionBox.sortDown.content, { visibility: (number === fullCount) ? "hidden" : "visible" });

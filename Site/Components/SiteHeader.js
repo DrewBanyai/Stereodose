@@ -40,23 +40,30 @@ class SiteHeader {
     }
 
     async loadRightHandButtonBox(rightHandButtonBox) {
-        //  Get our authorization data, and act according to whether we are logged in
-        let authData = PostOffice.getAuthorization();
-
         //  Make the main navigation box and fill it
-        this.accountButtons.mainNavigation = new Container({ id: "MainNavigationBox", style: { height: siteHeaderHeight.collapsed, textAlign: "right", lineHeight: "22px", display: (authData.username ? "inline-flex" : "none") }, });
+        this.accountButtons.mainNavigation = new Container({ id: "MainNavigationBox", style: { height: siteHeaderHeight.collapsed, textAlign: "right", lineHeight: "22px", display: "none" }, });
         rightHandButtonBox.appendChild(this.accountButtons.mainNavigation.content);
         this.loadMainNavigationBox(this.accountButtons.mainNavigation);
 
         //  Make the login and register button box and fill it
-        this.accountButtons.loginRegister = new Container({ id: "LoginAndRegisterButtonsBox", style: { height: siteHeaderHeight.collapsed, textAlign: "right", lineHeight: "22px", display: (authData.username ? "none" : "inline-flex") }, });
+        this.accountButtons.loginRegister = new Container({ id: "LoginAndRegisterButtonsBox", style: { height: siteHeaderHeight.collapsed, textAlign: "right", lineHeight: "22px", display: "inline-flex" }, });
         rightHandButtonBox.appendChild(this.accountButtons.loginRegister.content);
         this.loadLoginAndRegisterButtons(this.accountButtons.loginRegister);
 
         //  Make the account link button box and fill it
-        this.accountButtons.loggedInAs = new Container({ id: "LoggedInAsLabel", style: { height: siteHeaderHeight.collapsed, textAlign: "right", lineHeight: "24px", display: (authData.username ? "inline-flex" : "none") }, });
+        this.accountButtons.loggedInAs = new Container({ id: "LoggedInAsLabel", style: { height: siteHeaderHeight.collapsed, textAlign: "right", lineHeight: "24px", display: "none" }, });
         rightHandButtonBox.appendChild(this.accountButtons.loggedInAs.content);
         this.loadAccountLinkButton(this.accountButtons.loggedInAs);
+
+        this.loadAuthData();
+    }
+
+    async loadAuthData() {
+        //  Get our authorization data, and act according to whether we are logged in
+        let authData = PostOffice.getAuthorization();
+        setStyle(this.accountButtons.mainNavigation.content, { display: authData.username ? "inline-flex" : "none" });
+        setStyle(this.accountButtons.loginRegister.content, { display: authData.username ? "none" : "inline-flex" });
+        setStyle(this.accountButtons.loggedInAs.content, { display: authData.username ? "inline-flex" : "none" });
     }
 
     async loadMainNavigationBox(mainNavigationBox) {
@@ -99,7 +106,7 @@ class SiteHeader {
 
         this.loggedInUsernameLabel = new Label({
             id: "LoggedInUsernameLabel",
-            attributes: { value: "korberos" },
+            attributes: { value: "UNKNOWN" },
             style: styleTemplate.LoggedInUsernameText,
         });
         accountLinkBox.appendChild(this.loggedInUsernameLabel.content);

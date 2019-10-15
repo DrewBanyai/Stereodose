@@ -68,7 +68,12 @@ class CreatePlaylist {
 					}
 
 					let result = await PostOffice.PlaylistCreate("Test Playlist", "This is a test", "https://i.imgur.com/R1RvzJH.jpg", playlistTracks);
-					console.log(result);
+					if (!result || !result.success) {
+						console.warn("Failed to create playlist: " + result.message);
+						if (result.message === "Authorization Failed") {
+							
+						}
+					}
 					//  TODO: Go to the new playlist's page once we have that...
 				}
 			}
@@ -83,13 +88,27 @@ class CreatePlaylist {
 		return url;
 	}
 
+	swapEntries(a, b) {
+		a = a - 1;
+		b = b - 1;
+		let entries = this.playlistPreviewBox.content.childNodes;
+		let entryCount = entries.length;
+		if ((a < 0) || (b < 0) || (a >= entryCount) || (b >= entryCount)) { console.log("Can't swap an entry with an invalid track number value"); return; }
+
+		let swapElements = (e1, e2) => { e2.nextSibling === e1 ? e1.parentNode.insertBefore(e2, e1.nextSibling) : e1.parentNode.insertBefore(e2, e1); }
+		swapElements(entries[a], entries[b]);
+
+		for (let i = 0; i < entryCount; ++i) { entries[i].setTrackNumber(i + 1, entryCount); }
+	}
+
 	addTrackPreviewToPlaylistPreview(trackLink, trackData) {
 		if (!trackData) { console.warn("Attempted to get track data but could not find anything with the given link"); return; }
 		if (!this.playlistPreviewBox) { console.warn("Could not locate PlaylistPreviewBox"); return; }
 
 		let newCount = this.playlistPreviewBox.content.childNodes.length + 1;
 		if (newCount > 12) { console.warn("Can not add more than 12 tracks to a playlist"); return; }
-		this.playlistPreviewBox.appendChild((new TrackPreview({ trackLink: trackLink, trackNumber: newCount, fullCount: newCount, trackData: trackData })).content)
+		let trackPreview = new TrackPreview({ id: `TrackPreview_${newCount}`, trackLink: trackLink, trackNumber: newCount, fullCount: newCount, trackData: trackData, swapFunc: (a, b) => { this.swapEntries(a, b); } });
+		this.playlistPreviewBox.appendChild(trackPreview.content)
 
 		for (let i = 0; i < newCount; ++i) { this.playlistPreviewBox.content.childNodes[i].setTrackNumber(i + 1, newCount); }
 	}
