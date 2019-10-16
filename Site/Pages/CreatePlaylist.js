@@ -63,9 +63,8 @@ class CreatePlaylist {
 				click: async () => {
 					let trackPreviews = this.playlistPreviewBox.content.childNodes;
 					let playlistTracks = [];
-					for (let i = 0; i < trackPreviews.length; ++i) {
-						playlistTracks.push(trackPreviews[i].getTrackLink());
-					}
+					for (let i = 0; i < trackPreviews.length; ++i) { playlistTracks.push(trackPreviews[i].getTrackLink()); }
+
 
 					let result = await PostOffice.PlaylistCreate("Test Playlist", "This is a test", "https://i.imgur.com/R1RvzJH.jpg", playlistTracks);
 					if (!result || !result.success) {

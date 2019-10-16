@@ -112,12 +112,12 @@ class SoundcloudPlayer {
             }
         });
 
-        console.log(playOverride);
         if (wasPlaying || playOverride) { this.play(); }
         return true;
     }
 
     async addTrackLink(linkURL) {
+        linkURL = this.getFormattedVersionOfURL(linkURL);
         try { this.trackLinkDataMap[linkURL] = await SC.resolve(linkURL); } catch (error) { delete this.trackLinkDataMap[linkURL]; console.log(error); }
         if (!this.trackLinkDataMap[linkURL]) { console.log("Failed to load track link: ", linkURL); return; }
 
@@ -135,6 +135,12 @@ class SoundcloudPlayer {
         this.trackLinkDataMap = {};
         this.clearAllTrackDataFromUI();
     }
+
+	getFormattedVersionOfURL(url) {
+		if (url.substr(0, 10) === "soundcloud") { return "https://" + url; }
+		if (url.substr(0, 7) === "http://") { console.log("https://" + url.substr(7, url.length - 7)); return "https://" + url.substr(7, url.length - 7); }
+		return url;
+	}
 
     async loadTrackLinks(linkList) {
         if (!linkList || linkList.length === 0) { console.log("Attempted to load an empty track link list."); return; }
