@@ -9,6 +9,7 @@ class TrackPreview {
         this.setTrackNumber(((options && options.trackNumber) ? options.trackNumber : 0), ((options && options.fullCount) ? options.fullCount : 0));
 
         this.content.setTrackNumber = (number, fullCount) => { return this.setTrackNumber(number, fullCount); }
+        this.content.getTrackData = () => { return this.getTrackData(); }
         this.content.getTrackLink = () => { return this.getTrackLink(); }
     }
 
@@ -111,5 +112,9 @@ class TrackPreview {
         setStyle(this.optionBox.sortDown.content, { visibility: (number === fullCount) ? "hidden" : "visible" });
     }
 
+    getTrackData() { return { link: this.getTrackLink(), artworkURL: this.getArtworkURL(), songUser: this.getTrackUser(), songTitle: this.getTrackTitle(), }; }
     getTrackLink() { return (this.options && this.options.trackLink) ? this.options.trackLink : ""; }
+    getArtworkURL() { return (this.trackData && this.trackData.artwork_url) ? this.trackData.artwork_url : ""; }
+    getTrackUser() { return (this.trackData && this.trackData.user.username) ? this.trackData.user.username : ""; }
+    getTrackTitle() { return (this.trackData && this.trackData.title) ? this.trackData.title : ""; }
 }
