@@ -9,7 +9,7 @@ exports.playlistCreate = async (req, res, next) => {
     if (!varcheck.check("Description", "String", req.body)) {  res.status(400).json({ error: "A valid 'Description' value must be provided" }); return; }
     if (!varcheck.check("ImageSource", "String", req.body)) {  res.status(400).json({ error: "A valid 'ImageSource' value must be provided" }); return; }
     if (!varcheck.check("TrackList", "Array", req.body)) {  res.status(400).json({ error: "A valid 'TrackList' value must be provided" }); return; }
-    
+
     //  If we've gotten this far, register the account into the database and return a success
     const playlistEntry = new playlistModel({
         _id: new mongoose.Types.ObjectId(),
@@ -19,6 +19,7 @@ exports.playlistCreate = async (req, res, next) => {
         trackList: req.body.TrackList,
     });
     let result = await playlistEntry.save();
-
-    res.status(200).json({ success: true, message: "Playlist successfully created", });
+    
+    if (result) { res.status(200).json({ success: true, message: "Playlist successfully created", }); }
+    else { res.status(200).json({ success: true, message: "Failed to create Playlist: Unknown Error", }); }
 }
