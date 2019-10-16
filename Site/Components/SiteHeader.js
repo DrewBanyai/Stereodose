@@ -64,6 +64,7 @@ class SiteHeader {
         setStyle(this.accountButtons.mainNavigation.content, { display: authData.username ? "inline-flex" : "none" });
         setStyle(this.accountButtons.loginRegister.content, { display: authData.username ? "none" : "inline-flex" });
         setStyle(this.accountButtons.loggedInAs.content, { display: authData.username ? "inline-flex" : "none" });
+        if (authData.username) { this.loggedInUsernameLabel.setValue(authData.username.toLowerCase()); }
     }
 
     async loadMainNavigationBox(mainNavigationBox) {
