@@ -5,7 +5,7 @@ let loadImageToBase64 = async (imageUrl) => {
     return new Promise((resolve, reject) => {
         let reader  = new FileReader();
         reader.addEventListener("load", function () { resolve(reader.result); }, false);
-        reader.onerror = () => { return reject(this); };
+        reader.onerror = (e) => { console.log("Image Load Error:", e); return reject(this); };
         reader.readAsDataURL(imageBlob);
     });
 }
