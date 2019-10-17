@@ -8,6 +8,7 @@ class PostOffice {
             token: localStorage.getItem(config.SiteName + "_AutoToken"),
             expires: localStorage.getItem(config.SiteName + "_AuthExpires"),
         };
+        for (let key in authData) { if (authData[key] === "null") { authData[key] = null; } }
         let now = new Date();
         if (!authData.expires || (now > authData.expires)) { authData = this.setAuthorization(null, null, null); }
         return authData;
@@ -67,6 +68,7 @@ class PostOffice {
         return await makeRequest({
             endpoint: config.MicroserviceURL + "playlist/create",
             body: JSON.stringify({
+                Creator: authData.username,
                 Name: name,
                 Description: desc,
                 ImageSource: imageSrc,
@@ -80,6 +82,14 @@ class PostOffice {
         return await makeRequest({
             endpoint: config.MicroserviceURL + "playlist/delete",
             body: JSON.stringify({ PlaylistID: playlistID, }),
+            token: authData.token,
+        });
+    }
+
+    static async PlaylistExists(playlistName) {
+        return await makeRequest({
+            endpoint: config.MicroserviceURL + "playlist/exists",
+            body: JSON.stringify({ Name: playlistName, }),
             token: authData.token,
         });
     }

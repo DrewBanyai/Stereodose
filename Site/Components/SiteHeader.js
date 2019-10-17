@@ -14,7 +14,11 @@ class SiteHeader {
         let centeredHeader = new Container({ id: "CenteredHeader", style: { margin: "auto", width: "920px", height: "100%", overflow: "hidden", }, });
         container.appendChild(centeredHeader.content);
 
-        let siteNameBox = new Container({ id: "SiteNameBox", style: { height: siteHeaderHeight.collapsed, display: "inline-flex", float: "left", }, });
+        let siteNameBox = new Container({
+            id: "SiteNameBox",
+            style: { height: siteHeaderHeight.collapsed, display: "inline-flex", float: "left", cursor: "pointer", },
+            events: { click: () => { LoadPage(new LandingPage({})); } }
+        });
         centeredHeader.appendChild(siteNameBox.content);
 
         let rightHandButtonBox = new Container({ id: "RightHandButtonBox", style: { height: siteHeaderHeight.collapsed, float: "right", }, });
@@ -109,6 +113,7 @@ class SiteHeader {
             id: "LoggedInUsernameLabel",
             attributes: { value: "UNKNOWN" },
             style: styleTemplate.LoggedInUsernameText,
+            events: { click: () => { this.logout(); }}
         });
         accountLinkBox.appendChild(this.loggedInUsernameLabel.content);
     }
@@ -125,6 +130,13 @@ class SiteHeader {
             this.toggleExpandedHeader(false);
         };
         this.loginBox.callbacks.register = this.loginBox.callbacks.login;
+    }
+
+    async logout() {
+        PostOffice.setAuthorization(null, null, null);
+        await this.loadAuthData();
+        await this.toggleExpandedHeader(true);
+        LoadPage(new LandingPage({}));
     }
 
     async toggleExpandedHeader(open) { 

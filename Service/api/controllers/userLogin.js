@@ -17,6 +17,6 @@ exports.userLogin = async (req, res, next) => {
     if (!existingUser) { res.status(200).json({ success: false, message: "No user exists with that combination of Username and Password"}); return; }
 
     //  Return a token if successful
-    const token = jwt.sign({ username: username, password: passwordHash, }, process.env.JWT_KEY, { expiresIn: "1d" });
+    const token = jwt.sign({ username: username, password: passwordHash, }, process.env.JWT_KEY, { subject: username, expiresIn: "1d" });
     res.status(200).json({ success: true, token: token, message: "User login successful", });
 }

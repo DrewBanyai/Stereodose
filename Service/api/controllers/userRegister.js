@@ -27,6 +27,6 @@ exports.userRegister = async (req, res, next) => {
     });
     await userEntry.save();
 
-    const token = jwt.sign({ username: username, password: passwordHash, }, process.env.JWT_KEY, { expiresIn: "1d" });
+    const token = jwt.sign({ username: username, password: passwordHash, }, process.env.JWT_KEY, { subject: username, expiresIn: "1d" });
     res.status(200).json({ success: true, token: token, message: "User registration successful", });
 }

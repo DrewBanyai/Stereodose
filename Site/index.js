@@ -8,14 +8,8 @@ let SitePageContent = null;
 let SitewideSoundBar = null;
 
 function LoadPage(page) {
-	if (SitePageContent === null) {
-		console.log("SitePageContent is null! Can not load new page");
-		return;
-	}
-	if (page === undefined || page === null) {
-		console.log("Given page is undefined or null! Can not load new page");
-		return;
-	}
+	if (SitePageContent === null) { console.error("SitePageContent is null! Can not load new page"); return; }
+	if (page === undefined || page === null) { console.error("Given page is undefined or null! Can not load new page"); return; }
 	
 	SitePageContent.innerHTML = "";
 	SitePageContent.appendChild(page.content);
@@ -40,14 +34,7 @@ let loadMainContent = () => {
 	document.body.style.backgroundColor = "rgb(16, 16, 16)";
 
 	//  The SitePageContent which will be between the site header and soundbar, and will switch with different pages
-	let pageContent = new Container({
-		id: "PageContent",
-		style: {
-			width: "100%",
-			height: "100%",
-			textAlign: "center",
-		}
-	});
+	let pageContent = new Container({ id: "PageContent", style: { width: "100%", height: "100%", textAlign: "center", padding: "0px 0px 60px 0px" } });
 	document.body.appendChild(SitePageContent = pageContent.content);
 }
 
