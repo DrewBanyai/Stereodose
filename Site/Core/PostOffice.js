@@ -4,7 +4,7 @@ class PostOffice {
     static getAuthorization() {
         if (authData.user && authData.token && authData.expires) { return authData; }
         authData = {
-            user: localStorage.getItem(config.SiteName + "_User"),
+            user: JSON.parse(localStorage.getItem(config.SiteName + "_User")),
             token: localStorage.getItem(config.SiteName + "_AuthToken"),
             expires: localStorage.getItem(config.SiteName + "_AuthExpires"),
         };
@@ -15,7 +15,7 @@ class PostOffice {
     }
 
     static setAuthorization(user, token, expires) {
-        localStorage.setItem(config.SiteName + "_User", user);
+        localStorage.setItem(config.SiteName + "_User", JSON.stringify(user));
         localStorage.setItem(config.SiteName + "_AuthToken", token);
         localStorage.setItem(config.SiteName + "_AuthExpires", expires);
         authData = { user: user, token: token, expires: expires };
