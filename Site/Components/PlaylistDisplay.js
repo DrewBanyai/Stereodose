@@ -5,6 +5,13 @@ class PlaylistDisplay {
         this.playlistName = null;
         this.trackList = null;
         this.content = this.generateContent();
+
+        if (options.data) {
+            this.setImage(options.data.imageSource);
+            this.setPlaylistName(options.data.name);
+            this.setPlaylistDesc(options.data.description);
+            this.setTrackList(options.data.trackList);
+        }
     }
 
     generateContent() {

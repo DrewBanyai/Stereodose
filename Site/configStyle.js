@@ -34,8 +34,6 @@ let styleTemplate = {
         padding: "0px 0px 0px 0px",
         color: "rgba(140, 140, 140, 0.4)",
         display: "inline-flex",
-        position: "relative",
-        top: "14px",
         userSelect: "none",
     },
     SiteHeaderMenuButton: {
@@ -44,8 +42,6 @@ let styleTemplate = {
         padding: "0px 0px 0px 0px",
         color: "rgb(140, 140, 140)",
         display: "inline-flex",
-        position: "relative",
-        top: "15px",
         cursor: "pointer",
     },
     LoggedInAsText: {
@@ -76,6 +72,7 @@ let styleTemplate = {
         color: "rgb(140, 140, 140)",
         display: "inline-flex",
         userSelect: "none",
+        padding: "2px 0px 0px 0px",
     },
     SongPreviewUser: {
         fontFamily: "'Titillium Web', sans-serif",

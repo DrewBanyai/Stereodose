@@ -45,12 +45,12 @@ class SiteHeader {
 
     async loadRightHandButtonBox(rightHandButtonBox) {
         //  Make the main navigation box and fill it
-        this.accountButtons.mainNavigation = new Container({ id: "MainNavigationBox", style: { height: siteHeaderHeight.collapsed, textAlign: "right", lineHeight: "22px", display: "none" }, });
+        this.accountButtons.mainNavigation = new Container({ id: "MainNavigationBox", style: { height: siteHeaderHeight.collapsed, textAlign: "right", lineHeight: "22px", display: "none", position: "relative", top: "15px", }, });
         rightHandButtonBox.appendChild(this.accountButtons.mainNavigation.content);
         this.loadMainNavigationBox(this.accountButtons.mainNavigation);
 
         //  Make the login and register button box and fill it
-        this.accountButtons.loginRegister = new Container({ id: "LoginAndRegisterButtonsBox", style: { height: siteHeaderHeight.collapsed, textAlign: "right", lineHeight: "22px", display: "inline-flex" }, });
+        this.accountButtons.loginRegister = new Container({ id: "LoginAndRegisterButtonsBox", style: { height: siteHeaderHeight.collapsed, textAlign: "right", lineHeight: "22px", display: "inline-flex", position: "relative", top: "15px", }, });
         rightHandButtonBox.appendChild(this.accountButtons.loginRegister.content);
         this.loadLoginAndRegisterButtons(this.accountButtons.loginRegister);
 
@@ -72,16 +72,15 @@ class SiteHeader {
     }
 
     async loadMainNavigationBox(mainNavigationBox) {
-        let createPlaylistButton = new Label({
-            id: "CreatePlatlistButton",
-            attributes: { value: "CREATE PLAYLIST", },
-            style: styleTemplate.SiteHeaderMenuButton,
-            events: { click: () => { LoadPage(new CreatePlaylist()); } },
-        });
+        let createPlaylistButton = new HeaderLink({ id: "CreatePlaylistButton", attributes: { value: "CREATE PLAYLIST", }, callback: (() => { LoadPage(new CreatePlaylist({})); }) });
         mainNavigationBox.appendChild(createPlaylistButton.content);
 
-        let divider1 = new Label({ id: "Divider", attributes: { value: "|", }, style: styleTemplate.SiteHeaderMenuText, });
-        mainNavigationBox.appendChild(divider1.content);
+        mainNavigationBox.appendChild((new Label({ id: "Divider", attributes: { value: "|", }, style: styleTemplate.SiteHeaderMenuText, })).content);
+
+        let accountButton = new HeaderLink({ id: "AccountButton", attributes: { value: "ACCOUNT", }, callback: (() => { LoadPage(new ViewAccount({})); }) });
+        mainNavigationBox.appendChild(accountButton.content);
+
+        mainNavigationBox.appendChild((new Label({ id: "Divider", attributes: { value: "|", }, style: styleTemplate.SiteHeaderMenuText, })).content);
     }
 
     async loadLoginAndRegisterButtons(loginAndRegisterButtonBox) {

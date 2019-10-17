@@ -4,6 +4,7 @@ const router = express.Router();
 const checkAuth = require("../middleware/checkAuth");
 
 const playlistCreateController = require("../controllers/playlistCreate");
+const playlistListMineController = require("../controllers/playlistListMine");
 const playlistDeleteController = require("../controllers/playlistDelete");
 const playlistExistsController = require("../controllers/playlistExists");
 const playlistDetailsController = require("../controllers/playlistDetails");
@@ -12,6 +13,7 @@ const playlistRandomGroupController = require("../controllers/playlistRandomGrou
 
 //  PLAYLIST ROUTES
 router.post("/create", checkAuth, playlistCreateController.playlistCreate);
+router.post("/listMine", checkAuth, playlistListMineController.playlistListMine);
 router.post("/delete", checkAuth, playlistDeleteController.playlistDelete);
 router.post("/exists", playlistExistsController.playlistExists);
 router.post("/details", playlistDetailsController.playlistDetails);

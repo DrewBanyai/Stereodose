@@ -78,6 +78,16 @@ class PostOffice {
         });
     }
 
+    static async PlaylistListMine() {
+        return await makeRequest({
+            endpoint: config.MicroserviceURL + "playlist/listMine",
+            body: JSON.stringify({
+                Creator: authData.username,
+                token: authData.token,
+            }),
+        });
+    }
+
     static async PlaylistDelete(playlistID) {
         return await makeRequest({
             endpoint: config.MicroserviceURL + "playlist/delete",

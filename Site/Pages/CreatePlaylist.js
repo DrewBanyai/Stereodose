@@ -8,9 +8,9 @@ class CreatePlaylist {
 	}
 
 	GenerateContent() {
-		let container = new Container({ id: "CreatePlaylistContainer", style: { width: "920px", height: "100%", margin: "auto", textAlign: "left", } });;;
+		let container = new Container({ id: "CreatePlaylistContainer", style: { width: "920px", height: "100%", margin: "auto", textAlign: "left", } });
 
-		let createNewPlaylistLabel = new Label({ id: "CreateNewPlaylistLabel", attributes: { value: "Create New Playlist" }, style: addStyle(styleTemplate.PageTitle, { padding: "2px 0px 0px 0px", }), });
+		let createNewPlaylistLabel = new Label({ id: "CreateNewPlaylistLabel", attributes: { value: "Create New Playlist" }, style: styleTemplate.PageTitle, });
 		container.appendChild(createNewPlaylistLabel.content);
 
 		container.appendChild(this.createPlaylistDetailsBox())

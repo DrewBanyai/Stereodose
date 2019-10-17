@@ -5,7 +5,7 @@ class LandingPage {
 	}
 	
 	GenerateContent() {
-		let container = new Container({ id: "LandingPageContainer", style: { width: "920px", height: "100%", margin: "auto", } });;;
+		let container = new Container({ id: "LandingPageContainer", style: { width: "920px", height: "100%", margin: "auto", textAlign: "left", } });
 
 		container.appendChild(this.createPlaylistListBox());
 
@@ -24,15 +24,6 @@ class LandingPage {
 		let allPlaylists = await PostOffice.GetAllPlaylists("4b6f735f938e6fc4571e994999623f61");
 		if (allPlaylists && allPlaylists.success) { allPlaylists = allPlaylists.List; }
 		
-		for (let i = 0; i < allPlaylists.length; ++i) {
-			let playlist = allPlaylists[i];
-			let display = new PlaylistDisplay({});
-			display.setImage(playlist.imageSource);
-			display.setPlaylistName(playlist.name);
-			display.setPlaylistDesc(playlist.description);
-			display.setTrackList(playlist.trackList);
-
-			listBox.appendChild(display.content);
-		}
+		for (let i = 0; i < allPlaylists.length; ++i) { listBox.appendChild((new PlaylistDisplay({ data: allPlaylists[i] })).content); }
 	}
 }

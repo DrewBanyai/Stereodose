@@ -118,8 +118,10 @@ class SoundcloudPlayer {
 
     async addTrackLink(linkURL) {
         linkURL = this.getFormattedVersionOfURL(linkURL);
-        try { this.trackLinkDataMap[linkURL] = await SC.resolve(linkURL); } catch (error) { delete this.trackLinkDataMap[linkURL]; console.log(error); }
-        if (!this.trackLinkDataMap[linkURL]) { console.log("Failed to load track link: ", linkURL); return; }
+        if (!this.trackLinkDataMap.hasOwnProperty(linkURL)) {
+            try { this.trackLinkDataMap[linkURL] = await SC.resolve(linkURL); } catch (error) { delete this.trackLinkDataMap[linkURL]; console.log(error); }
+            if (!this.trackLinkDataMap[linkURL]) { console.log("Failed to load track link: ", linkURL); return; }
+        }
 
         this.trackLinkList.push(linkURL);
         if (this.tracksLoadedCallback) { this.tracksLoadedCallback(this.getTrackListData()); }
@@ -132,7 +134,6 @@ class SoundcloudPlayer {
         }
         this.songIndex = 0;
         this.trackLinkList = [];
-        this.trackLinkDataMap = {};
         this.clearAllTrackDataFromUI();
     }
 
