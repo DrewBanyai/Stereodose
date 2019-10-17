@@ -65,10 +65,10 @@ class SiteHeader {
     async loadAuthData() {
         //  Get our authorization data, and act according to whether we are logged in
         let authData = PostOffice.getAuthorization();
-        setStyle(this.accountButtons.mainNavigation.content, { display: authData.username ? "inline-flex" : "none" });
-        setStyle(this.accountButtons.loginRegister.content, { display: authData.username ? "none" : "inline-flex" });
-        setStyle(this.accountButtons.loggedInAs.content, { display: authData.username ? "inline-flex" : "none" });
-        if (authData.username) { this.loggedInUsernameLabel.setValue(authData.username.toLowerCase()); }
+        setStyle(this.accountButtons.mainNavigation.content, { display: authData.token ? "inline-flex" : "none" });
+        setStyle(this.accountButtons.loginRegister.content, { display: authData.token ? "none" : "inline-flex" });
+        setStyle(this.accountButtons.loggedInAs.content, { display: authData.token ? "inline-flex" : "none" });
+        if (authData.token) { this.loggedInUsernameLabel.setValue(authData.user.username.toLowerCase()); }
     }
 
     async loadMainNavigationBox(mainNavigationBox) {

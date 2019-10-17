@@ -1,3 +1,5 @@
+const jwt = require("jsonwebtoken");
+
 const varcheck = require("../varcheck");
 
 const userModel = require("../models/user");
@@ -5,12 +7,17 @@ const userModel = require("../models/user");
 exports.userGetFavorites = async (req, res, next) => {
     //  Ensure we have a valid 'Username' and 'Password' value
     if (!varcheck.check("Username", "String", req.body)) {  res.status(400).json({ error: "A valid 'Username' value must be provided" }); return; }
-    if (!varcheck.check("Password", "String", req.body)) {  res.status(400).json({ error: "A valid 'Password' value must be provided" }); return; }
 
     //  If a user with that name already exists, return a failure
-    let existingUser = await userModel.findOne({ username: req.body.Username, password: req.body.Password }).exec();
-    if (!existingUser) { res.status(200).json({ success: false, message: "No user exists with that combination of Username and Password"}); return; }
+    let username = req.body.Username.toLowerCase();
+    let userEntry = await userModel.findOne({ username: username }).exec();
+    if (!userEntry) { res.status(200).json({ success: false, message: "No user exists with that Username"}); return; }
 
-    res.status(200).json({ success: true, favoritePlaylists: existingUser.favoritePlaylists, favoriteTracks: existingUser.favoriteTracks, });
+    //  Check that the user is the user they specify as creator
+    console.log("USERNAME:", username);
+    try { jwt.verify(req.body.token, process.env.JWT_KEY, { subject: username, expiresIn: "1d" }); }
+    catch (error) { res.status(200).json({ success: false, message: "Username value incorrect", }); return; }
+
+    res.status(200).json({ success: true, favoritePlaylists: userEntry.favoritePlaylists, favoriteTracks: userEntry.favoriteTracks, });
 
 }

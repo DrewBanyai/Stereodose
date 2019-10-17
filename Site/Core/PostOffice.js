@@ -1,11 +1,11 @@
-let authData = { username: null, token: null, expires: null };
+let authData = { user: null, token: null, expires: null };
 
 class PostOffice {
     static getAuthorization() {
-        if (authData.username && authData.token && authData.expires) { return authData; }
+        if (authData.user && authData.token && authData.expires) { return authData; }
         authData = {
-            username: localStorage.getItem(config.SiteName + "_Username"),
-            token: localStorage.getItem(config.SiteName + "_AutoToken"),
+            user: localStorage.getItem(config.SiteName + "_User"),
+            token: localStorage.getItem(config.SiteName + "_AuthToken"),
             expires: localStorage.getItem(config.SiteName + "_AuthExpires"),
         };
         for (let key in authData) { if (authData[key] === "null") { authData[key] = null; } }
@@ -14,11 +14,11 @@ class PostOffice {
         return authData;
     }
 
-    static setAuthorization(username, token, expires) {
-        localStorage.setItem(config.SiteName + "_Username", username);
-        localStorage.setItem(config.SiteName + "_AutoToken", token);
+    static setAuthorization(user, token, expires) {
+        localStorage.setItem(config.SiteName + "_User", user);
+        localStorage.setItem(config.SiteName + "_AuthToken", token);
         localStorage.setItem(config.SiteName + "_AuthExpires", expires);
-        authData = { username: username, token: token, expires: expires };
+        authData = { user: user, token: token, expires: expires };
         return authData;
     }
 
@@ -31,7 +31,11 @@ class PostOffice {
             endpoint: config.MicroserviceURL + "user/register",
             body: JSON.stringify({ Username: username, Password: password, }) 
         });
-        if (result && result.success) { let expires = new Date(); expires.setDate(expires.getDate() + 1); PostOffice.setAuthorization(username, result.token, expires); }
+        if (result && result.success) {
+            let expires = new Date();
+            expires.setDate(expires.getDate() + 1);
+            PostOffice.setAuthorization(result.user, result.token, expires);
+        }
         return result;
 
     }
@@ -41,7 +45,11 @@ class PostOffice {
             endpoint: config.MicroserviceURL + "user/login",
             body: JSON.stringify({ Username: username, Password: password, }) 
         });
-        if (result && result.success) { let expires = new Date(); expires.setDate(expires.getDate() + 1); PostOffice.setAuthorization(username, result.token, expires); }
+        if (result && result.success) {
+            let expires = new Date();
+            expires.setDate(expires.getDate() + 1);
+            PostOffice.setAuthorization(result.user, result.token, expires);
+        }
         return result;
     }
 
@@ -52,10 +60,10 @@ class PostOffice {
         });
     }
 
-    static async UserGetFavorites(username, password) {
+    static async UserGetFavorites(username) {
         return await makeRequest({
             endpoint: config.MicroserviceURL + "user/getFavorites",
-            body: JSON.stringify({ Username: username, Password: password, token: authData.token }),
+            body: JSON.stringify({ Username: username, token: authData.token }),
         });
     }
 
@@ -68,7 +76,7 @@ class PostOffice {
         return await makeRequest({
             endpoint: config.MicroserviceURL + "playlist/create",
             body: JSON.stringify({
-                Creator: authData.username,
+                Creator: authData.user.username,
                 Name: name,
                 Description: desc,
                 ImageSource: imageSrc,
@@ -82,7 +90,7 @@ class PostOffice {
         return await makeRequest({
             endpoint: config.MicroserviceURL + "playlist/listMine",
             body: JSON.stringify({
-                Creator: authData.username,
+                Creator: authData.user.username,
                 token: authData.token,
             }),
         });

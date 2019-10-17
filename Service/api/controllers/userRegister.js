@@ -15,8 +15,8 @@ exports.userRegister = async (req, res, next) => {
     let username = req.body.Username.toLowerCase();
     let userExists = await userModel.findOne({ username: username }).exec();
     if (userExists) { res.status(200).json({ success: false, message: "A user already exists with that username"}); return; }
-
     let passwordHash = await digest.digestMessage(username + req.body.Password);
+
     userEntry = new userModel({
         _id: new mongoose.Types.ObjectId(),
         username: username,
@@ -27,6 +27,10 @@ exports.userRegister = async (req, res, next) => {
     });
     await userEntry.save();
 
+    userEntry._id = undefined;
+    userEntry.password = undefined;
+    userEntry.__v = undefined;
+
     const token = jwt.sign({ username: username, password: passwordHash, }, process.env.JWT_KEY, { subject: username, expiresIn: "1d" });
-    res.status(200).json({ success: true, token: token, message: "User registration successful", });
+    res.status(200).json({ success: true, token: token, user: userEntry, message: "User registration successful", });
 }

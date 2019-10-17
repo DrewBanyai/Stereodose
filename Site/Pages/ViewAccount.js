@@ -21,7 +21,7 @@ class ViewAccount {
 	determineAccount() {
 		let optionsUsername = (this.options && this.options.username) ? this.options.username : null;
 		let auth = PostOffice.getAuthorization();
-		let username = optionsUsername ? optionsUsername : (auth.username ? auth.username : "UNKNOWN");
+		let username = optionsUsername ? optionsUsername : (auth.token ? auth.user.username : "UNKNOWN");
 		return username;
 	}
 
