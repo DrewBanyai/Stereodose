@@ -13,7 +13,7 @@ class LandingPage {
 	}
 
 	createPlaylistListBox() {
-		let playlistListBox = new Container({ id: "PlaylistListBox", style: { width: "700px", } });
+		let playlistListBox = new Container({ id: "PlaylistListBox", style: { width: "100%", } });
 
 		this.loadPlaylistListData(playlistListBox);
 

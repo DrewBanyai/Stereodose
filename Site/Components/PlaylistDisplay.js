@@ -1,8 +1,7 @@
 class PlaylistDisplay {
     constructor(options) {
         this.options = options;
-        this.playlistImage = null;
-        this.playlistName = null;
+        this.elements = { image: null, name: null, desc: null };
         this.trackList = null;
         this.content = this.generateContent();
 
@@ -18,70 +17,78 @@ class PlaylistDisplay {
         let container = new Container({
             id: (this.options && this.options.id) ? this.options.id : "PlaylistDisplay",
             style: {
-                width: "700px",
+                width: "100%",
                 height: "160px",
                 display: "inline-flex",
-            },
-        });
-
-        this.playlistImage = new Container({
-            id: "PlaylistImage",
-            style: {
-                width: "160px",
-                height: "160px",
-                border: "1px solid rgba(200, 200, 200, 0.6)",
-                backgroundRepeat: "round",
+                borderRadius: "8px",
+                backgroundColor: "rgb(30, 30, 40)",
                 cursor: "pointer",
+                transition: "transform 0.13s linear 0s",
+                transform: "scale(1)",
+                boxShadow: "rgba(80, 80, 80, 0.16) 0px 0px 5px 0px, rgba(80, 80, 80, 0.12) 0px 4px 10px",
+                margin: "5px 0px 5px 0px",
             },
             events: {
+                mouseenter: () => { setStyle(this.content, { transform: "scale(1.025)", boxShadow: "rgba(120, 120, 120, 0.16) 0px 0px 5px 0px, rgba(120, 120, 120, 0.12) 0px 4px 10px", }); },
+                mouseleave: () => { setStyle(this.content, { transform: "scale(1.000)", boxShadow: "rgba(80, 80, 80, 0.16) 0px 0px 5px 0px, rgba(80, 80, 80, 0.12) 0px 4px 10px", }); },
                 click: async () => {
-                    if (!this.trackList) { console.log("No tracklist available..."); return; }
+                    if (!this.trackList) { console.warn("No tracklist available..."); return; }
                     await SitewideSoundBar.player.loadTrackLinks(this.trackList);
                 }
             }
         });
-        container.appendChild(this.playlistImage.content);
+
+        this.elements.image = new Container({
+            id: "PlaylistImage",
+            style: {
+                width: "160px",
+                height: "100%",
+                backgroundRepeat: "round",
+                borderRadius: "8px 0px 0px 8px",
+                userSelect: "none",
+            },
+        });
+        container.appendChild(this.elements.image.content);
 
         let dataSection = new Container({
             id: "PlaylistDataSection",
-            style: {
-                width: "540px",
-                height: "160px",
-            },
+            style: { height: "100%", },
         });
         container.appendChild(dataSection.content);
 
-        this.playlistName = new Label({
+        this.elements.name = new Label({
             id: "PlaylistName",
             attributes: { value: "" },
             style: {
                 fontFamily: "'Titillium Web', sans-serif",
                 fontSize: "16px",
                 color: "rgb(200, 200, 200)",
-                fontWeight: "500",
+                fontWeight: "bold",
                 margin: "20px 0px 0px 20px",
+                userSelect: "none",
             }
         });
-        dataSection.appendChild(this.playlistName.content);
+        dataSection.appendChild(this.elements.name.content);
 
-        this.playlistDesc = new Label({
+        this.elements.desc = new Label({
             id: "PlaylistDescription",
             attributes: { value: "" },
             style: {
                 fontFamily: "'Titillium Web', sans-serif",
-                fontSize: "16px",
+                fontSize: "14px",
                 color: "rgb(200, 200, 200)",
                 fontWeight: "500",
-                margin: "20px 0px 0px 20px",
+                margin: "10px 0px 0px 20px",
+                userSelect: "none",
             }
         });
-        dataSection.appendChild(this.playlistDesc.content);
+        dataSection.appendChild(this.elements.desc.content);
 
         return container.content;
     }
 
-    setImage(imageURL) { setStyle(this.playlistImage.content, { backgroundImage: "url(" + imageURL + ")", border: "1px solid rgba(200, 200, 200, 0.6)", }); }
-    setPlaylistName(playlistName) { this.playlistName.setValue(playlistName); }
-    setPlaylistDesc(playlistDesc) { this.playlistDesc.setValue(playlistDesc); }
+    setImage(imageURL) { setStyle(this.elements.image.content, { backgroundImage: "url(" + imageURL + ")", }); }
+    setPlaylistName(playlistName) { this.elements.name.setValue(playlistName); }
+    setPlaylistDesc(playlistDesc) { this.elements.desc.setValue(playlistDesc); }
     setTrackList(trackList) { this.trackList = trackList; }
 }

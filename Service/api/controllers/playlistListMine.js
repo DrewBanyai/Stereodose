@@ -23,6 +23,5 @@ exports.playlistListMine = async (req, res, next) => {
 	try { playlists = await playlistModel.find({ creator: req.body.Creator }).exec(); } catch (e) { console.log("ERROR:", e.message); }
     if (!playlists) { res.status(200).json({ success: true, exists: false, message: "No playlists with that Creator exist" }); return; }
 
-    console.log(playlists);
     res.status(200).json({ success: true, message: "Playlists found", playlists: playlists, });
 }
