@@ -1,3 +1,5 @@
+const jwt = require("jsonwebtoken");
+
 const varcheck = require("../varcheck");
 
 const playlistModel = require("../models/playlist");
@@ -7,7 +9,6 @@ exports.playlistFavorite = async (req, res, next) => {
     //  Ensure we have a valid 'PlaylistID', 'Username', and 'Password' value
     if (!varcheck.check("PlaylistID", "String", req.body)) {  res.status(400).json({ error: "A valid 'PlaylistID' value must be provided" }); return; }
     if (!varcheck.check("Username", "String", req.body)) {  res.status(400).json({ error: "A valid 'Username' value must be provided" }); return; }
-    if (!varcheck.check("Password", "String", req.body)) {  res.status(400).json({ error: "A valid 'Password' value must be provided" }); return; }
     if (!varcheck.check("Favorite", "Boolean", req.body)) {  res.status(400).json({ error: "A valid 'Favorite' value must be provided" }); return; }
 
     //  If a playlist with the given PlaylistID doesn't exist, return a failure
@@ -16,8 +17,13 @@ exports.playlistFavorite = async (req, res, next) => {
 	if (!playlist) { res.status(200).json({ error: "No playlist with that ID exists" }); return; }
 
     //  If a user with the given Username and Password doesn't exist, return a failure
-    let existingUser = await userModel.findOne({ username: req.body.Username, password: req.body.Password }).exec();
+    let username = req.body.Username.toLowerCase();
+    let existingUser = await userModel.findOne({ username: username }).exec();
     if (!existingUser) { res.status(200).json({ success: false, message: "No user exists with that combination of Username and Password"}); return; }
+
+    //  Check that the user is the user they specify as creator
+    try { jwt.verify(req.body.token, process.env.JWT_KEY, { subject: username, expiresIn: "1d" }); }
+    catch (error) { res.status(200).json({ success: false, message: "Username value incorrect", }); return; }
 
     let favoriteExists = existingUser.favoritePlaylists.includes(req.body.PlaylistID);
     if (req.body.Favorite) {

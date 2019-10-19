@@ -6,7 +6,8 @@ class SoundBar {
         this.player = null;
         this.songDisplayBox = null;
         this.playlistMenu = null;
-        this.currentSongFavorited = false;
+        this.playlistID = null;
+        this.currentListFavorited = false;
         this.content = this.generateContent();
     }
 
@@ -35,6 +36,14 @@ class SoundBar {
         this.player.clearAllTrackDataFromUI = async () => { this.clearAllTrackData(); }
 
         return container.content;
+    }
+
+    setPlaylistID(id) {
+        this.playlistID = id;
+
+        let authData = PostOffice.getAuthorization();
+        if (authData.user) { this.currentListFavorited = authData.user.favoritePlaylists.includes(this.playlistID); }
+        setStyle(this.favoriteSymbol.content, { color: this.currentListFavorited ? "rgb(255, 40, 40)" : "rgb(100, 100, 100)" })
     }
 
     createControlButton(id, w, h, fontAwesome, style, callback) {
@@ -129,19 +138,17 @@ class SoundBar {
         let favoriteAndPlaylist = new Container({ id: "FavoriteAndPlaylist", style: { width: "80px", display: "inline-block", textAlign: "right", }, });
         container.appendChild(favoriteAndPlaylist.content);
 
-        // TODO: Make an async call to get the favorites list, save it off, and determine this.currentSongFavorited
-
-        let favoriteSymbol = new Fontawesome({
+        this.favoriteSymbol = new Fontawesome({
             id: "FavoriteSymbol",
             attributes: { className: "fas fa-heart", },
             style: { fontSize: "15px", color: "rgb(100, 100, 100)", margin: "0px 5px 0px 0px", display: "inline-block", },
             events: {
-                mouseenter: (e) => { setStyle(favoriteSymbol.content, { color: this.currentSongFavorited ? "rgb(120, 120, 120)" : "rgb(255, 70, 70)" }); },
-                mouseleave: (e) => { setStyle(favoriteSymbol.content, { color: this.currentSongFavorited ? "rgb(255, 40, 40)" : "rgb(100, 100, 100)" }); },
-                click: (e) => { this.currentSongFavorited = !this.currentSongFavorited; },
+                mouseenter: (e) => { setStyle(favoriteSymbol.content, { color: (this.currentListFavorited ? "rgb(120, 120, 120)" : "rgb(255, 70, 70)") }); },
+                mouseleave: (e) => { setStyle(favoriteSymbol.content, { color: (this.currentListFavorited ? "rgb(255, 40, 40)" : "rgb(100, 100, 100)") }); },
+                click: async (e) => { if (await PostOffice.PlaylistFavorite(this.playlistID)) { this.currentListFavorited = !this.currentListFavorited; }; },
             },
         });
-        favoriteAndPlaylist.appendChild(favoriteSymbol.content);
+        favoriteAndPlaylist.appendChild(this.favoriteSymbol.content);
 
         this.playlistMenu = new PlaylistMenu();
         favoriteAndPlaylist.appendChild(this.playlistMenu.content);

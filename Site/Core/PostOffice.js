@@ -2,14 +2,16 @@ let authData = { user: null, token: null, expires: null };
 
 class PostOffice {
     static getAuthorization() {
-        if (authData.user && authData.token && authData.expires) { return authData; }
-        authData = {
-            user: JSON.parse(localStorage.getItem(config.SiteName + "_User")),
-            token: localStorage.getItem(config.SiteName + "_AuthToken"),
-            expires: localStorage.getItem(config.SiteName + "_AuthExpires"),
-        };
+        if (!authData.user || !authData.token || !authData.expires) {
+            authData = {
+                user: JSON.parse(localStorage.getItem(config.SiteName + "_User")),
+                token: localStorage.getItem(config.SiteName + "_AuthToken"),
+                expires: localStorage.getItem(config.SiteName + "_AuthExpires"),
+            };
+        }
+
         for (let key in authData) { if (authData[key] === "null") { authData[key] = null; } }
-        let now = new Date();
+        let now = (new Date()).toISOString();
         if (!authData.expires || (now > authData.expires)) { authData = this.setAuthorization(null, null, null); }
         return authData;
     }
@@ -34,6 +36,7 @@ class PostOffice {
         if (result && result.success) {
             let expires = new Date();
             expires.setDate(expires.getDate() + 1);
+            expires = expires.toISOString();
             PostOffice.setAuthorization(result.user, result.token, expires);
         }
         return result;
@@ -48,6 +51,7 @@ class PostOffice {
         if (result && result.success) {
             let expires = new Date();
             expires.setDate(expires.getDate() + 1);
+            expires = expires.toISOString();
             PostOffice.setAuthorization(result.user, result.token, expires);
         }
         return result;
@@ -119,13 +123,15 @@ class PostOffice {
         });
     }
 
-    static async PlaylistFavorite(username, password, playlistID) {
+    static async PlaylistFavorite(playlistID) {
+        if (!authData.user) { console.warn("Authorization expired"); return null; }
+
         return await makeRequest({
-            endpoint: config.MicroserviceURL + "playlist/details",
+            endpoint: config.MicroserviceURL + "playlist/favorite",
             body: JSON.stringify({
-                Username: username,
-                Password: password,
+                Username: authData.user.username,
                 PlaylistID: playlistID,
+                Favorite: true,
                 token: authData.token,
             }),
         });

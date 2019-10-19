@@ -15,13 +15,15 @@ function LoadPage(page) {
 	SitePageContent.appendChild(page.content);
 }
 
+function LoadMainPage(options = {}) { LoadPage(new LandingPage(options), false); }
+
 function LoadSiteContent() {
 	//  Load the default first page users should see
 	loadSiteHeader();
 	loadMainContent();
 	loadSoundBar();
 
-	LoadPage(new LandingPage());
+	LoadMainPage();
 }
 
 let loadSiteHeader = () => {

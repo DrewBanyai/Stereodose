@@ -132,6 +132,7 @@ class SiteHeader {
     }
 
     async logout() {
+        console.log("logout");
         PostOffice.setAuthorization(null, null, null);
         await this.loadAuthData();
         await this.toggleExpandedHeader(true);

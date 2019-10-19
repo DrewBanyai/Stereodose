@@ -33,6 +33,7 @@ class PlaylistDisplay {
                 mouseleave: () => { setStyle(this.content, { transform: "scale(1.000)", boxShadow: "rgba(80, 80, 80, 0.16) 0px 0px 5px 0px, rgba(80, 80, 80, 0.12) 0px 4px 10px", }); },
                 click: async () => {
                     if (!this.trackList) { console.warn("No tracklist available..."); return; }
+                    SitewideSoundBar.setPlaylistID(this.options.data._id);
                     await SitewideSoundBar.player.loadTrackLinks(this.trackList);
                 }
             }
