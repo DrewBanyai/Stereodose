@@ -109,12 +109,7 @@ class LoginBox {
         let postFunc = (this.mode === "login") ? PostOffice.UserLogin  : PostOffice.UserRegister;
         let result = await postFunc(this.elements.usernameInput.content.value, this.elements.passwordInput.content.value);
         if (!result) { console.warn(`Failed to return any result when attempting to ${this.mode}`); return; }
-        if (result.success) {
-            if (!this.mode || !this.callbacks.hasOwnProperty(this.mode) || !this.callbacks[this.mode]) { return; }
-            this.callbacks[this.mode](this.elements.usernameInput.getValue());
-            this.elements.usernameInput.setValue("");
-            this.elements.passwordInput.setValue("");
-        }
+        if (result.success) { this.elements.usernameInput.setValue(""); this.elements.passwordInput.setValue(""); }
         else { console.log("Failed:", result.message); }
     }
 

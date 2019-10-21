@@ -1,6 +1,7 @@
 class LandingPage {
 	constructor(options) {
 		this.options = options;
+		this.elements = { playlistListBox: null };
 		this.content = this.GenerateContent();
 	}
 	
@@ -13,17 +14,25 @@ class LandingPage {
 	}
 
 	createPlaylistListBox() {
-		let playlistListBox = new Container({ id: "PlaylistListBox", style: { width: "100%", } });
+		this.elements.playlistListBox = new Container({ id: "PlaylistListBox", style: { width: "100%", } });
 
-		this.loadPlaylistListData(playlistListBox);
+		this.loadPlaylistListData();
+		PostOffice.addAuthListener(this);
 
-		return playlistListBox.content;
+		return this.elements.playlistListBox.content;
 	}
 
-	async loadPlaylistListData(listBox) {
-		let allPlaylists = await PostOffice.GetAllPlaylists("4b6f735f938e6fc4571e994999623f61");
-		if (allPlaylists && allPlaylists.success) { allPlaylists = allPlaylists.List; }
-		
-		for (let i = 0; i < allPlaylists.length; ++i) { listBox.appendChild((new PlaylistDisplay({ data: allPlaylists[i] })).content); }
+	async loadPlaylistListData() {
+		let playlistGroup = await PostOffice.PlaylistRandomGroup();
+		if (playlistGroup && playlistGroup.success) {
+			playlistGroup = playlistGroup.List;
+
+			clearChildren(this.elements.playlistListBox.content);
+			for (let i = 0; i < playlistGroup.length; ++i) { this.elements.playlistListBox.appendChild((new PlaylistDisplay({ data: playlistGroup[i], userPage: false })).content); }
+		}
+	}
+
+	async authUpdate(data) {
+		this.loadPlaylistListData();
 	}
 }

@@ -18,10 +18,10 @@ class ViewAccount {
 		return container.content;
 	}
 
-	determineAccount() {
+	async determineAccount() {
 		let optionsUsername = (this.options && this.options.username) ? this.options.username : null;
-		let auth = PostOffice.getAuthorization();
-		let username = optionsUsername ? optionsUsername : (auth.token ? auth.user.username : "UNKNOWN");
+		let auth = await PostOffice.getAuthentication();
+		let username = optionsUsername ? optionsUsername : (auth ? auth.user.username : "UNKNOWN");
 		return username;
 	}
 
@@ -57,10 +57,14 @@ class ViewAccount {
 	createInformationSubpage() {
 		this.subPages.info = new Container({ id: "InformationSubPage", style: { display: "none" }, });
 
-		let accountUsernameLabel = new Label({ id: "AccountUsernameLabel", attributes: { value: `Username: ${this.determineAccount()}` } });
-		this.subPages.info.appendChild(accountUsernameLabel.content);
+		this.addInfoSubPageNameLabel();
 
 		return this.subPages.info.content;
+	}
+
+	async addInfoSubPageNameLabel() {
+		let accountUsernameLabel = new Label({ id: "AccountUsernameLabel", attributes: { value: `Username: ${await this.determineAccount()}` } });
+		this.subPages.info.appendChild(accountUsernameLabel.content);
 	}
 
 	createPlaylistsSubpage() {
@@ -72,10 +76,10 @@ class ViewAccount {
 	}
 
 	async loadMyPlaylists(listContainer) {
-		let result = await PostOffice.PlaylistListMine();
-		if (!result || !result.success) { console.warn("Failed to retrieve your playlists"); return; }
+		let playlists = await PostOffice.PlaylistListMine();
+		if (!playlists) { console.warn("Failed to retrieve your playlists"); return; }
 
-		for (let key in result.playlists) { listContainer.appendChild((new PlaylistDisplay({ data: result.playlists[key] })).content); }
+		for (let key in playlists) { listContainer.appendChild((new PlaylistDisplay({ data: playlists[key], userPage: true })).content); }
 	}
 
 	createFavoritesSubpage() {

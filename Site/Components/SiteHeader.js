@@ -6,6 +6,7 @@ class SiteHeader {
         this.accountButtons = { mainNavigation: null, loginRegister: null, loggedInAs: null };
         this.loginBox = null;
         this.content = this.generateContent();
+        PostOffice.addAuthListener(this);
     }
 
     generateContent() {
@@ -64,12 +65,15 @@ class SiteHeader {
 
     async loadAuthData() {
         //  Get our authorization data, and act according to whether we are logged in
-        let authData = PostOffice.getAuthorization();
-        setStyle(this.accountButtons.mainNavigation.content, { display: authData.token ? "inline-flex" : "none" });
-        setStyle(this.accountButtons.loginRegister.content, { display: authData.token ? "none" : "inline-flex" });
-        setStyle(this.accountButtons.loggedInAs.content, { display: authData.token ? "inline-flex" : "none" });
-        if (authData.token) { this.loggedInUsernameLabel.setValue(authData.user.username.toLowerCase()); }
+        let data = await PostOffice.getAuthentication();
+        setStyle(this.accountButtons.mainNavigation.content, { display: data ? "inline-flex" : "none" });
+        setStyle(this.accountButtons.loginRegister.content, { display: data ? "none" : "inline-flex" });
+        setStyle(this.accountButtons.loggedInAs.content, { display: data ? "inline-flex" : "none" });
+        this.loggedInUsernameLabel.setValue(data ? data.user.username.toLowerCase() : "");
+        this.toggleExpandedHeader(data ? false : true);
     }
+
+    authUpdate(data) { this.loadAuthData(); }
 
     async loadMainNavigationBox(mainNavigationBox) {
         let createPlaylistButton = new HeaderLink({ id: "CreatePlaylistButton", attributes: { value: "CREATE PLAYLIST", }, callback: (() => { LoadPage(new CreatePlaylist({})); }) });
@@ -120,23 +124,11 @@ class SiteHeader {
     async loadLoginInputMenu(loginInputMenu) {
         this.loginBox = new LoginBox({});
         loginInputMenu.appendChild(this.loginBox.content);
-        
-        this.loginBox.callbacks.login = (username) => {
-            setStyle(this.accountButtons.mainNavigation.content, { display: "inline-flex" });
-            setStyle(this.accountButtons.loggedInAs.content, { display: "inline-flex" });
-            setStyle(this.accountButtons.loginRegister.content, { display: "none" });
-            this.loggedInUsernameLabel.setValue(username.toLowerCase());
-            this.toggleExpandedHeader(false);
-        };
-        this.loginBox.callbacks.register = this.loginBox.callbacks.login;
     }
 
     async logout() {
-        console.log("logout");
-        PostOffice.setAuthorization(null, null, null);
-        await this.loadAuthData();
-        await this.toggleExpandedHeader(true);
         LoadPage(new LandingPage({}));
+        PostOffice.nullAuthentication();
     }
 
     async toggleExpandedHeader(open) { 

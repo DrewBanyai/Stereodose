@@ -1,9 +1,9 @@
 const jwt = require("jsonwebtoken");
 
-const varcheck = require("../varcheck");
+const varcheck = require("../../varcheck");
 
-const playlistModel = require("../models/playlist");
-const userModel = require("../models/user");
+const playlistModel = require("../../models/playlist");
+const userModel = require("../../models/user");
 
 exports.playlistFavorite = async (req, res, next) => {
     //  Ensure we have a valid 'PlaylistID', 'Username', and 'Password' value
@@ -16,26 +16,22 @@ exports.playlistFavorite = async (req, res, next) => {
 	try { playlist = await playlistModel.findOne({ _id: req.body.PlaylistID }).exec(); } catch (e) { console.log("ERROR:", e.message); }
 	if (!playlist) { res.status(200).json({ error: "No playlist with that ID exists" }); return; }
 
-    //  If a user with the given Username and Password doesn't exist, return a failure
+    //  If a user with the given Username doesn't exist, return a failure
     let username = req.body.Username.toLowerCase();
     let existingUser = await userModel.findOne({ username: username }).exec();
-    if (!existingUser) { res.status(200).json({ success: false, message: "No user exists with that combination of Username and Password"}); return; }
+    if (!existingUser) { res.status(200).json({ success: false, message: "No user exists with that Username"}); return; }
 
     //  Check that the user is the user they specify as creator
     try { jwt.verify(req.body.token, process.env.JWT_KEY, { subject: username, expiresIn: "1d" }); }
     catch (error) { res.status(200).json({ success: false, message: "Username value incorrect", }); return; }
 
     let favoriteExists = existingUser.favoritePlaylists.includes(req.body.PlaylistID);
-    if (req.body.Favorite) {
-        if (favoriteExists) { res.status(200).json({ success: false, message: "The user already has this track list in their favorites"}); return; }
-        existingUser.favoritePlaylists.push(req.body.PlaylistID);
-        await existingUser.update({ favoritePlaylists: existingUser.favoritePlaylists }).exec();
-        res.status(200).json({ success: true, message: "Playlist added to user favorites", });
-    }
-    else {
-        if (!favoriteExists) { res.status(200).json({ success: false, message: "The user does not have this track list in their favorites"}); return; }
-        existingUser.favoritePlaylists = existingUser.favoritePlaylists.filter((entry) => (entry !== req.body.PlaylistID));
-        await existingUser.update({ favoritePlaylists: existingUser.favoritePlaylists }).exec();
-        res.status(200).json({ success: true, message: "Playlist removed from user favorites", });
-    }
+    if (favoriteExists === req.body.Favorite) { res.status(200).json({ success: true, message: "Playlist favorite status is already in this state"}); return; }
+
+    if (req.body.Favorite) { existingUser.favoritePlaylists.push(req.body.PlaylistID); }
+    else { existingUser.favoritePlaylists = existingUser.favoritePlaylists.filter((entry) => (entry !== req.body.PlaylistID)); }
+
+    let result = await existingUser.updateOne({ favoritePlaylists: existingUser.favoritePlaylists }).exec();
+    if (result) { res.status(200).json({  success: true, user: existingUser ,message: "Playlist favorite status successfully set", }); }
+    else { res.status(200).json({  success: false, message: "Failed to set Playlist favorite status: Unknown Error", }); }
 }

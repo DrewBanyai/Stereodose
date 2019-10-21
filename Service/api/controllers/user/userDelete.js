@@ -1,7 +1,7 @@
-const varcheck = require("../varcheck");
-const digest = require('../digest');
+const varcheck = require("../../varcheck");
+const digest = require('../../digest');
 
-const userModel = require("../models/user");
+const userModel = require("../../models/user");
 
 exports.userDelete = async (req, res, next) => {
     //  Ensure we have a valid 'Username' and 'Password' value

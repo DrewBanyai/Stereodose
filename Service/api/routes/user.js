@@ -3,10 +3,10 @@ const router = express.Router();
 
 const checkAuth = require("../middleware/checkAuth");
 
-const userRegisterController = require("../controllers/userRegister");
-const userLoginController = require("../controllers/userLogin");
-const userDeleteController = require("../controllers/userDelete");
-const userGetFavoritesController = require("../controllers/userGetFavorites");
+const userRegisterController = require("../controllers/user/userRegister");
+const userLoginController = require("../controllers/user/userLogin");
+const userDeleteController = require("../controllers/user/userDelete");
+const userGetFavoritesController = require("../controllers/user/userGetFavorites");
 
 //  USER ROUTES
 router.post("/register", userRegisterController.userRegister);

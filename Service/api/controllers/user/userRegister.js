@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 
-const varcheck = require("../varcheck");
-const digest = require('../digest');
+const varcheck = require("../../varcheck");
+const digest = require('../../digest');
 
-const userModel = require("../models/user");
+const userModel = require("../../models/user");
 
 exports.userRegister = async (req, res, next) => {
     //  Ensure we have a valid 'Username' and 'Password' value

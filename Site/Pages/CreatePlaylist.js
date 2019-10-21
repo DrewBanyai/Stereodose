@@ -149,7 +149,7 @@ class CreatePlaylist {
 					if (!this.imageVerified) { console.warn("Can not create a playlist without a preview image"); return; }
 					let playlistImageSrc = this.elements.playlistImageText ? this.elements.playlistImageText.getValue() : null;
 
-					let result = await PostOffice.PlaylistCreate(playlistName, playlistDesc, playlistImageSrc, playlistTracks);
+					let result = await PostOffice.PlaylistCreate(playlistName, playlistDesc, playlistImageSrc, playlistTracks, false);
 					if (result && result.success) { LoadPage(new ViewPlaylist({})); }
 					else {
 						let message = (result ? result.message : "Unknown error");

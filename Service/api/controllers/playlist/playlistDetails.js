@@ -1,6 +1,6 @@
-const varcheck = require("../varcheck");
+const varcheck = require("../../varcheck");
 
-const playlistModel = require("../models/playlist");
+const playlistModel = require("../../models/playlist");
 
 exports.playlistDetails = async (req, res, next) => {
     //  Ensure we have a valid 'PlaylistID' value

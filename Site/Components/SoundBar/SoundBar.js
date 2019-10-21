@@ -38,11 +38,11 @@ class SoundBar {
         return container.content;
     }
 
-    setPlaylistID(id) {
+    async setPlaylistID(id) {
         this.playlistID = id;
 
-        let authData = PostOffice.getAuthorization();
-        if (authData.user) { this.currentListFavorited = authData.user.favoritePlaylists.includes(this.playlistID); }
+        let authData = await PostOffice.getAuthentication();
+        this.currentListFavorited = authData ? authData.user.favoritePlaylists.includes(this.playlistID) : false;
         setStyle(this.favoriteSymbol.content, { color: this.currentListFavorited ? "rgb(255, 40, 40)" : "rgb(100, 100, 100)" })
     }
 
@@ -143,9 +143,9 @@ class SoundBar {
             attributes: { className: "fas fa-heart", },
             style: { fontSize: "15px", color: "rgb(100, 100, 100)", margin: "0px 5px 0px 0px", display: "inline-block", },
             events: {
-                mouseenter: (e) => { setStyle(favoriteSymbol.content, { color: (this.currentListFavorited ? "rgb(120, 120, 120)" : "rgb(255, 70, 70)") }); },
-                mouseleave: (e) => { setStyle(favoriteSymbol.content, { color: (this.currentListFavorited ? "rgb(255, 40, 40)" : "rgb(100, 100, 100)") }); },
-                click: async (e) => { if (await PostOffice.PlaylistFavorite(this.playlistID)) { this.currentListFavorited = !this.currentListFavorited; }; },
+                mouseenter: (e) => { setStyle(this.favoriteSymbol.content, { color: (this.currentListFavorited ? "rgb(120, 120, 120)" : "rgb(255, 70, 70)") }); },
+                mouseleave: (e) => { setStyle(this.favoriteSymbol.content, { color: (this.currentListFavorited ? "rgb(255, 40, 40)" : "rgb(100, 100, 100)") }); },
+                click: async (e) => { if (await PostOffice.PlaylistFavorite(this.playlistID, !this.currentListFavorited)) { this.currentListFavorited = !this.currentListFavorited; }; },
             },
         });
         favoriteAndPlaylist.appendChild(this.favoriteSymbol.content);

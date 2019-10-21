@@ -1,13 +1,13 @@
 const jwt = require("jsonwebtoken");
 
-const varcheck = require("../varcheck");
+const varcheck = require("../../varcheck");
 
-const userModel = require("../models/user");
-const playlistModel = require("../models/playlist");
+const userModel = require("../../models/user");
+const playlistModel = require("../../models/playlist");
 
 exports.playlistListMine = async (req, res, next) => {
     //  Ensure we have a valid 'Username' value
-    if (!varcheck.check("Creator", "String", req.body)) {  res.status(400).json({ success: false, error: "A valid 'Creator' value must be provided" }); return; }
+    if (!varcheck.check("Creator", "String", req.body)) {  res.status(400).json({ success: false, message: "A valid 'Creator' value must be provided" }); return; }
 
     //  Find the creator's user
     let username = req.body.Creator.toLowerCase();
