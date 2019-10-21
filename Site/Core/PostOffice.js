@@ -140,6 +140,16 @@ class PostOffice {
         catch (error) { console.warn("Failed to contact the server. Please try again later or contact the administrator."); return null; }
     }
 
+    static async PlaylistListFavorites() {
+        try {
+            let result = await makeRequest({ endpoint: config.MicroserviceURL + "playlist/listFavorites", body: JSON.stringify({ Creator: authData.user.username, token: authData.token, }), });
+            if (result && result.success) { return result.favorites; }
+            if (result) { console.warn("Playlist - List Favorites: ", result.message); }
+            return null;
+        }
+        catch (error) { console.warn("Failed to contact the server. Please try again later or contact the administrator."); return null; }
+    }
+
     static async PlaylistDelete(playlistID) {
         try {
             let result = await makeRequest({

@@ -50,6 +50,7 @@ class ViewAccount {
 		subPagesBox.appendChild(this.createInformationSubpage());
 		subPagesBox.appendChild(this.createPlaylistsSubpage());
 		subPagesBox.appendChild(this.createFavoritesSubpage());
+		PostOffice.addAuthListener(this);
 
 		return subPagesBox.content;
 	}
@@ -70,22 +71,33 @@ class ViewAccount {
 	createPlaylistsSubpage() {
 		this.subPages.playlists = new Container({ id: "PlaylistsSubPage", style: { display: "none" }, });
 
-		this.loadMyPlaylists(this.subPages.playlists);
+		this.loadMyPlaylists();
 
 		return this.subPages.playlists.content;
 	}
 
-	async loadMyPlaylists(listContainer) {
+	async loadMyPlaylists() {
 		let playlists = await PostOffice.PlaylistListMine();
 		if (!playlists) { console.warn("Failed to retrieve your playlists"); return; }
 
-		for (let key in playlists) { listContainer.appendChild((new PlaylistDisplay({ data: playlists[key], userPage: true })).content); }
+		clearChildren(this.subPages.playlists.content);
+		for (let key in playlists) { this.subPages.playlists.appendChild((new PlaylistDisplay({ data: playlists[key], userPage: true })).content); }
 	}
 
 	createFavoritesSubpage() {
 		this.subPages.favorites = new Container({ id: "FavoritesSubPage", style: { display: "none" }, });
 
+		this.loadMyFavorites(this.subPages.favorites);
+
 		return this.subPages.favorites.content;
+	}
+
+	async loadMyFavorites() {
+		let favorites = await PostOffice.PlaylistListFavorites();
+		if (!favorites) { console.warn("Failed to retrieve your favorites"); return; }
+
+		clearChildren(this.subPages.favorites.content);
+		for (let key in favorites) { this.subPages.favorites.appendChild((new PlaylistDisplay({ data: favorites[key], userPage: true })).content); }
 	}
 
 	showSubPage(subPage) {
@@ -93,4 +105,6 @@ class ViewAccount {
 		for (let key in this.subPages) { if (this.subPages[key]) { this.subPages[key].content.style.display = "none"; } }
 		this.subPages[subPage].content.style.display = "block";
 	}
+
+	async authUpdate(data) { this.loadMyPlaylists(); this.loadMyFavorites(); }
 }

@@ -32,7 +32,5 @@ class LandingPage {
 		}
 	}
 
-	async authUpdate(data) {
-		this.loadPlaylistListData();
-	}
+	async authUpdate(data) { this.loadPlaylistListData(); }
 }
