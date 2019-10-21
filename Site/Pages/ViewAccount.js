@@ -9,8 +9,8 @@ class ViewAccount {
 	GenerateContent() {
 		let container = new Container({ id: "ViewAccountContainer", style: { width: "920px", height: "100%", margin: "auto", textAlign: "left", } });
 
-		let accountViewLabel = new Label({ id: "AccountViewLabel", attributes: { value: "View Account" }, style: styleTemplate.PageTitle, });
-		container.appendChild(accountViewLabel.content);
+		let pageTitleLabel = new Label({ id: "AccountViewLabel", attributes: { value: "View Account" }, style: styleTemplate.PageTitle, });
+		container.appendChild(pageTitleLabel.content);
 
 		container.appendChild(this.createAccountSubPageButtons());
 		container.appendChild(this.createSubPages());
@@ -81,7 +81,7 @@ class ViewAccount {
 		if (!playlists) { console.warn("Failed to retrieve your playlists"); return; }
 
 		clearChildren(this.subPages.playlists.content);
-		for (let key in playlists) { this.subPages.playlists.appendChild((new PlaylistDisplay({ data: playlists[key], userPage: true })).content); }
+		for (let key in playlists) { this.subPages.playlists.appendChild((new PlaylistDisplay({ data: playlists[key], page: "account" })).content); }
 	}
 
 	createFavoritesSubpage() {
@@ -97,7 +97,7 @@ class ViewAccount {
 		if (!favorites) { console.warn("Failed to retrieve your favorites"); return; }
 
 		clearChildren(this.subPages.favorites.content);
-		for (let key in favorites) { this.subPages.favorites.appendChild((new PlaylistDisplay({ data: favorites[key], userPage: true })).content); }
+		for (let key in favorites) { this.subPages.favorites.appendChild((new PlaylistDisplay({ data: favorites[key], page: "account" })).content); }
 	}
 
 	showSubPage(subPage) {

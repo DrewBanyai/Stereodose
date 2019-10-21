@@ -73,6 +73,7 @@ let styleTemplate = {
         display: "inline-flex",
         userSelect: "none",
         padding: "2px 0px 0px 0px",
+        margin: "0px 0px 5px 0px",
     },
     SongPreviewUser: {
         fontFamily: "'Titillium Web', sans-serif",

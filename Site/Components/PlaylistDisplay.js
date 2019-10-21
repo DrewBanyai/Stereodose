@@ -11,6 +11,7 @@ class PlaylistDisplay {
     generateContent() {
         if (!this.options) { console.warn("Can not create a PlaylistDisplay without options"); return null; }
         if (!this.options.data) { console.warn("Can not create a PlaylistDisplay without data in options"); return null; }
+        if (!this.options.data.creator) { console.warn("Can not create a PlaylistDisplay without a creator"); return null; }
         if (!this.options.data.imageSource) { console.warn("Can not create a PlaylistDisplay without an image source"); return null; }
         if (!this.options.data.name) { console.warn("Can not create a PlaylistDisplay without a playlist name"); return null; }
         if (!this.options.data.description) { console.warn("Can not create a PlaylistDisplay without a playlist description"); return null; }
@@ -24,6 +25,8 @@ class PlaylistDisplay {
             await SitewideSoundBar.player.loadTrackLinks(this.trackList);
         };
 
+        let playlistPage = (this.options && (this.options.page === "playlist"));
+        
         let container = new Container({
             id: (this.options && this.options.id) ? this.options.id : "PlaylistDisplay",
             style: {
@@ -39,8 +42,8 @@ class PlaylistDisplay {
                 margin: "5px 0px 5px 0px",
             },
             events: {
-                mouseenter: () => { setStyle(this.content, { transform: "scale(1.025)", boxShadow: "rgba(120, 120, 120, 0.16) 0px 0px 5px 0px, rgba(120, 120, 120, 0.12) 0px 4px 10px", }); },
-                mouseleave: () => { setStyle(this.content, { transform: "scale(1.000)", boxShadow: "rgba(80, 80, 80, 0.16) 0px 0px 5px 0px, rgba(80, 80, 80, 0.12) 0px 4px 10px", }); },
+                mouseenter: playlistPage ? null : () => { setStyle(this.content, { transform: "scale(1.025)", boxShadow: "rgba(120, 120, 120, 0.16) 0px 0px 5px 0px, rgba(120, 120, 120, 0.12) 0px 4px 10px", }); },
+                mouseleave: playlistPage ? null : () => { setStyle(this.content, { transform: "scale(1.000)", boxShadow: "rgba(80, 80, 80, 0.16) 0px 0px 5px 0px, rgba(80, 80, 80, 0.12) 0px 4px 10px", }); },
             }
         });
 
@@ -113,7 +116,8 @@ class PlaylistDisplay {
             container.appendChild(this.elements.favoriteIcon.content);
         }
         
-        if (this.options && this.options.hasOwnProperty("userPage") && this.options.userPage) {
+        let auth = await PostOffice.getAuthentication();
+        if (auth && auth.user && (this.options.data.creator === auth.user.username)) {
             this.elements.hiddenIcon = new Fontawesome({
                 id: "PlaylistHiddenIcon",
                 attributes: { className: "fas fa-eye"},

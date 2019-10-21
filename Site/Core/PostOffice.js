@@ -123,9 +123,9 @@ class PostOffice {
                 endpoint: config.MicroserviceURL + "playlist/create",
                 body: JSON.stringify({ Creator: authData.user.username, Name: name, Description: desc, ImageSource: imageSrc, TrackList: trackList, Hidden: hidden, token: authData.token, }),
             });
-            if (result && result.success) { return true; }
+            if (result && result.success) { return result.playlist; }
             if (result) { console.warn("Playlist - Create:", result.message); }
-            return false;
+            return null;
         }
         catch (error) { console.warn("Failed to contact the server. Please try again later or contact the administrator."); return null; }
     }

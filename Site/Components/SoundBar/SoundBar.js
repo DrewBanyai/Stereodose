@@ -134,6 +134,8 @@ class SoundBar {
         this.songDisplayBox.clear();
     }
 
+    async getTrackData(trackURL) { return this.player ? this.player.getTrackData(trackURL) : null; }
+
     async createFavoriteAndPlaylist(container) {
         let favoriteAndPlaylist = new Container({ id: "FavoriteAndPlaylist", style: { width: "80px", display: "inline-block", textAlign: "right", }, });
         container.appendChild(favoriteAndPlaylist.content);
