@@ -22,10 +22,8 @@ class PlaylistMenu {
             attributes: { className: "fas fa-list-ul" },
             style: { fontSize: "15px", color: "rgb(100, 100, 100)", margin: "0px 5px 0px 0px", },
             events: {
-                mouseenter: (e) => { setStyle(playlistIcon.content, { color: this.menuOpen ? "rgb(120, 120, 120)" : "rgb(160, 160, 160)" }); },
-                mouseleave: (e) => { setStyle(playlistIcon.content, { color: this.menuOpen ? "rgb(100, 100, 200)" : "rgb(100, 100, 100)" }); },
-                click: (e) => { this.menuOpen = !this.menuOpen; setStyle(this.playlistMenuBox.content, { display: this.menuOpen ? "" : "none" }) },
-
+                mouseenter: (e) => { setStyle(playlistIcon.content, { color: this.menuOpen ? "rgb(120, 120, 120)" : "rgb(160, 160, 160)" }); setStyle(this.playlistMenuBox.content, { display: "" }) },
+                mouseleave: (e) => { setStyle(playlistIcon.content, { color: this.menuOpen ? "rgb(100, 100, 200)" : "rgb(100, 100, 100)" }); setStyle(this.playlistMenuBox.content, { display: "none" }) },
             },
         });
         container.appendChild(playlistIcon.content);

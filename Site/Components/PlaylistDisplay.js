@@ -1,7 +1,7 @@
 class PlaylistDisplay {
     constructor(options) {
         this.options = options;
-        this.elements = { image: null, name: null, desc: null, favoriteIcon: null, hiddenIcon: null };
+        this.elements = { image: null, playButton: null, name: null, desc: null, favoriteIcon: null, hiddenIcon: null };
         this.trackList = (options && options.data) ? options.data.trackList : [];
         this.status = { favorited: false, hidden: false };
         this.content = this.generateContent();
@@ -21,11 +21,13 @@ class PlaylistDisplay {
 
         let loadPlaylist = async () => {
             if (!this.trackList) { console.warn("No tracklist available..."); return; }
+
+            if (!playlistPage) { LoadPage(new ViewPlaylist({ playlistID: this.options.data._id })); return; }
             SitewideSoundBar.setPlaylistID(this.options.data._id);
             await SitewideSoundBar.player.loadTrackLinks(this.trackList);
         };
 
-        let playlistPage = (this.options && (this.options.page === "playlist"));
+        let playlistPage = (this.options && (this.options.mode === "ViewPlaylist"));
         
         let container = new Container({
             id: (this.options && this.options.id) ? this.options.id : "PlaylistDisplay",
@@ -33,12 +35,12 @@ class PlaylistDisplay {
                 width: "100%",
                 height: "160px",
                 display: "inline-flex",
-                borderRadius: "8px",
-                backgroundColor: "rgb(30, 30, 40)",
+                borderRadius: playlistPage ? "" : "8px",
+                backgroundColor: playlistPage ? "" : "rgb(30, 30, 40)",
                 cursor: "pointer",
                 transition: "transform 0.13s linear 0s",
                 transform: "scale(1)",
-                boxShadow: "rgba(80, 80, 80, 0.16) 0px 0px 5px 0px, rgba(80, 80, 80, 0.12) 0px 4px 10px",
+                boxShadow: playlistPage ? "" : "rgba(80, 80, 80, 0.16) 0px 0px 5px 0px, rgba(80, 80, 80, 0.12) 0px 4px 10px",
                 margin: "5px 0px 5px 0px",
             },
             events: {
@@ -56,10 +58,29 @@ class PlaylistDisplay {
                 backgroundImage: `url(${this.options.data.imageSource})`,
                 backgroundRepeat: "round",
                 userSelect: "none",
+                position: "relative",
             },
-            events: { click: loadPlaylist, },
+            events: {
+                click: loadPlaylist,
+                mouseenter: playlistPage ? (() => setStyle(this.elements.playButton.content, { visibility: "visible" })) : (() => {}),
+                mouseleave: playlistPage ? (() => setStyle(this.elements.playButton.content, { visibility: "hidden" })) : (() => {}),
+            },
         });
         container.appendChild(this.elements.image.content);
+
+        this.elements.playButton = new Fontawesome({
+            id: "PlaylistPlayButton",
+            attributes: { className: "fas fa-play" },
+            style: {
+                color: "rgba(200, 200, 200, 0.95)",
+                fontSize: "72px",
+                visibility: "hidden",
+                position: "absolute",
+                top: "40px",
+                left: "50px",
+            }
+        });
+        this.elements.image.appendChild(this.elements.playButton.content);
 
         let dataSection = new Container({
             id: "PlaylistDataSection",

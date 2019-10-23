@@ -10,10 +10,5 @@ exports.playlistDetails = async (req, res, next) => {
 	try { playlist = await playlistModel.findOne({ _id: req.body.PlaylistID }).exec(); } catch (e) { console.log("ERROR:", e.message); }
 	if (!playlist) { res.status(200).json({ success: false, error: "No playlist with that ID exists" }); return; }
 
-    res.status(200).json({
-        success: true, 
-        PlaylistName: playlist.name,
-        PlaylistDescription: playlist.description,
-        TrackList: playlist.trackList,
-    });
+    res.status(200).json({ success: true,  playlist: playlist });
 }

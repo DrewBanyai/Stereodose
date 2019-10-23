@@ -14,7 +14,16 @@ class SoundBar {
     generateContent() {
         let container = new Container({
             id: (this.options && this.options.id) ? this.options.id : "SoundBar",
-            style: { width: "100%", height: "40px", margin: "0px", backgroundColor: "rgb(20, 20, 20)", position: "fixed", bottom: "0px", }
+            style: {
+                width: "100%",
+                height: "40px",
+                margin: "0px",
+                backgroundColor: "rgb(20, 20, 20)",
+                position: "fixed",
+                bottom: "0px",
+                transition: "transform 0.25s linear 0s",
+                transform: "translateY(40px)"
+            }
         });
 
         let centeredContainer = new Container({ id: "SoundBarCentered", style: { width: "920px", margin: "auto", } });
@@ -39,6 +48,7 @@ class SoundBar {
     }
 
     async setPlaylistID(id) {
+        setStyle(this.content, { transform: "translateY(0px)", });
         this.playlistID = id;
 
         let authData = await PostOffice.getAuthentication();

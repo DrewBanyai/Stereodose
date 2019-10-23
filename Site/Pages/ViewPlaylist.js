@@ -1,6 +1,5 @@
 class ViewPlaylist {
 	constructor(options) {
-		console.log(options);
 		this.options = options;
 		this.elements = { detailsSection: null, trackListSection: null };
 		this.content = this.GenerateContent();
@@ -27,7 +26,7 @@ class ViewPlaylist {
 	}
 
 	createPlaylistTracksListSection() {
-		this.elements.trackListSection = new Container({ id: "PlaylistTrackListSection", });
+		this.elements.trackListSection = new Container({ id: "PlaylistTrackListSection", style: { position: "relative", top: "20px", }, });
 
 
 		return this.elements.trackListSection.content;
@@ -35,14 +34,15 @@ class ViewPlaylist {
 
 	async fillOutPlaylistData() {
 		if (this.options.playlistID && !this.options.playlist) { this.options.playlist = await PostOffice.PlaylistDetails(this.options.playlistID); }
-		if (!this.options.playlist) { console.warn("Failed to load playlist", this.options.playlistID); return; }
+		if (!this.options.playlist || !this.options.playlist.success) { console.warn("Failed to load playlist", this.options.playlistID); return; }
+		this.options.playlist = this.options.playlist.playlist;
 
 		this.fillPlaylistDetailsSection();
 		this.fillPlaylistTrackListSection();
 	}
 
 	async fillPlaylistDetailsSection() {
-		let playlistDisplayPreview = new PlaylistDisplay({ data: this.options.playlist, page: "playlist", });
+		let playlistDisplayPreview = new PlaylistDisplay({ data: this.options.playlist, mode: "ViewPlaylist", });
 		this.elements.detailsSection.appendChild(playlistDisplayPreview.content);
 	}
 
