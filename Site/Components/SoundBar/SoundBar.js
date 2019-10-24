@@ -22,7 +22,7 @@ class SoundBar {
                 position: "fixed",
                 bottom: "0px",
                 transition: "transform 0.25s linear 0s",
-                transform: "translateY(40px)"
+                transform: "translateY(0px)"
             }
         });
 
