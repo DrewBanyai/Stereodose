@@ -1,10 +1,16 @@
-const http = require("http");
+const https = require("https");
+const fs= require("fs");
 const app = require("./app");
 const mongoose = require("mongoose");
 
+const options = {
+	key: fs.readFileSync('./ssl/key.pem'),
+	cert: fs.readFileSync('./ssl/cert.pem')
+};
+
 const port = process.env.PORT || 3000;
 
-const server = http.createServer(app);
+const server = https.createServer(options, app);
 
 server.listen(port);
 
