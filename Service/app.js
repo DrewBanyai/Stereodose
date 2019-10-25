@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'https://stereodoseredux.000webhostapp.com/');
+    res.header('Access-Control-Allow-Origin', 'https://stereodoseredux.000webhostapp.com');
     res.header('Access-Control-Allow-Headers', 'Access-Control-Allow-Origin, Cache-Control, Access-Control-Allow-Headers, Access-Control-Request-Method, Access-Control-Request-Headers, Origin, X-Requested-With, X-Powered-By, Content-Type, Accept, Authorization');
     if (req.method === 'OPTIONS') {
         res.header('Access-Control-Allow-Credentials', 'true');
