@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 
 const options = {
 	key: fs.readFileSync('./ssl/key.pem'),
-	cert: fs.readFileSync('./ssl/cert.pem')
+	cert: fs.readFileSync('./ssl/csr.pem')
 };
 
 const port = process.env.PORT || 3000;

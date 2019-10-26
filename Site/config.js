@@ -4,7 +4,7 @@ let config = {
     MaximumSongsPerPlaylist: 12,
     
     //  MICROSERVICE
-    MicroserviceURL: "http://98.181.198.246:3000/",
+    MicroserviceURL: "https://167.71.115.207:3000/",
     LoginEndpoint: "players/login",
     MicroserviceRequiresLogin: false,
     LogoutTimerMilliseconds: 86400000,      //  24 hours

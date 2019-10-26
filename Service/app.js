@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
+var cors = require("cors")
 
 const userRoutes = require("./api/routes/user");
 const playlistRoutes = require("./api/routes/playlist");
@@ -11,6 +12,7 @@ const adminRoutes = require("./api/routes/admin");
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cors());
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
