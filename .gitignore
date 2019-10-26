@@ -3,3 +3,5 @@
 /Service/_test_data/Playlists.txt
 /Service/package-lock.json
 /Service/_test_data/Playlist UI Data
+/Service/ssl/cert.pem
+/Service/ssl/key.pem
