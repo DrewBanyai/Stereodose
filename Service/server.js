@@ -1,4 +1,5 @@
-const https = require("https");
+//const https = require("https");
+const http = require("http");
 const fs= require("fs");
 const app = require("./app");
 const mongoose = require("mongoose");
@@ -10,7 +11,8 @@ const options = {
 
 const port = process.env.PORT || 3000;
 
-const server = https.createServer(options, app);
+//const server = https.createServer(options, app);
+const server = http.createServer(app);
 
 server.listen(port);
 
