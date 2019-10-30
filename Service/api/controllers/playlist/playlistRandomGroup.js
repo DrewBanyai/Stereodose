@@ -7,6 +7,7 @@ const playlistModel = require("../../models/playlist");
 exports.playlistRandomGroup = async (req, res, next) => {
     //  Ensure we have a valid 'Username' value
     if (!varcheck.check("Username", "String", req.body)) {  res.status(400).json({ error: "A valid 'Username' value must be provided" }); return; }
+    if (!varcheck.check("Filter", "Object", req.body)) {  res.status(400).json({ error: "A valid 'Filter' value must be provided" }); return; }
 
     //  Check that the user is the user they specify as creator
     let username = "";
@@ -17,7 +18,7 @@ exports.playlistRandomGroup = async (req, res, next) => {
     }
 
     //  Attempt to grab all playlists, and return a failure if we can not
-    let list = await playlistModel.find({}).exec();
+    let list = await playlistModel.find(req.body.Filter).exec();
     if (!list) { res.status(200).json({ success: false, message: "Failed to get the collection of all Playlists"}); return; }
 
     //  Filter the list down to hide any hidden playlists unless the playlist belongs to the given user.
