@@ -14,6 +14,8 @@ exports.playlistCreate = async (req, res, next) => {
     if (!varcheck.check("ImageSource", "String", req.body)) {  res.status(400).json({ success: false, message: "A valid 'ImageSource' value must be provided" }); return; }
     if (!varcheck.check("TrackList", "Array", req.body)) {  res.status(400).json({ success: false, message: "A valid 'TrackList' value must be provided" }); return; }
     if (!varcheck.check("Hidden", "Boolean", req.body)) {  res.status(400).json({ success: false, message: "A valid 'Hidden' value must be provided" }); return; }
+    if (!varcheck.check("Substance", "String", req.body)) {  res.status(400).json({ success: false, message: "A valid 'Substance' value must be provided" }); return; }
+    if (!varcheck.check("Mood", "String", req.body)) {  res.status(400).json({ success: false, message: "A valid 'Mood' value must be provided" }); return; }
 
     //  Find the creator's user
     let username = req.body.Creator.toLowerCase();
@@ -28,11 +30,14 @@ exports.playlistCreate = async (req, res, next) => {
     const playlistEntry = new playlistModel({
         _id: new mongoose.Types.ObjectId(),
         creator: req.body.Creator,
+        createdDate: (new Date()),
         name: req.body.Name,
         description: req.body.Description,
         imageSource: req.body.ImageSource,
         trackList: req.body.TrackList,
         hidden: req.body.Hidden,
+        substance: req.body.Substance,
+        mood: req.body.Mood,
     });
 
     let result = await playlistEntry.save();
