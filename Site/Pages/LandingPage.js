@@ -23,7 +23,7 @@ class LandingPage {
 	}
 
 	async loadPlaylistListData() {
-		let playlistGroup = await PostOffice.PlaylistRandomGroup();
+		let playlistGroup = await PostOffice.PlaylistRandomGroup({});
 		if (playlistGroup && playlistGroup.success) {
 			playlistGroup = playlistGroup.List;
 

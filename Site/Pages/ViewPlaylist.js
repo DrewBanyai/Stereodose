@@ -1,5 +1,6 @@
 class ViewPlaylist {
 	constructor(options) {
+		console.log(options);
 		this.options = options;
 		this.elements = { detailsSection: null, trackListSection: null };
 		this.content = this.GenerateContent();
@@ -8,7 +9,7 @@ class ViewPlaylist {
 	GenerateContent() {
 		let container = new Container({ id: "ViewPlaylistContainer", style: { width: "920px", height: "100%", margin: "auto", textAlign: "left", } });
 
-		let pageTitleLabel = new Label({ id: "AccountViewLabel", attributes: { value: "Playlist Details" }, style: styleTemplate.PageTitle, });
+		let pageTitleLabel = new Label({ id: "AccountViewLabel", attributes: { value: "Playlist Details" }, style: styleConfig.PageTitle, });
 		container.appendChild(pageTitleLabel.content);
 
 		container.appendChild(this.createPlaylistDetailsSection());

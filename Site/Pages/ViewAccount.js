@@ -9,7 +9,7 @@ class ViewAccount {
 	GenerateContent() {
 		let container = new Container({ id: "ViewAccountContainer", style: { width: "920px", height: "100%", margin: "auto", textAlign: "left", } });
 
-		let pageTitleLabel = new Label({ id: "AccountViewLabel", attributes: { value: "View Account" }, style: styleTemplate.PageTitle, });
+		let pageTitleLabel = new Label({ id: "AccountViewLabel", attributes: { value: "View Account" }, style: styleConfig.PageTitle, });
 		container.appendChild(pageTitleLabel.content);
 
 		container.appendChild(this.createAccountSubPageButtons());
@@ -31,12 +31,12 @@ class ViewAccount {
         let infoSubpageButton = new HeaderLink({ id: "InfoSubpageButton", attributes: { value: "INFORMATION", }, callback: (() => { this.showSubPage("info"); }) });
         accountSubpageButtons.appendChild(infoSubpageButton.content);
 
-        accountSubpageButtons.appendChild((new Label({ id: "Divider", attributes: { value: "|", }, style: styleTemplate.SiteHeaderMenuText, })).content);
+        accountSubpageButtons.appendChild((new Label({ id: "Divider", attributes: { value: "|", }, style: styleConfig.SiteHeaderMenuText, })).content);
 
         let playlistsButton = new HeaderLink({ id: "PlaylistsButton", attributes: { value: "PLAYLISTS", }, callback: (() => { this.showSubPage("playlists"); }) });
         accountSubpageButtons.appendChild(playlistsButton.content);
 
-        accountSubpageButtons.appendChild((new Label({ id: "Divider", attributes: { value: "|", }, style: styleTemplate.SiteHeaderMenuText, })).content);
+        accountSubpageButtons.appendChild((new Label({ id: "Divider", attributes: { value: "|", }, style: styleConfig.SiteHeaderMenuText, })).content);
 
         let favoritesButton = new HeaderLink({ id: "FavoritesButton", attributes: { value: "FAVORITES", }, callback: (() => { this.showSubPage("favorites"); }) });
         accountSubpageButtons.appendChild(favoritesButton.content);

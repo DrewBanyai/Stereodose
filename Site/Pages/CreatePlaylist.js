@@ -10,7 +10,7 @@ class CreatePlaylist {
 	GenerateContent() {
 		let container = new Container({ id: "CreatePlaylistContainer", style: { width: "920px", height: "100%", margin: "auto", textAlign: "left", } });
 
-		let createNewPlaylistLabel = new Label({ id: "CreateNewPlaylistLabel", attributes: { value: "Create New Playlist" }, style: styleTemplate.PageTitle, });
+		let createNewPlaylistLabel = new Label({ id: "CreateNewPlaylistLabel", attributes: { value: "Create New Playlist" }, style: styleConfig.PageTitle, });
 		container.appendChild(createNewPlaylistLabel.content);
 
 		container.appendChild(this.createPlaylistDetailsBox())
@@ -151,7 +151,7 @@ class CreatePlaylist {
 					if (!this.imageVerified) { console.warn("Can not create a playlist without a preview image"); return; }
 					let playlistImageSrc = this.elements.playlistImageText ? this.elements.playlistImageText.getValue() : null;
 
-					let result = await PostOffice.PlaylistCreate(playlistName, playlistDesc, playlistImageSrc, playlistTracks, false);
+					let result = await PostOffice.PlaylistCreate(playlistName, playlistDesc, playlistImageSrc, playlistTracks, false, 0, 0);
 					if (result) { LoadPage(new ViewPlaylist({ playlist: result })); }
 					else {
 						let message = (result ? result.message : "Unknown error");

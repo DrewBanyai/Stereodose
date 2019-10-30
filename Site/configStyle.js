@@ -1,6 +1,6 @@
 let siteHeaderHeight = { collapsed: "50px", expanded: "220px" };
 
-let styleTemplate = {
+let styleConfig = {
     SiteHeader: {
         width: "100%",
         height: siteHeaderHeight.collapsed,
@@ -88,5 +88,24 @@ let styleTemplate = {
         color: "rgb(200, 200, 200)",
         fontWeight: "500",
         userSelect: "none",
+    },
+    SearchFilterHeaderLabel: {
+        width: "100%",
+        margin: "10px auto 0px auto",
+        fontFamily: "Open Sans",
+        fontSize: "14px",
+        padding: "0px 0px 0px 0px",
+        color: "rgb(140, 140, 140)",
+        userSelect: "none",
+    },
+    SearchFilterLinkLabel: {
+        width: "100%",
+        margin: "10px auto 0px auto",
+        fontFamily: "Open Sans",
+        fontSize: "18px",
+        fontWeight: "bold",
+        padding: "0px 0px 0px 0px",
+        color: "rgb(140, 140, 140)",
+        cursor: "pointer",
     },
 }

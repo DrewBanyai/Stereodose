@@ -7,7 +7,7 @@ class PostOffice {
     static isAuthenticationValid(data) {
         if (!data || !data.user || !data.token || !data.expires || !data.next) { return false; }
         let now = (new Date()).toISOString();
-        if (now > data.expires) { console.log("EXPIRES"); return false; }
+        if (now > data.expires) { return false; }
         //if (now > data.next) { console.log("NEXT"); return false; }
         return true;
     }
@@ -117,11 +117,20 @@ class PostOffice {
     //////////  PLAYLIST ROUTES   //////////
     ////////////////////////////////////////
 
-    static async PlaylistCreate(name, desc, imageSrc, trackList, hidden) {
+    static async PlaylistCreate(name, desc, imageSrc, trackList, hidden, substance, mood) {
         try {
             let result = await makeRequest({
                 endpoint: config.MicroserviceURL + "playlist/create",
-                body: JSON.stringify({ Creator: authData.user.username, Name: name, Description: desc, ImageSource: imageSrc, TrackList: trackList, Hidden: hidden, token: authData.token, }),
+                body: JSON.stringify({
+                    Creator: authData.user.username,
+                    Name: name,
+                    Description: desc,
+                    ImageSource: imageSrc,
+                    TrackList: trackList,
+                    Hidden: hidden,
+                    Substance: substance,
+                    Mood: mood,
+                    token: authData.token, }),
             });
             if (result && result.success) { return result.playlist; }
             if (result) { console.warn("Playlist - Create:", result.message); }
@@ -223,15 +232,19 @@ class PostOffice {
         catch (error) { console.warn("Failed to contact the server. Please try again later or contact the administrator."); return null; }
     }
 
-    static async PlaylistRandomGroup() {
+    static async PlaylistRandomGroup(filter) {
+        if (!filter) { filter = {} };
         try {
             return await makeRequest({
                 endpoint: config.MicroserviceURL + "playlist/randomGroup",
-                body: JSON.stringify({ Username: ((authData && authData.user) ? authData.user.username : ""), token: (authData ? authData.token : "") }),
+                body: JSON.stringify({ Username: ((authData && authData.user) ? authData.user.username : ""), Filter: filter, token: (authData ? authData.token : "") }),
             });
         }
         catch (error) { console.warn(error); console.warn("Failed to contact the server. Please try again later or contact the administrator."); return null; }
     }
+
+    static async GetPlaylistSubstanceMap() { return { 0: "Weed", 1: "Ecstacy", 2: "LSD", 3: "Shrooms", } }
+    static async GetPlaylistMoodMap() { return { 0: "Chill", 1: "Lost In Thought", 2: "Hoppin'", 3: "Rockstar", 4: "Trippy" } }
 
 
     ////////////////////////////////////////

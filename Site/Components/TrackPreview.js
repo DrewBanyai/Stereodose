@@ -75,14 +75,14 @@ class TrackPreview {
         let trackUserNameLabel = new Label({
             id: "TrackUserLabel",
             attributes: { value: (this.trackData && this.trackData.user && this.trackData.user.username) ? this.trackData.user.username : "", },
-            style: styleTemplate.SongPreviewUser,
+            style: styleConfig.SongPreviewUser,
         });
         trackDataContainer.appendChild(trackUserNameLabel.content);
 
         let trackSongNameLabel = new Label({
             id: "TrackSongLabel",
             attributes: { value: (this.trackData && this.trackData.title) ? this.trackData.title : "", },
-            style: styleTemplate.SongPreviewTitle,
+            style: styleConfig.SongPreviewTitle,
         });
         trackDataContainer.appendChild(trackSongNameLabel.content);
     }

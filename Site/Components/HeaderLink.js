@@ -8,7 +8,7 @@ class HeaderLink {
         let link = new Label({
             id: (this.options && this.options.id) ? this.options.id : "HeaderLink",
             attributes: { value: (this.options && this.options.attributes && this.options.attributes.value) ? this.options.attributes.value : "HEADER LINK", },
-            style: styleTemplate.SiteHeaderMenuButton,
+            style: styleConfig.SiteHeaderMenuButton,
             events: {
                 click: () => { if (this.options && this.options.callback) { this.options.callback() } },
                 mouseover: (e) => { e.currentTarget.style.color = "rgb(180, 180, 180)"; },

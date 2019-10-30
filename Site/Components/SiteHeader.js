@@ -11,7 +11,7 @@ class SiteHeader {
 
     generateContent() {
         //  Create the main container and the centered header box
-        let container = new Container({ id: "SiteHeader", style: styleTemplate.SiteHeader, });
+        let container = new Container({ id: "SiteHeader", style: styleConfig.SiteHeader, });
         let centeredHeader = new Container({ id: "CenteredHeader", style: { margin: "auto", width: "920px", height: "100%", overflow: "hidden", }, });
         container.appendChild(centeredHeader.content);
 
@@ -37,10 +37,10 @@ class SiteHeader {
     }
 
     async loadSiteNameBox(siteNameBox) {
-        let siteTitleLabel1 = new Label({ id: "SiteNameLabel1", attributes: { value: "Stereodose ", }, style: styleTemplate.SiteTitleLabel1, });
+        let siteTitleLabel1 = new Label({ id: "SiteNameLabel1", attributes: { value: "Stereodose ", }, style: styleConfig.SiteTitleLabel1, });
         siteNameBox.appendChild(siteTitleLabel1.content);
 
-        let siteNameLabel2 = new Label({ id: "SiteNameLabel2", attributes: { value: "Redux", }, style: styleTemplate.SiteTitleLabel2, });
+        let siteNameLabel2 = new Label({ id: "SiteNameLabel2", attributes: { value: "Redux", }, style: styleConfig.SiteTitleLabel2, });
         siteNameBox.appendChild(siteNameLabel2.content);
     }
 
@@ -79,43 +79,43 @@ class SiteHeader {
         let createPlaylistButton = new HeaderLink({ id: "CreatePlaylistButton", attributes: { value: "CREATE PLAYLIST", }, callback: (() => { LoadPage(new CreatePlaylist({})); }) });
         mainNavigationBox.appendChild(createPlaylistButton.content);
 
-        mainNavigationBox.appendChild((new Label({ id: "Divider", attributes: { value: "|", }, style: styleTemplate.SiteHeaderMenuText, })).content);
+        mainNavigationBox.appendChild((new Label({ id: "Divider", attributes: { value: "|", }, style: styleConfig.SiteHeaderMenuText, })).content);
 
         let accountButton = new HeaderLink({ id: "AccountButton", attributes: { value: "ACCOUNT", }, callback: (() => { LoadPage(new ViewAccount({})); }) });
         mainNavigationBox.appendChild(accountButton.content);
 
-        mainNavigationBox.appendChild((new Label({ id: "Divider", attributes: { value: "|", }, style: styleTemplate.SiteHeaderMenuText, })).content);
+        mainNavigationBox.appendChild((new Label({ id: "Divider", attributes: { value: "|", }, style: styleConfig.SiteHeaderMenuText, })).content);
     }
 
     async loadLoginAndRegisterButtons(loginAndRegisterButtonBox) {
         let loginButton = new Label({
             id: "LoginButton",
             attributes: { value: "LOGIN", },
-            style: styleTemplate.SiteHeaderMenuButton,
+            style: styleConfig.SiteHeaderMenuButton,
             events: { click: () => { this.loginBox.setMode("login"); this.toggleExpandedHeader(); } },
         });
         loginAndRegisterButtonBox.appendChild(loginButton.content);
 
-        let divider1 = new Label({ id: "Divider", attributes: { value: "|", }, style: styleTemplate.SiteHeaderMenuText, });
+        let divider1 = new Label({ id: "Divider", attributes: { value: "|", }, style: styleConfig.SiteHeaderMenuText, });
         loginAndRegisterButtonBox.appendChild(divider1.content);
 
         let registerButton = new Label({
             id: "RegisterButton",
             attributes: { value: "REGISTER", },
-            style: styleTemplate.SiteHeaderMenuButton,
+            style: styleConfig.SiteHeaderMenuButton,
             events: { click: () => { this.loginBox.setMode("register"); this.toggleExpandedHeader(); } },
         });
         loginAndRegisterButtonBox.appendChild(registerButton.content);
     }
 
     async loadAccountLinkButton(accountLinkBox) {
-        let loggedInAsLabel = new Label({ id: "LoggedInAsLabel", attributes: { value: "Logged in as: " }, style: styleTemplate.LoggedInAsText, });
+        let loggedInAsLabel = new Label({ id: "LoggedInAsLabel", attributes: { value: "Logged in as: " }, style: styleConfig.LoggedInAsText, });
         accountLinkBox.appendChild(loggedInAsLabel.content);
 
         this.loggedInUsernameLabel = new Label({
             id: "LoggedInUsernameLabel",
             attributes: { value: "UNKNOWN" },
-            style: styleTemplate.LoggedInUsernameText,
+            style: styleConfig.LoggedInUsernameText,
             events: { click: () => { this.logout(); }}
         });
         accountLinkBox.appendChild(this.loggedInUsernameLabel.content);
