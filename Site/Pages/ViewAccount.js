@@ -81,7 +81,7 @@ class ViewAccount {
 		if (!playlists) { console.warn("Failed to retrieve your playlists"); return; }
 
 		clearChildren(this.subPages.playlists.content);
-		for (let key in playlists) { this.subPages.playlists.appendChild((new PlaylistDisplay({ data: playlists[key], page: "account" })).content); }
+		for (let key in playlists) { this.subPages.playlists.appendChild((new PlaylistDisplay({ data: playlists[key], mode: "ViewAccount" })).content); }
 	}
 
 	createFavoritesSubpage() {

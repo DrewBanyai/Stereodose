@@ -4,6 +4,7 @@ class PlaylistDisplay {
         this.elements = { image: null, playButton: null, name: null, desc: null, favoriteIcon: null, hiddenIcon: null };
         this.trackList = (options && options.data) ? options.data.trackList : [];
         this.status = { favorited: false, hidden: false };
+        this.playlistData = { imageLink: null, playlistName: null, playlistDesc: null };
         this.content = this.generateContent();
         PostOffice.addAuthListener(this);
     }
@@ -11,13 +12,24 @@ class PlaylistDisplay {
     generateContent() {
         if (!this.options) { console.warn("Can not create a PlaylistDisplay without options"); return null; }
         if (!this.options.data) { console.warn("Can not create a PlaylistDisplay without data in options"); return null; }
-        if (!this.options.data.creator) { console.warn("Can not create a PlaylistDisplay without a creator"); return null; }
-        if (!this.options.data.imageSource) { console.warn("Can not create a PlaylistDisplay without an image source"); return null; }
-        if (!this.options.data.name) { console.warn("Can not create a PlaylistDisplay without a playlist name"); return null; }
-        if (!this.options.data.description) { console.warn("Can not create a PlaylistDisplay without a playlist description"); return null; }
-        if (!this.options.data.trackList) { console.warn("Can not create a PlaylistDisplay without a track list"); return null; }
-        if (!this.options.data.hasOwnProperty("hidden")) { console.warn("Can not create a PlaylistDisplay without a hidden value"); return null; }
-        if (!this.options.data._id) { console.warn("Can not create a PlaylistDisplay without a playlist ID"); return null; }
+        if (!this.options.mode) { console.warn("Can not create a PlaylistDisplay without mode in options"); return null; }
+        let playlistPage = (this.options && (this.options.mode === "ViewPlaylist"));
+        let createPage = (this.options && (this.options.mode === "CreatePlaylist"));
+        
+        if (!createPage && !this.options.data.creator) { console.warn("Can not create a PlaylistDisplay without a creator"); return null; }
+        if (!createPage && !this.options.data.imageSource) { console.warn("Can not create a PlaylistDisplay without an image source"); return null; }
+        if (!createPage && !this.options.data.name) { console.warn("Can not create a PlaylistDisplay without a playlist name"); return null; }
+        if (!createPage && !this.options.data.description) { console.warn("Can not create a PlaylistDisplay without a playlist description"); return null; }
+        if (!createPage && !this.options.data.trackList) { console.warn("Can not create a PlaylistDisplay without a track list"); return null; }
+        if (!createPage && !this.options.data.hasOwnProperty("hidden")) { console.warn("Can not create a PlaylistDisplay without a hidden value"); return null; }
+        if (!createPage && !this.options.data._id) { console.warn("Can not create a PlaylistDisplay without a playlist ID"); return null; }
+
+        let setImageLink = null;
+
+        let chooseImagePopup = async () => {
+            let popup = new SetImageLinkPopup({ submissionCallback: (link) => { if (setImageLink) { setImageLink(link); } } });
+            document.body.appendChild(popup.content);
+        };
 
         let loadPlaylist = async () => {
             if (!this.trackList) { console.warn("No tracklist available..."); return; }
@@ -31,8 +43,6 @@ class PlaylistDisplay {
             }
         };
 
-        let playlistPage = (this.options && (this.options.mode === "ViewPlaylist"));
-        
         let container = new Container({
             id: (this.options && this.options.id) ? this.options.id : "PlaylistDisplay",
             style: {
@@ -41,7 +51,7 @@ class PlaylistDisplay {
                 display: "inline-flex",
                 borderRadius: playlistPage ? "" : "8px",
                 backgroundColor: playlistPage ? "" : "rgb(30, 30, 40)",
-                cursor: "pointer",
+                cursor: createPage ? "" : "pointer",
                 transition: "transform 0.13s linear 0s",
                 transform: "scale(1)",
                 boxShadow: playlistPage ? "" : "rgba(80, 80, 80, 0.16) 0px 0px 5px 0px, rgba(80, 80, 80, 0.12) 0px 4px 10px",
@@ -49,8 +59,8 @@ class PlaylistDisplay {
                 textAlign: "left",
             },
             events: {
-                mouseenter: playlistPage ? null : () => { setStyle(this.content, { transform: "scale(1.025)", boxShadow: "rgba(120, 120, 120, 0.16) 0px 0px 5px 0px, rgba(120, 120, 120, 0.12) 0px 4px 10px", }); },
-                mouseleave: playlistPage ? null : () => { setStyle(this.content, { transform: "scale(1.000)", boxShadow: "rgba(80, 80, 80, 0.16) 0px 0px 5px 0px, rgba(80, 80, 80, 0.12) 0px 4px 10px", }); },
+                mouseenter: (createPage || playlistPage) ? null : () => { setStyle(this.content, { transform: "scale(1.025)", boxShadow: "rgba(120, 120, 120, 0.16) 0px 0px 5px 0px, rgba(120, 120, 120, 0.12) 0px 4px 10px", }); },
+                mouseleave: (createPage || playlistPage) ? null : () => { setStyle(this.content, { transform: "scale(1.000)", boxShadow: "rgba(80, 80, 80, 0.16) 0px 0px 5px 0px, rgba(80, 80, 80, 0.12) 0px 4px 10px", }); },
             }
         });
 
@@ -59,19 +69,44 @@ class PlaylistDisplay {
             style: {
                 width: "160px",
                 height: "100%",
-                borderRadius: playlistPage ? "8px 8px 8px 8px" : "8px 0px 0px 8px",
-                backgroundImage: `url(${this.options.data.imageSource})`,
+                borderRadius: (playlistPage || createPage) ? "8px 8px 8px 8px" : "8px 0px 0px 8px",
+                backgroundImage: createPage ? "" : `url(${this.options.data.imageSource})`,
+                border: createPage ? "1px solid rgb(200, 200, 200" : "",
                 backgroundRepeat: "round",
                 userSelect: "none",
                 position: "relative",
+                cursor: createPage ? "pointer" : "",
+                textAlign: "center",
             },
             events: {
-                click: loadPlaylist,
+                click: createPage ? chooseImagePopup : loadPlaylist,
                 mouseenter: playlistPage ? (() => setStyle(this.elements.playButton.content, { visibility: "visible" })) : (() => {}),
                 mouseleave: playlistPage ? (() => setStyle(this.elements.playButton.content, { visibility: "hidden" })) : (() => {}),
             },
         });
         container.appendChild(this.elements.image.content);
+
+        setImageLink = (link) => {
+            if (this.elements.image) { setStyle(this.elements.image.content, { backgroundImage: `url(${link})`, }); }
+            if (this.elements.choosePictureLabel) { setStyle(this.elements.choosePictureLabel.content, { display: "none" }); }
+            this.playlistData.imageLink = link;
+        };
+
+        if (createPage) {
+            this.elements.choosePictureLabel = new Label({
+                id: "ChoosePictureLabel",
+                attributes: { value: "Choose Playlist Thumbnail" },
+                style: {
+                    margin: "60px 0px 0px 0px",
+                    fontFamily: "'Titillium Web', sans-serif",
+                    fontSize: "14px",
+                    fontWeight: "bold",
+                    color: "rgb(200, 200, 200)",
+                    display: "block",
+                },
+            });
+            this.elements.image.appendChild(this.elements.choosePictureLabel.content);
+        }
 
         this.elements.playButton = new Fontawesome({
             id: "PlaylistPlayButton",
@@ -90,40 +125,60 @@ class PlaylistDisplay {
         let dataSection = new Container({
             id: "PlaylistDataSection",
             style: { width: "760px", height: "100%", },
-            events: { click: loadPlaylist, },
+            events: { click: (createPage ? (() => {}) : loadPlaylist), },
         });
         container.appendChild(dataSection.content);
 
         this.elements.name = new Label({
             id: "PlaylistName",
-            attributes: { value: this.options.data.name },
+            attributes: { value: createPage ? "Name your playlist (click here)" : this.options.data.name },
             style: {
                 fontFamily: "'Titillium Web', sans-serif",
-                fontSize: "16px",
+                fontSize: (createPage ? "20px" : "16px"),
+                width: "600px",
+                height: "23px",
                 color: "rgb(200, 200, 200)",
                 fontWeight: "bold",
                 margin: "20px 0px 0px 20px",
                 userSelect: "none",
+                overflow: "hidden",
+                backgroundColor: (createPage ? "rgb(40, 40, 40)" : ""),
+            },
+            events: {
+                keyup: () => { this.playlistData.playlistName = this.elements.name.getValue().substr(0, 400); },
+                change: () => {},
+                paste: () => { this.playlistData.playlistName = this.elements.name.getValue().substr(0, 400); },
             }
         });
+        if (createPage) { this.elements.name.content.contentEditable = true; }
         dataSection.appendChild(this.elements.name.content);
 
         this.elements.desc = new Label({
             id: "PlaylistDescription",
-            attributes: { value: this.options.data.description },
+            attributes: { value: createPage ? "Describe your playlist in 400 characters or less (click here)" : this.options.data.description },
             style: {
-                padding: "0px 70px 0px 0px",
                 fontFamily: "'Titillium Web', sans-serif",
                 fontSize: "14px",
+                width: "600px",
+                height: "90px",
                 color: "rgb(200, 200, 200)",
-                fontWeight: "500",
-                margin: "10px 0px 0px 20px",
+                fontWeight: createPage ? "bold" : "500",
+                margin: "10px 70px 0px 20px",
                 userSelect: "none",
+                overflowX: "hidden",
+                overflowY: "auto",
+                backgroundColor: (createPage ? "rgb(40, 40, 40)" : ""),
+            },
+            events: {
+                keyup: () => { this.playlistData.playlistDesc = this.elements.desc.getValue().substr(0, 400); },
+                change: () => {},
+                paste: () => { this.playlistData.playlistDesc = this.elements.desc.getValue().substr(0, 400); },
             }
         });
+        if (createPage) { this.elements.desc.content.maxlength = "400"; this.elements.desc.content.contentEditable = true; }
         dataSection.appendChild(this.elements.desc.content);
 
-        this.loadFavoriteAndHiddenIcons(container);
+        if (!createPage) { this.loadFavoriteAndHiddenIcons(container); }
 
         return container.content;
     }

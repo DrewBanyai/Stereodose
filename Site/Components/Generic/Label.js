@@ -13,6 +13,7 @@ class Label {
 		return container.content;
 	}
 	
+	getValue() { return this.content.innerHTML; }
 	setValue(value) { this.content.innerHTML = value; }
 	setFont(font) { this.content.style.fontFamily = font; }
 	setFontSize(size) { this.content.style.fontSize = size; }

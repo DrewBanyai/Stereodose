@@ -69,7 +69,7 @@ class PlaylistFilterBox {
 
         let showAllPlaylistsButton = new PlaylistFilterButton({
             id: "ShowAllPlaylistsButton",
-            text: "SHOW ALL PLAYLISTS",
+            text: "SHOW ALL - NO FILTER",
             callback: () => {
                 this.options.playlistSearchCallback({});
             }

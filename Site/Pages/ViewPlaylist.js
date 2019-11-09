@@ -1,6 +1,5 @@
 class ViewPlaylist {
 	constructor(options) {
-		console.log(options);
 		this.options = options;
 		this.elements = { detailsSection: null, trackListSection: null };
 		this.content = this.GenerateContent();

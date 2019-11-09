@@ -3,7 +3,7 @@ class CreatePlaylist {
 		this.options = options;
 		this.playlistPreviewBox = null;
 		this.imageVerified = false;
-		this.elements = { playlistPreview: null, playlistNameText: null, playlistDescText: null, playlistImageVerifier: null, playlistImageText: null, playlistImagePreview: null };
+		this.elements = { playlistDisplayPreview: null, playlistPreview: null };
 		this.content = this.GenerateContent();
 	}
 
@@ -13,7 +13,7 @@ class CreatePlaylist {
 		let createNewPlaylistLabel = new Label({ id: "CreateNewPlaylistLabel", attributes: { value: "Create New Playlist" }, style: styleConfig.PageTitle, });
 		container.appendChild(createNewPlaylistLabel.content);
 
-		container.appendChild(this.createPlaylistDetailsBox())
+		container.appendChild(this.createPlaylistDetailsBox());
 		container.appendChild(this.createPlaylistTrackSubmissionBox());
 		container.appendChild(this.createPlaylistPreviewBox());
 		container.appendChild(this.createSubmitPlaylistButton());
@@ -22,76 +22,8 @@ class CreatePlaylist {
 	}
 
 	createPlaylistDetailsBox() {
-		let playlistDetailsBox = new Container({ id: "PlaylistDetailsBox", style: { width: "100%", margin: "16px 0px 0px 0px" }, });
-
-		//  Create the label and text input for defining the playlist name
-		let playlistNameBox = new Container({ id: "PlaylistNameBox", style: { position: "relative", } });
-		playlistDetailsBox.appendChild(playlistNameBox.content);
-
-		let playlistNameLabel = new Label({ id: "PlaylistNameLabel", attributes: { value: "Playlist Name:" }, style: { fontFamily: "'Titillium Web', sans-serif", fontSize: "14px", color: "rgb(160, 160, 160)", margin: "0px 5px 0px 0px", display: "inline-block", }, });
-		playlistNameBox.appendChild(playlistNameLabel.content);
-
-		this.elements.playlistNameText = new TextInput({ id: "PlaylistNameTextInput", attributes: { value: "" }, style: { width: "320px", height: "20px", fontFamily: "'Titillium Web', sans-serif", fontSize: "14px", fontWeight: "bold", color: "rgb(64, 64, 64)", padding: "0px 5px 0px 5px", borderRadius: "6px", display: "inline-block", position: "relative", top: "-1px", left: "66px", }, });
-		playlistNameBox.appendChild(this.elements.playlistNameText.content);
-
-		//  Create the label and text input for defining the playlist name
-		let playlistDescBox = new Container({ id: "PlaylistDescBox", style: { margin: "5px 0px 0px 0px", position: "relative", } });
-		playlistDetailsBox.appendChild(playlistDescBox.content);
-
-		let playlistDescLabel = new Label({ id: "PlaylistDescLabel", attributes: { value: "Playlist Description:" }, style: { fontFamily: "'Titillium Web', sans-serif", fontSize: "14px", color: "rgb(160, 160, 160)", margin: "0px 5px 0px 0px", display: "inline-block", }, });
-		playlistDescBox.appendChild(playlistDescLabel.content);
-
-		this.elements.playlistDescText = new TextInput({ id: "PlaylistDescTextInput", attributes: { value: "" }, style: { width: "600px", height: "20px", fontFamily: "'Titillium Web', sans-serif", fontSize: "14px", fontWeight: "bold", color: "rgb(64, 64, 64)", padding: "0px 5px 0px 5px", borderRadius: "6px", display: "inline-block", position: "relative", top: "-1px", left: "33px", }, });
-		playlistDescBox.appendChild(this.elements.playlistDescText.content);
-
-		//  Create the label, text input, and image preview block for the playlist preview image
-		let playlistImageBox = new Container({ id: "PlaylistImageBox", style: { margin: "5px 0px 0px 0px", position: "relative", } });
-		playlistDetailsBox.appendChild(playlistImageBox.content);
-
-		let playlistImageLabel = new Label({ id: "PlaylistImageLabel", attributes: { value: "Playlist Image (URL):" }, style: { fontFamily: "'Titillium Web', sans-serif", fontSize: "14px", color: "rgb(160, 160, 160)", margin: "0px 5px 0px 0px", display: "inline-block", }, });
-		playlistImageBox.appendChild(playlistImageLabel.content);
-
-		this.elements.playlistImageVerifier = new Fontawesome({ id: "PlaylistImageVerifier", style: { color: "rgb(60, 200, 60)", fontSize: "16px", position: "relative", left: "2px", top: "2px", visibility: "hidden" } });
-		let setVerified = (verified) => {
-			if (verified === null) { setStyle(this.elements.playlistImageVerifier.content, { visibility: "hidden" }); }
-			else {
-				setStyle(this.elements.playlistImageVerifier.content, { visibility: "", color: verified ? "rgb(60, 160, 60)" : "rgb(160, 60, 60)" });
-				setAttributes(this.elements.playlistImageVerifier.content, { class: verified ? "fas fa-check-square" : "fas fa-times-circle" });
-				setStyle(this.elements.playlistImageText.content, { left: verified ? "9px" : "7px" });
-				setStyle(this.elements.playlistImagePreview.content, { left: verified ? "12px" : "10px" });
-			}
-			this.imageVerified = verified;
-		}
-		playlistImageBox.appendChild(this.elements.playlistImageVerifier.content);
-
-		this.elements.playlistImageText = new TextInput({
-			id: "PlaylistImageTextInput",
-			attributes: { value: "" },
-			style: { width: "400px", height: "20px", fontFamily: "'Titillium Web', sans-serif", fontSize: "14px", fontWeight: "bold", color: "rgb(64, 64, 64)", padding: "0px 5px 0px 5px", borderRadius: "6px", display: "inline-block", position: "relative", left: "7px", top: "-1px", },
-			events: {
-				keyup: async () => {
-					if (!this.elements.playlistImageText.getValue() || this.elements.playlistImageText.getValue().length === 0) {
-						this.elements.playlistImagePreview.content.style.backgroundImage = "";
-						setVerified(null);
-						return;
-					}
-					try {
-						if (await loadImageToBase64(this.elements.playlistImageText.getValue())) {
-							this.elements.playlistImagePreview.content.style.backgroundImage = "url(" + this.elements.playlistImageText.getValue() + ")";
-							setVerified(true);
-						}
-						else { setVerified(false); this.elements.playlistImagePreview.content.style.backgroundImage = ""; }
-					}
-					catch (error) { setVerified(false); this.elements.playlistImagePreview.content.style.backgroundImage = ""; }
-				},
-			}
-		});
-		playlistImageBox.appendChild(this.elements.playlistImageText.content);
-
-		this.elements.playlistImagePreview = new Container({ id: "PlaylistImagePreview", style: { width: "18px", height: "18px", border: "1px solid rgb(200, 200, 200)", display: "inline-block", position: "relative", left: "10px", top: "5px", backgroundRepeat: "round" }, });
-		playlistImageBox.appendChild(this.elements.playlistImagePreview.content);
-
-		return playlistDetailsBox.content;
+		this.elements.playlistDisplayPreview = new PlaylistDisplay({ data: [], mode: "CreatePlaylist", });
+		return this.elements.playlistDisplayPreview.content;
 	}
 
 	createPlaylistTrackSubmissionBox() {
@@ -142,17 +74,17 @@ class CreatePlaylist {
 					let playlistTracks = [];
 					for (let i = 0; i < trackPreviews.length; ++i) { playlistTracks.push(trackPreviews[i].getTrackLink()); }
 
-					let playlistName = this.elements.playlistNameText ? this.elements.playlistNameText.getValue() : null;
+					let playlistName = this.elements.playlistDisplayPreview.playlistData.playlistName;
 					if (!playlistName || (playlistName.length < 5)) { console.warn("Can not create a playlist with a name under 5 characters"); return; }
 
-					let playlistDesc = this.elements.playlistDescText ? this.elements.playlistDescText.getValue() : null;
+					let playlistDesc = this.elements.playlistDisplayPreview.playlistData.playlistDesc;
 					if (!playlistDesc || (playlistDesc.length < 5)) { console.warn("Can not create a playlist with a description under 5 characters"); return; }
 
-					if (!this.imageVerified) { console.warn("Can not create a playlist without a preview image"); return; }
-					let playlistImageSrc = this.elements.playlistImageText ? this.elements.playlistImageText.getValue() : null;
+					let playlistImageSrc = this.elements.playlistDisplayPreview.playlistData.imageLink;
+					if (!playlistImageSrc) { console.warn("Can not create a playlist without a thumbnail image source"); return; }
 
 					let result = await PostOffice.PlaylistCreate(playlistName, playlistDesc, playlistImageSrc, playlistTracks, false, 0, 0);
-					if (result) { LoadPage(new ViewPlaylist({ playlist: result })); }
+					if (result) { LoadPage(new ViewPlaylist({ playlistID: result._id })); }
 					else {
 						let message = (result ? result.message : "Unknown error");
 						console.warn("Failed to create playlist: " + message);

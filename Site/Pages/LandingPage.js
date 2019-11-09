@@ -50,7 +50,7 @@ class LandingPage {
 			this.elements.resultsCountLabel.setValue(`Showing ${playlistGroup.length} playlist results...`)
 
 			clearChildren(this.elements.playlistListBox.content);
-			for (let i = 0; i < playlistGroup.length; ++i) { this.elements.playlistListBox.appendChild((new PlaylistDisplay({ data: playlistGroup[i], page: "landing" })).content); }
+			for (let i = 0; i < playlistGroup.length; ++i) { this.elements.playlistListBox.appendChild((new PlaylistDisplay({ data: playlistGroup[i], mode: "PlaylistSearch", })).content); }
 		}
 	}
 
