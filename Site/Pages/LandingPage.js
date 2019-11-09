@@ -1,16 +1,22 @@
 class LandingPage {
 	constructor(options) {
 		this.options = options;
-		this.elements = { playlistListBox: null };
+		this.elements = { playlistListFilterBox: null, playlistListBox: null };
 		this.content = this.GenerateContent();
 	}
 	
 	GenerateContent() {
-		let container = new Container({ id: "LandingPageContainer", style: { width: "920px", height: "100%", margin: "auto", textAlign: "left", } });
+		let container = new Container({ id: "LandingPageContainer", style: { width: "920px", height: "100%", margin: "auto", textAlign: "center", } });
 
+		//container.appendChild(this.createPlaylistFilterBox());
 		container.appendChild(this.createPlaylistListBox());
 
 		return container.content;
+	}
+
+	createPlaylistFilterBox() {
+		this.elements.playlistListFilterBox = new PlaylistFilterBox({});
+		return this.elements.playlistListFilterBox.content;
 	}
 
 	createPlaylistListBox() {

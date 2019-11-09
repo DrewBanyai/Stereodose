@@ -243,9 +243,6 @@ class PostOffice {
         catch (error) { console.warn(error); console.warn("Failed to contact the server. Please try again later or contact the administrator."); return null; }
     }
 
-    static async GetPlaylistSubstanceMap() { return { 0: "Weed", 1: "Ecstacy", 2: "LSD", 3: "Shrooms", } }
-    static async GetPlaylistMoodMap() { return { 0: "Chill", 1: "Lost In Thought", 2: "Hoppin'", 3: "Rockstar", 4: "Trippy" } }
-
 
     ////////////////////////////////////////
     //////////   ADMIN ROUTES     //////////

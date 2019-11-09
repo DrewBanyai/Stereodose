@@ -42,6 +42,7 @@ class PlaylistDisplay {
                 transform: "scale(1)",
                 boxShadow: playlistPage ? "" : "rgba(80, 80, 80, 0.16) 0px 0px 5px 0px, rgba(80, 80, 80, 0.12) 0px 4px 10px",
                 margin: "5px 0px 5px 0px",
+                textAlign: "left",
             },
             events: {
                 mouseenter: playlistPage ? null : () => { setStyle(this.content, { transform: "scale(1.025)", boxShadow: "rgba(120, 120, 120, 0.16) 0px 0px 5px 0px, rgba(120, 120, 120, 0.12) 0px 4px 10px", }); },
