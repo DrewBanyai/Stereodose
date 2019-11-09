@@ -23,8 +23,12 @@ class PlaylistDisplay {
             if (!this.trackList) { console.warn("No tracklist available..."); return; }
 
             if (!playlistPage) { LoadPage(new ViewPlaylist({ playlistID: this.options.data._id })); return; }
-            SitewideSoundBar.setPlaylistID(this.options.data._id);
-            await SitewideSoundBar.player.loadTrackLinks(this.trackList);
+            
+            if (SitewideSoundBar.getPlaylistID() === this.options.data._id) { SitewideSoundBar.playIfPaused(); }
+            else {
+                SitewideSoundBar.setPlaylistID(this.options.data._id);
+                await SitewideSoundBar.player.loadTrackLinks(this.trackList);
+            }
         };
 
         let playlistPage = (this.options && (this.options.mode === "ViewPlaylist"));
@@ -55,7 +59,7 @@ class PlaylistDisplay {
             style: {
                 width: "160px",
                 height: "100%",
-                borderRadius: "8px 0px 0px 8px",
+                borderRadius: playlistPage ? "8px 8px 8px 8px" : "8px 0px 0px 8px",
                 backgroundImage: `url(${this.options.data.imageSource})`,
                 backgroundRepeat: "round",
                 userSelect: "none",

@@ -24,6 +24,7 @@ class SoundcloudPlayer {
         callbackMap.pause = () => { return this.pause(); };
         callbackMap.seekBackwards = () => { return this.seekBackwards(); };
         callbackMap.seekForward = () => { return this.seekForward(); };
+        callbackMap.isPaused = () => { return (this.player.getState() === "paused"); }
     }
 
     setTracksLoadedCallback(callback) { this.tracksLoadedCallback = callback; }

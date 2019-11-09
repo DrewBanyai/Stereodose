@@ -2,7 +2,7 @@ class SoundBar {
     constructor(options) {
         this.options = options;
         this.buttons = { seekBackwards: null, playPause: null, seekForward: null };
-        this.callbacks = { play: null, pause: null, seekBackwards: null, seekForward: null };
+        this.callbacks = { play: null, pause: null, seekBackwards: null, seekForward: null, isPaused: null };
         this.player = null;
         this.songDisplayBox = null;
         this.playlistMenu = null;
@@ -47,6 +47,8 @@ class SoundBar {
         return container.content;
     }
 
+    getPlaylistID() { return this.playlistID; }
+
     async setPlaylistID(id) {
         setStyle(this.content, { transform: "translateY(0px)", });
         this.playlistID = id;
@@ -73,6 +75,7 @@ class SoundBar {
         return button.content;
     }
 
+    async playIfPaused() { if (this.callbacks.isPaused && this.callbacks.isPaused() && this.callbacks.play && this.callbacks.play()) {} }
     async pressSeekBackwards() { if (this.callbacks.seekBackwards) { this.callbacks.seekBackwards(); } }
     async pressPlayPause() { if (this.callbacks.play && this.callbacks.play()) {} else if (this.callbacks.pause && this.callbacks.pause()) {} }
     async pressSeekForward() { if (this.callbacks.seekForward) { this.callbacks.seekForward(); } }
