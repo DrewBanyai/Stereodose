@@ -17,7 +17,7 @@ const server = http.createServer(app);
 server.listen(port);
 
 let connectToDatabase = async () => {
-    let connectFunc = async () => { await mongoose.connect("mongodb+srv://stereodoseredux:4b6f735f938e6fc4571e994999623f61@stereodoseredux-ffq7m.mongodb.net/StereodoseRedux?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true }); };
+    let connectFunc = async () => { await mongoose.connect("mongodb+srv://stereodoseredux:4b6f735f938e6fc4571e994999623f61@stereodoseredux-ffq7m.mongodb.net/StereodoseRedux?retryWrites=true&w=majority", { keepAlive: true, useNewUrlParser: true, useUnifiedTopology: true, autoReconnect: true }); };
     try { await connectFunc(); }
     catch (error) { console.log("Error while attempting to connect to MongoDB Server:", error.name, error.message); return; }
     console.log("Successfully connected to StereodoseRedux database")
