@@ -67,6 +67,15 @@ class PlaylistFilterBox {
         });
         this.elements.playlistTypeUI.appendChild(officialPlaylistsButton.content);
 
+        let showAllPlaylistsButton = new PlaylistFilterButton({
+            id: "ShowAllPlaylistsButton",
+            text: "SHOW ALL PLAYLISTS",
+            callback: () => {
+                this.options.playlistSearchCallback({});
+            }
+        });
+        this.elements.playlistTypeUI.appendChild(showAllPlaylistsButton.content);
+
         return this.elements.playlistTypeUI.content;
     }
 
