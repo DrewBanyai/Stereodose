@@ -18,6 +18,7 @@ function LoadPage(page) {
 function LoadMainPage(options = {}) { LoadPage(new LandingPage(options), false); }
 
 function LoadSiteContent() {
+	console.log("URL VARS:", getUrlVars());
 	//  Load the default first page users should see
 	loadSiteHeader();
 	loadMainContent();
@@ -44,6 +45,12 @@ let loadSoundBar = async () => {
 	//  The SoundBar which will be attached to the bottom of the screen and persists across all pages
 	SitewideSoundBar = new SoundBar({});
 	document.body.appendChild(SitewideSoundBar.content);
+}
+
+let getUrlVars = () => {
+    let vars = {};
+    let parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) { vars[key] = value; });
+    return vars;
 }
 
 function addStyle(style1, style2) {

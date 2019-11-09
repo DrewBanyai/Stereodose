@@ -4,6 +4,7 @@ class PlaylistFilterBox {
         this.options = options;
         this.elements = { playlistTypeUI: null, drugInputUI: null, moodInputUI: null, moodTitleLabel: null, moodListBox: null, };
         this.playlistType = "official";
+        this.filterWidth = "920px";
         this.content = this.generateContent();
     }
 
@@ -11,7 +12,7 @@ class PlaylistFilterBox {
         let container = new Container({
             id: "PlaylistFilterBox",
             style: {
-                width: "580px",
+                width: this.filterWidth,
                 height: "90px",
                 backgroundColor: "rgb(31, 31, 31)",
                 borderRadius: "8px",
@@ -29,7 +30,7 @@ class PlaylistFilterBox {
     }
 
     createPlaylistTypeUI() {
-        this.elements.playlistTypeUI = new Container({ id: "PlaylistTypeUIBox", style: { width: "580px", height: "90px", display: "none", verticalAlign: "middle", }, });
+        this.elements.playlistTypeUI = new Container({ id: "PlaylistTypeUIBox", style: { width: this.filterWidth, height: "90px", display: "none", verticalAlign: "middle", }, });
 
         let playlistTypeTitleLabel = new Label({
             id: "PlaylistTypeTitleLabel",
@@ -75,7 +76,7 @@ class PlaylistFilterBox {
     }
 
     createDrugInputUI() {
-        this.elements.drugInputUI = new Container({ id: "DrugInputUIBox", style: { width: "580px", height: "90px", display: "none", verticalAlign: "middle", }, });
+        this.elements.drugInputUI = new Container({ id: "DrugInputUIBox", style: { width: this.filterWidth, height: "90px", display: "none", verticalAlign: "middle", }, });
 
         let titleAndBackButtonBox = new Container({ id: "DrugInputTitleAndBackButtonBox", style: { width: "100%", margin: "0px 0px 5px 0px", }, });
         this.elements.drugInputUI.appendChild(titleAndBackButtonBox.content);
@@ -139,7 +140,7 @@ class PlaylistFilterBox {
     }
 
     createMoodInputUI() {
-        this.elements.moodInputUI = new Container({ id: "MoodInputUIBox", style: { width: "580px", height: "90px", display: "none", verticalAlign: "middle", }, });
+        this.elements.moodInputUI = new Container({ id: "MoodInputUIBox", style: { width: this.filterWidth, height: "90px", display: "none", verticalAlign: "middle", }, });
 
         let titleAndBackButtonBox = new Container({ id: "MoodInputTitleAndBackButtonBox", style: { width: "100%", margin: "0px 0px 5px 0px", }, });
         this.elements.moodInputUI.appendChild(titleAndBackButtonBox.content);
@@ -207,7 +208,17 @@ class PlaylistFilterBox {
 
         let substanceMap = SiteData.getSubstanceMap();
         let moodMap = SiteData.getSubstanceMoods(substanceID);
-        for (let key in moodMap) {  this.elements.moodListBox.appendChild((new PlaylistFilterButton({ id: "MoodButton_" + moodMap[key], text: moodMap[key], callback: () => { console.log(moodMap[key]); } })).content); }
+        for (let key in moodMap) {
+            let filterButton = new PlaylistFilterButton({
+                id: "MoodButton_" + moodMap[key],
+                text: moodMap[key],
+                callback: () => {
+                    if (!this.options || !this.options.playlistSearchCallback) { console.warn("No playlist search callback found!"); return; }
+                    this.options.playlistSearchCallback({ substanceID: substanceID, moodID: parseInt(key) });
+                    this.switchScreen("playlistTypeUI");
+                }
+            });
+            this.elements.moodListBox.appendChild(filterButton.content); }
 
         this.elements.moodTitleLabel.setValue(`USER PLAYLISTS  >  ${substanceMap[substanceID].toUpperCase()}`)
     }
