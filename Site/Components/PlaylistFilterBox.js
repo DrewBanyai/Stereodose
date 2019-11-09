@@ -3,7 +3,7 @@ class PlaylistFilterBox {
     constructor(options) {
         this.options = options;
         this.elements = { playlistTypeUI: null, drugInputUI: null, moodInputUI: null, moodTitleLabel: null, moodListBox: null, };
-        this.playlistType = "official";
+        this.playlistType = "Official";
         this.filterWidth = "920px";
         this.content = this.generateContent();
     }
@@ -223,7 +223,7 @@ class PlaylistFilterBox {
                 text: moodMap[key],
                 callback: () => {
                     if (!this.options || !this.options.playlistSearchCallback) { console.warn("No playlist search callback found!"); return; }
-                    this.options.playlistSearchCallback({ substanceID: substanceID, moodID: parseInt(key) });
+                    this.options.playlistSearchCallback({ official: (this.playlistType === "Official"), substanceID: substanceID, moodID: parseInt(key) });
                     this.switchScreen("playlistTypeUI");
                 }
             });
