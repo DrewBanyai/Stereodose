@@ -14,8 +14,8 @@ exports.playlistCreate = async (req, res, next) => {
     if (!varcheck.check("ImageSource", "String", req.body)) {  res.status(400).json({ success: false, message: "A valid 'ImageSource' value must be provided" }); return; }
     if (!varcheck.check("TrackList", "Array", req.body)) {  res.status(400).json({ success: false, message: "A valid 'TrackList' value must be provided" }); return; }
     if (!varcheck.check("Hidden", "Boolean", req.body)) {  res.status(400).json({ success: false, message: "A valid 'Hidden' value must be provided" }); return; }
-    if (!varcheck.check("Substance", "String", req.body)) {  res.status(400).json({ success: false, message: "A valid 'Substance' value must be provided" }); return; }
-    if (!varcheck.check("Mood", "String", req.body)) {  res.status(400).json({ success: false, message: "A valid 'Mood' value must be provided" }); return; }
+    if (!varcheck.check("Substance", "Number", req.body)) {  res.status(400).json({ success: false, message: "A valid 'Substance' value must be provided" }); return; }
+    if (!varcheck.check("Mood", "Number", req.body)) {  res.status(400).json({ success: false, message: "A valid 'Mood' value must be provided" }); return; }
 
     //  Find the creator's user
     let username = req.body.Creator.toLowerCase();
