@@ -112,6 +112,7 @@ class PlaylistDisplay {
             id: "PlaylistDescription",
             attributes: { value: this.options.data.description },
             style: {
+                padding: "0px 70px 0px 0px",
                 fontFamily: "'Titillium Web', sans-serif",
                 fontSize: "14px",
                 color: "rgb(200, 200, 200)",
