@@ -1,8 +1,5 @@
 let MainContent = null;
 
-let SiteName = "Stereodose Redux";
-let SiteWidth = "920px";
-
 let SitewideHeader = null;
 let SitePageContent = null;
 let SitewideSoundBar = null;

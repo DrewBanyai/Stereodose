@@ -1,7 +1,6 @@
 let config = {
     //  SITE
     SiteName: "StereodoseRedux",
-    MaximumSongsPerPlaylist: 12,
     
     //  MICROSERVICE
     MicroserviceURL: "http://98.181.198.246:3000/",

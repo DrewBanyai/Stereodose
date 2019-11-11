@@ -101,9 +101,7 @@ class TrackPreview {
 
     swapEntries(entryA, entryB) { if (this.options.swapFunc) { this.options.swapFunc(entryA, entryB); } }
 
-    removeEntry() {
-        this.content.parentElement.removeChild(this.content);
-    }
+    removeEntry() { if (this.options.removeFunc) { this.options.removeFunc(this); } }
 
     setTrackNumber(number, fullCount) {
         this.trackNumber = number;

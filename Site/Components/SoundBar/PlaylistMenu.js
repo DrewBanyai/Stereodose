@@ -39,7 +39,7 @@ class PlaylistMenu {
             id: "PlaylistMenuBox",
             style: {
                 width: "331px",
-                maxHeight: `${34 * config.MaximumSongsPerPlaylist + topPaddingPixels}px`,
+                maxHeight: `${34 * SiteData.GetMaxTrackCountPerPlaylist() + topPaddingPixels}px`,
                 minHeight: "0px",
                 position: "absolute",
                 bottom: "58px",
