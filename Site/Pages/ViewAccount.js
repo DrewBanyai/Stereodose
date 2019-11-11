@@ -96,8 +96,11 @@ class ViewAccount {
 		let favorites = await PostOffice.PlaylistListFavorites();
 		if (!favorites) { console.warn("Failed to retrieve your favorites"); return; }
 
+		let favoriteIDList = [];
 		clearChildren(this.subPages.favorites.content);
-		for (let key in favorites) { this.subPages.favorites.appendChild((new PlaylistDisplay({ data: favorites[key], page: "account" })).content); }
+		for (let key in favorites) { this.subPages.favorites.appendChild((new PlaylistDisplay({ data: favorites[key], mode: "ViewAccount" })).content); favoriteIDList.push(favorites[key]._id); }
+
+		PostOffice.setUserFavoritesList(favoriteIDList);
 	}
 
 	showSubPage(subPage) {

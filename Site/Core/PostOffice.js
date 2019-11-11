@@ -36,6 +36,8 @@ class PostOffice {
         return authData;
     }
 
+    static setUserFavoritesList(favoritesList) { if (authData && authData.user) { authData.user.favoritePlaylists = favoritesList; } }
+
     static cleanAuthListeners() { authListeners = authListeners.filter((entry) => { return (entry && entry.authUpdate && entry.content.parentNode); });}
 
     static addAuthListener(listener) {
