@@ -46,7 +46,8 @@ class SetImageLinkPopup {
             },
             events: {
                 keyup: async () => {
-                    if (!(await loadImageToBase64(linkInput.getValue()))) { if (setLinkStatus) { setLinkStatus(false); return; } }
+                    let imageData = await loadImageToBase64(linkInput.getValue());
+                    if (!imageData) { if (setLinkStatus) { setLinkStatus(false); return; } }
                     setLinkStatus(true);
                     //  TODO: Callback
                 }

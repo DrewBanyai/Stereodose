@@ -8,14 +8,15 @@ const playlistModel = require("../../models/playlist");
 
 exports.playlistCreate = async (req, res, next) => {
     //  Ensure we have a valid 'Name', 'Description', 'ImageSource', and 'TrackList' value
+    if (!varcheck.check("Official", "Boolean", req.body)) {  res.status(400).json({ success: false, message: "A valid 'Official' value must be provided" }); return; }
     if (!varcheck.check("Creator", "String", req.body)) {  res.status(400).json({ success: false, message: "A valid 'Creator' value must be provided" }); return; }
     if (!varcheck.check("Name", "String", req.body)) {  res.status(400).json({ success: false, message: "A valid 'Name' value must be provided" }); return; }
     if (!varcheck.check("Description", "String", req.body)) {  res.status(400).json({ success: false, message: "A valid 'Description' value must be provided" }); return; }
     if (!varcheck.check("ImageSource", "String", req.body)) {  res.status(400).json({ success: false, message: "A valid 'ImageSource' value must be provided" }); return; }
     if (!varcheck.check("TrackList", "Array", req.body)) {  res.status(400).json({ success: false, message: "A valid 'TrackList' value must be provided" }); return; }
     if (!varcheck.check("Hidden", "Boolean", req.body)) {  res.status(400).json({ success: false, message: "A valid 'Hidden' value must be provided" }); return; }
-    if (!varcheck.check("Substance", "Number", req.body)) {  res.status(400).json({ success: false, message: "A valid 'Substance' value must be provided" }); return; }
-    if (!varcheck.check("Mood", "Number", req.body)) {  res.status(400).json({ success: false, message: "A valid 'Mood' value must be provided" }); return; }
+    if (!varcheck.check("SubstanceID", "Number", req.body)) {  res.status(400).json({ success: false, message: "A valid 'Substance' value must be provided" }); return; }
+    if (!varcheck.check("MoodID", "Number", req.body)) {  res.status(400).json({ success: false, message: "A valid 'Mood' value must be provided" }); return; }
 
     //  Find the creator's user
     let username = req.body.Creator.toLowerCase();
@@ -29,6 +30,7 @@ exports.playlistCreate = async (req, res, next) => {
     //  If we've gotten this far, register the account into the database and return a success
     const playlistEntry = new playlistModel({
         _id: new mongoose.Types.ObjectId(),
+        official: req.body.Official,
         creator: req.body.Creator,
         createdDate: (new Date()),
         name: req.body.Name,
@@ -36,8 +38,8 @@ exports.playlistCreate = async (req, res, next) => {
         imageSource: req.body.ImageSource,
         trackList: req.body.TrackList,
         hidden: req.body.Hidden,
-        substance: req.body.Substance,
-        mood: req.body.Mood,
+        substanceID: req.body.SubstanceID,
+        moodID: req.body.MoodID,
     });
 
     let result = await playlistEntry.save();

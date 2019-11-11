@@ -122,14 +122,15 @@ class PostOffice {
             let result = await makeRequest({
                 endpoint: config.MicroserviceURL + "playlist/create",
                 body: JSON.stringify({
+                    Official: false,
                     Creator: authData.user.username,
                     Name: name,
                     Description: desc,
                     ImageSource: imageSrc,
                     TrackList: trackList,
                     Hidden: hidden,
-                    Substance: substance,
-                    Mood: mood,
+                    SubstanceID: substance,
+                    MoodID: mood,
                     token: authData.token, }),
             });
             if (result && result.success) { return result.playlist; }
