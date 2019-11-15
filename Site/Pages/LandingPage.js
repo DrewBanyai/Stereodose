@@ -3,6 +3,7 @@ class LandingPage {
 		this.options = options;
 		this.elements = { playlistListFilterBox: null, playlistListArea: null, resultsCountLabel: null, playlistListBox: null };
 		this.content = this.GenerateContent();
+		this.loadPlaylistListData();
 	}
 	
 	GenerateContent() {

@@ -4,7 +4,7 @@ let SitewideHeader = null;
 let SitePageContent = null;
 let SitewideSoundBar = null;
 
-function LoadPage(page) {
+let LoadPage = (page) => {
 	if (SitePageContent === null) { console.error("SitePageContent is null! Can not load new page"); return; }
 	if (page === undefined || page === null) { console.error("Given page is undefined or null! Can not load new page"); return; }
 	
@@ -12,14 +12,21 @@ function LoadPage(page) {
 	SitePageContent.appendChild(page.content);
 }
 
-function LoadMainPage(options = {}) { LoadPage(new LandingPage(options), false); }
+let LoadMainPage = (options = {}) => { LoadPage(new LandingPage(options)); }
+let LoadPlaylistPage = (playlistID) => { LoadPage(new ViewPlaylist({ playlistID: playlistID })); }
 
-function LoadSiteContent() {
-	console.log("URL VARS:", getUrlVars());
+let LoadSiteContent = async () => {
 	//  Load the default first page users should see
 	loadSiteHeader();
 	loadMainContent();
 	loadSoundBar();
+
+	//  Check for URL variables
+	let urlVars = getUrlVars();
+	if (urlVars && (urlVars !== {})) {
+		console.log("URL VARS:", urlVars, urlVars.hasOwnProperty("playlistID"));
+		if (urlVars.hasOwnProperty("playlistID")) { console.log(urlVars.playlistID); LoadPlaylistPage(urlVars.playlistID); return; }
+	}
 
 	LoadMainPage();
 }
@@ -50,7 +57,7 @@ let getUrlVars = () => {
     return vars;
 }
 
-function addStyle(style1, style2) {
+let addStyle = (style1, style2) => {
 	if (!style1 || !style2) { console.warn("Can not run addStyle with invalid or null style objects"); }
 	let newStyle = {};
 	for (let key in style1) { newStyle[key] = style1[key]; }
@@ -59,7 +66,7 @@ function addStyle(style1, style2) {
 
 }
 
-function setStyle(container, style) {
+let setStyle = (container, style) => {
 	//  Ensure we have a proper container, a proper style, and that the style passed in isn't empty
 	if (!container) { console.log("Invalid container was passed into setStyle"); return; }
 	if (!style) { console.log("Invalid style was passed into setStyle"); return; }
@@ -68,7 +75,7 @@ function setStyle(container, style) {
 	for (let key in style) { container.style[key] = style[key]; }
 }
 
-function setAttributes(container, attributes) {
+let setAttributes = (container, attributes) => {
 	//  Ensure we have a proper container, a proper style, and that the attributes passed in isn't empty
 	if (!container) { console.log("Invalid container was passed into setStyle"); return; }
 	if (!attributes) { console.log("Invalid attributes was passed into setAttributes"); return; }
@@ -77,6 +84,6 @@ function setAttributes(container, attributes) {
 	for (let key in attributes) { container.setAttribute(key, attributes[key]); }
 }
 
-function clearChildren(container) {
+let clearChildren = (container) => {
 	while (container.firstChild) { container.removeChild(container.firstChild); }
 }

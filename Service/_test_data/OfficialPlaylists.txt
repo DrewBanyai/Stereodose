@@ -1,0 +1,119 @@
+{
+	"Creator": "korberos",
+	"Name": "Stereodose Official - Lo-Fi Hiphop Mix #01 (Slipfunc)",
+	"Description": "A small collection of Lo-Fi Hiphop centered around Slipfunc",
+	"ImageSource": "https://i.imgur.com/BkOtwg0.png",
+	"TrackList": [
+			"https://soundcloud.com/pauli-niemi/cherry-smile",
+			"https://soundcloud.com/pauli-niemi/i-was-a-fool-for-you-1",
+			"https://soundcloud.com/pauli-niemi/warm-thoughts-w-omar",
+			"https://soundcloud.com/pauli-niemi/drowning-in-her-eyes",
+			"https://soundcloud.com/pauli-niemi/glance",
+			"https://soundcloud.com/pauli-niemi/lust-or-love",
+			"https://soundcloud.com/user-51502133/ferris-wheel",
+			"https://soundcloud.com/rxseboy/im-sad-that-ur-gone",
+			"https://soundcloud.com/rxseboy/heartbeat-conversations",
+			"https://soundcloud.com/tsuki_uzu/eyes-on-you",
+			"https://soundcloud.com/iam6teen/tranquil",
+			"https://soundcloud.com/pauli-niemi/youre-not-real"
+		],
+	"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvcmJlcm9zIiwicGFzc3dvcmQiOiJrcEtzMTJvUzVyM2NLNHNkbkpYQjRNbGFoVDBqUnFsNmlZWFdkL3RsL0FJPSIsImlhdCI6MTU3MDkzNzM2NCwiZXhwIjoxNTcxMDIzNzY0fQ.fNqPk5TP9o52qD8BWtZ5LMoATdnIpJqLMVdm67jsFqM"
+}
+
+=====
+
+{
+	"Creator": "korberos",
+	"Name": "StereoDose Official - Electro Swing Mix #01",
+	"Description": "A collection of Electro Swing to get your body hoppin'",
+	"ImageSource": "https://i.imgur.com/0hW05bv.jpg",
+	"TrackList": [
+			"https://soundcloud.com/the-musical-ghost/gravity-falls-theme-song-electro-swing",
+			"https://soundcloud.com/user720193465/jamie-berry-out-of-my-mind",
+			"https://soundcloud.com/jamie-berry/jamie-berry-super-mario-bros",
+			"https://soundcloud.com/fnkypanda/electroswing-11-acorn-lane-spend-my-time-with-you-electro-swing-remix",
+			"https://soundcloud.com/soundnomaden/cantina-band-sound-nomaden-remix",
+			"https://soundcloud.com/hexatunes/the-jungle-book-i-wanna-be-like-you-emix",
+			"https://soundcloud.com/plasma3/trainwreck-of-electro-swing-a-hat-in-time-remix",
+			"https://soundcloud.com/felix-lehner-1/cosmorot-electro-swing",
+			"https://soundcloud.com/hiyori-chan-1/electro-swing-jamie-berry-ft-octavia-rose-delight",
+			"https://soundcloud.com/fnkypanda/electro-swing-11-acorn-lane-time-for-tea-melbourne-swing-mix",
+			"https://soundcloud.com/user-760706467/a-friend-like-me-electro-swing-remix"
+		],
+	"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvcmJlcm9zIiwicGFzc3dvcmQiOiJrcEtzMTJvUzVyM2NLNHNkbkpYQjRNbGFoVDBqUnFsNmlZWFdkL3RsL0FJPSIsImlhdCI6MTU3MDkzNzM2NCwiZXhwIjoxNTcxMDIzNzY0fQ.fNqPk5TP9o52qD8BWtZ5LMoATdnIpJqLMVdm67jsFqM"
+}
+
+=====
+
+{
+	"Creator": "korberos",
+	"Name": "Stereodose Official - Concentration Mix #01",
+	"Description": "A collection of songs to get work done by",
+	"ImageSource": "https://i.imgur.com/s9okq3s.png",
+	"TrackList": [
+			"https://soundcloud.com/kd7olem6f7uo/fingerspit-the-red-strings-club",
+			"https://soundcloud.com/vhsxmedia/zombi-flash-heaters",
+			"https://soundcloud.com/mathazzar/these-are-the-voyages",
+			"https://soundcloud.com/leonardhummer/acceptance-ii",
+			"https://soundcloud.com/boxcatllc/ecommerce",
+			"https://soundcloud.com/michelbarengo/michel-barengo-new-vision",
+			"https://soundcloud.com/nathan-allen-pinard/gemini-rue-sayuri",
+			"https://soundcloud.com/v-axys/last-two-years",
+			"https://soundcloud.com/leonardhummer/rocky-fields-build-phase",
+			"https://soundcloud.com/paul-ruskay/the-bike-ride",
+			"https://soundcloud.com/nervous_testpilot/wishbone",
+			"https://soundcloud.com/michael-manning/day-1-digitone"
+		],
+	"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvcmJlcm9zIiwicGFzc3dvcmQiOiJrcEtzMTJvUzVyM2NLNHNkbkpYQjRNbGFoVDBqUnFsNmlZWFdkL3RsL0FJPSIsImlhdCI6MTU3MDkzNzM2NCwiZXhwIjoxNTcxMDIzNzY0fQ.fNqPk5TP9o52qD8BWtZ5LMoATdnIpJqLMVdm67jsFqM"
+}
+
+=====
+
+{
+	"Creator": "korberos",
+	"Name": "Stereodose Official - Lo-Fi Hiphop Mix #02",
+	"Description": "Another small collection of Lo-Fi Hiphop",
+	"ImageSource": "https://i.imgur.com/4FT4oYB.png",
+	"TrackList": [
+			"https://soundcloud.com/flofills/blue-orchard",
+			"https://soundcloud.com/globuldub/foreign-exchange",
+			"https://soundcloud.com/chillhopdotcom/swum-the-dream",
+			"https://soundcloud.com/yungmiddleschool/i-slept-through-the-snow",
+			"https://soundcloud.com/chillhopdotcom/tesk-snapback",
+			"https://soundcloud.com/ruckp/ruck-p-le-voyage-du-coeur",
+			"https://soundcloud.com/juniorstate/mighty",
+			"https://soundcloud.com/divine-seven-112611873/crossing-paths",
+			"https://soundcloud.com/chillhopdotcom/lindecis-fried-potatoes",
+			"https://soundcloud.com/mono-massive/somewhat",
+			"https://soundcloud.com/yungmiddleschool/middle-school-taro-at-this-point-feat-mitchel-forman",
+			"https://soundcloud.com/ianewingmke/futari-flight"
+		],
+	"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvcmJlcm9zIiwicGFzc3dvcmQiOiJrcEtzMTJvUzVyM2NLNHNkbkpYQjRNbGFoVDBqUnFsNmlZWFdkL3RsL0FJPSIsImlhdCI6MTU3MDkzNzM2NCwiZXhwIjoxNTcxMDIzNzY0fQ.fNqPk5TP9o52qD8BWtZ5LMoATdnIpJqLMVdm67jsFqM"
+}
+
+=====
+
+{
+	"Creator": "stereodoseredux",
+	"Name": "StereodoseRedux Official - Drift Through The Cosmos",
+	"Description": "Throw on your headphones, lay back, and drift away.",
+	"ImageSource": "https://imgur.com/L18AwcV.png",
+	"TrackList": [
+			https://soundcloud.com/taya-kramer/ice,
+			https://soundcloud.com/user-20109144/skinshape-dont-call-my-name,
+			https://soundcloud.com/mattberninger/walking-on-a-string,
+			https://soundcloud.com/veila25/naxatras-waves,
+			https://soundcloud.com/blanco-white-1/nocturne,
+			https://soundcloud.com/rubyhaunt/jeune,
+			https://soundcloud.com/silvia-basilio-r-zuri/im-not-human-at-all-sleep,
+			https://soundcloud.com/todaviamusica/on-the-sea-beach-house-cover,
+			https://soundcloud.com/cokdelibakanadam/daft-punk-veridis-quo,
+			https://soundcloud.com/sebastien-tellier/la-ritournelle,
+			https://soundcloud.com/yasmin-rasputin-1/lorn-anvil,
+			https://soundcloud.com/quixoticsnd/palms
+		],
+	"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvcmJlcm9zIiwicGFzc3dvcmQiOiJrcEtzMTJvUzVyM2NLNHNkbkpYQjRNbGFoVDBqUnFsNmlZWFdkL3RsL0FJPSIsImlhdCI6MTU3MDkzNzM2NCwiZXhwIjoxNTcxMDIzNzY0fQ.fNqPk5TP9o52qD8BWtZ5LMoATdnIpJqLMVdm67jsFqM"
+}
+
+=====
+
