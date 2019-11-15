@@ -2,8 +2,9 @@ class CreatePlaylist {
 	constructor(options) {
 		this.options = options;
 		this.playlistPreviewBox = null;
+		this.filterData = null;
 		this.imageVerified = false;
-		this.elements = { playlistDisplayPreview: null, playlistTracksBox: null, playlistPreview: null, addTrackButton: null, submitPlaylistButton: null, };
+		this.elements = { playlistFilterBox: null, playlistDisplayPreview: null, playlistTracksBox: null, playlistPreview: null, addTrackButton: null, submitPlaylistButton: null, };
 		this.content = this.GenerateContent();
 	}
 
@@ -13,11 +14,18 @@ class CreatePlaylist {
 		let createNewPlaylistLabel = new Label({ id: "CreateNewPlaylistLabel", attributes: { value: "Create New Playlist" }, style: styleConfig.PageTitle, });
 		container.appendChild(createNewPlaylistLabel.content);
 
+		container.appendChild(this.createPlaylistFilterBox());
 		container.appendChild(this.createPlaylistDetailsBox());
 		container.appendChild(this.createPlaylistPreviewBox());
 		container.appendChild(this.createSubmitPlaylistButtonArea());
 
 		return container.content;
+	}
+
+	createPlaylistFilterBox() {
+		this.elements.playlistFilterBox = new PlaylistFilterBox({ mode: "Create", filterChoiceCallback: (filterData) => { this.filterData = filterData; console.log(this.filterData); }, })
+		setStyle(this.elements.playlistFilterBox.content, { marginBottom: "5px" });
+		return this.elements.playlistFilterBox.content;
 	}
 
 	createPlaylistDetailsBox() {
@@ -90,7 +98,7 @@ class CreatePlaylist {
 					let playlistImageSrc = this.elements.playlistDisplayPreview.playlistData.imageLink;
 					if (!playlistImageSrc) { this.displayError("Can not create a playlist without a thumbnail image source..."); return; }
 
-					let result = await PostOffice.PlaylistCreate(playlistName, playlistDesc, playlistImageSrc, playlistTracks, false, 0, 0);
+					let result = await PostOffice.PlaylistCreate(playlistName, playlistDesc, playlistImageSrc, playlistTracks, false, this.filterData.substanceID, this.filterData.moodID);
 					if (result) { LoadPage(new ViewPlaylist({ playlistID: result._id })); }
 					else {
 						let message = (result ? result.message : "Unknown error");

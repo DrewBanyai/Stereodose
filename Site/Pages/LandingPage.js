@@ -15,7 +15,7 @@ class LandingPage {
 	}
 
 	createPlaylistFilterBox() {
-		this.elements.playlistListFilterBox = new PlaylistFilterBox({ playlistSearchCallback: (filterData) => { this.loadPlaylistListData(filterData) } });
+		this.elements.playlistListFilterBox = new PlaylistFilterBox({ mode: "Search", filterChoiceCallback: (filterData) => { this.loadPlaylistListData(filterData) }, });
 		return this.elements.playlistListFilterBox.content;
 	}
 
