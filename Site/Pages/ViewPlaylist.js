@@ -34,7 +34,11 @@ class ViewPlaylist {
 
 	async fillOutPlaylistData() {
 		if (this.options.playlistID && !this.options.playlist) { this.options.playlist = await PostOffice.PlaylistDetails(this.options.playlistID); }
-		if (!this.options.playlist || !this.options.playlist.success) { console.warn("Failed to load playlist", this.options.playlistID); return; }
+		if (!this.options.playlist || !this.options.playlist.success) {
+			console.warn("Failed to load playlist", this.options.playlistID);
+			setTimeout(() => { LoadMainPage(); }, 10);
+			return;
+		}
 		this.options.playlist = this.options.playlist.playlist;
 
 		this.fillPlaylistDetailsSection();
