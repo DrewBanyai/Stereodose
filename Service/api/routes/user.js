@@ -11,7 +11,7 @@ const userGetFavoritesController = require("../controllers/user/userGetFavorites
 //  USER ROUTES
 router.post("/register", userRegisterController.userRegister);
 router.post("/login", userLoginController.userLogin);
-router.post("/delete", checkAuth, userDeleteController.userDelete);
-router.post("/getFavorites", checkAuth, userGetFavoritesController.userGetFavorites);
+router.post("/delete", checkAuth.checkAuth, userDeleteController.userDelete);
+router.post("/getFavorites", checkAuth.checkAuth, userGetFavoritesController.userGetFavorites);
 
 module.exports = router;

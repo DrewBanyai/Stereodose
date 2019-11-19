@@ -2,6 +2,8 @@ const jwt = require("jsonwebtoken");
 
 const varcheck = require("../../varcheck");
 
+const checkAuth = require("../../middleware/checkAuth");
+
 const playlistModel = require("../../models/playlist");
 const userModel = require("../../models/user");
 
@@ -22,8 +24,9 @@ exports.playlistFavorite = async (req, res, next) => {
     if (!existingUser) { res.status(200).json({ success: false, message: "No user exists with that Username"}); return; }
 
     //  Check that the user is the user they specify as creator
-    try { jwt.verify(req.body.token, process.env.JWT_KEY, { subject: username, expiresIn: "1d" }); }
-    catch (error) { res.status(200).json({ success: false, message: "Username value incorrect", }); return; }
+    if (!checkAuth.authCheck(username, req.body.token)) { res.status(400).json({ error: "Invalid token provided" }); return; }
+    //try { jwt.verify(req.body.token, process.env.JWT_KEY, { subject: username, expiresIn: "1d" }); }
+    //catch (error) { res.status(200).json({ success: false, message: "Username value incorrect", }); return; }
 
     let favoriteExists = existingUser.favoritePlaylists.includes(req.body.PlaylistID);
     if (favoriteExists === req.body.Favorite) { res.status(200).json({ success: true, message: "Playlist favorite status is already in this state"}); return; }

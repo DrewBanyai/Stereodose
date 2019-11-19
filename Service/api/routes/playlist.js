@@ -14,14 +14,14 @@ const playlistRandomGroupController = require("../controllers/playlist/playlistR
 const playlistSetHiddenController = require("../controllers/playlist/playlistSetHidden");
 
 //  PLAYLIST ROUTES
-router.post("/create", checkAuth, playlistCreateController.playlistCreate);
-router.post("/listMine", checkAuth, playlistListMineController.playlistListMine);
-router.post("/listFavorites", checkAuth, playlistListFavoritesController.playlistListFavorites);
-router.post("/delete", checkAuth, playlistDeleteController.playlistDelete);
+router.post("/create", checkAuth.checkAuth, playlistCreateController.playlistCreate);
+router.post("/listMine", checkAuth.checkAuth, playlistListMineController.playlistListMine);
+router.post("/listFavorites", checkAuth.checkAuth, playlistListFavoritesController.playlistListFavorites);
+router.post("/delete", checkAuth.checkAuth, playlistDeleteController.playlistDelete);
 router.post("/exists", playlistExistsController.playlistExists);
 router.post("/details", playlistDetailsController.playlistDetails);
-router.post("/favorite", checkAuth, playlistFavoriteController.playlistFavorite);
+router.post("/favorite", checkAuth.checkAuth, playlistFavoriteController.playlistFavorite);
 router.post("/randomGroup", playlistRandomGroupController.playlistRandomGroup);
-router.post("/setHidden", checkAuth, playlistSetHiddenController.playlistSetHidden);
+router.post("/setHidden", checkAuth.checkAuth, playlistSetHiddenController.playlistSetHidden);
 
 module.exports = router;

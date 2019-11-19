@@ -2,6 +2,8 @@ const jwt = require("jsonwebtoken");
 
 const varcheck = require("../../varcheck");
 
+const checkAuth = require("../../middleware/checkAuth");
+
 const playlistModel = require("../../models/playlist");
 
 exports.playlistSetHidden = async (req, res, next) => {
@@ -17,8 +19,9 @@ exports.playlistSetHidden = async (req, res, next) => {
 
     //  Check that the user is the user they specify as creator
     let username = req.body.Username.toLowerCase();
-    try { jwt.verify(req.body.token, process.env.JWT_KEY, { subject: username, expiresIn: "1d" }); }
-    catch (error) { res.status(200).json({ success: false, message: "Username value incorrect", }); return; }
+    if (!checkAuth.authCheck(username, req.body.token)) { res.status(400).json({ error: "Invalid token provided" }); return; }
+    //try { jwt.verify(req.body.token, process.env.JWT_KEY, { subject: username, expiresIn: "1d" }); }
+    //catch (error) { res.status(200).json({ success: false, message: "Username value incorrect", }); return; }
 
     let playlistHiddenStatus = playlist.hidden;
     if (playlistHiddenStatus === req.body.Hidden) { res.status(200).json({ success: true, message: "Playlist is already in that state", }); return; }

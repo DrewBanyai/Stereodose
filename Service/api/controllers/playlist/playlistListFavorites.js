@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 
 const varcheck = require("../../varcheck");
 
+const checkAuth = require("../../middleware/checkAuth");
+
 const userModel = require("../../models/user");
 const playlistModel = require("../../models/playlist");
 
@@ -16,8 +18,9 @@ exports.playlistListFavorites = async (req, res, next) => {
     if (!existingUser) { res.status(200).json({ success: false, message: "No user exists with that Creator username"}); return; }
 
     //  Check that the user is the user they specify as creator
-    try { jwt.verify(req.body.token, process.env.JWT_KEY, { subject: username, expiresIn: "1d" }); }
-    catch (error) { res.status(200).json({ success: false, message: "Playlist username value incorrect", }); return; }
+    if (!checkAuth.authCheck(username, req.body.token)) { res.status(400).json({ error: "Invalid token provided" }); return; }
+    //try { jwt.verify(req.body.token, process.env.JWT_KEY, { subject: username, expiresIn: "1d" }); }
+    //catch (error) { res.status(200).json({ success: false, message: "Playlist username value incorrect", }); return; }
 
     //  Form a favorites list to check against
     let favorites = [];
