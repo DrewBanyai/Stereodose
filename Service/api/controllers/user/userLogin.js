@@ -3,6 +3,8 @@ const jwt = require("jsonwebtoken");
 const varcheck = require("../../varcheck");
 const digest = require('../../digest');
 
+const authCheck = require("../../middleware/authCheck");
+
 const userModel = require("../../models/user");
 
 exports.userLogin = async (req, res, next) => {
@@ -15,12 +17,13 @@ exports.userLogin = async (req, res, next) => {
     let passwordHash = await digest.digestMessage(username + req.body.Password);
     let userEntry = await userModel.findOne({ username: username, password: passwordHash }).exec();
     if (!userEntry) { res.status(200).json({ success: false, message: "No user exists with that combination of Username and Password"}); return; }
-
+    
     userEntry._id = undefined;
     userEntry.password = undefined;
     userEntry.__v = undefined;
 
     //  Return a token if successful
-    const token = jwt.sign({ username: username, password: passwordHash, }, process.env.JWT_KEY, { subject: username, expiresIn: "1d" });
-    res.status(200).json({ success: true, token: token, user: userEntry, message: "User login successful", });
+    authCheck.saveOffToken(username, passwordHash);
+    //const token = jwt.sign({ username: username, password: passwordHash, }, process.env.JWT_KEY, { subject: username, expiresIn: "1d" });
+    res.status(200).json({ success: true, token: passwordHash, user: userEntry, message: "User login successful", });
 }
