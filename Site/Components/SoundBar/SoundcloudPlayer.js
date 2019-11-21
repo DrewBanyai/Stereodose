@@ -151,7 +151,7 @@ class SoundcloudPlayer {
         trackURL = this.getFormattedVersionOfURL(trackURL);
         if (!this.trackLinkDataMap.hasOwnProperty(trackURL)) {
             try { this.trackLinkDataMap[trackURL] = await SC.resolve(trackURL); } catch (error) { delete this.trackLinkDataMap[trackURL]; console.log(error); }
-            if (!this.trackLinkDataMap[trackURL]) { console.log("Failed to load track data: ", linkURL); return null; }
+            if (!this.trackLinkDataMap[trackURL]) { console.log("Failed to load track data: ", trackURL); return null; }
         }
         return this.trackLinkDataMap[trackURL];
     }

@@ -34,7 +34,7 @@ class PlaylistDisplay {
         let loadPlaylist = async () => {
             if (!this.trackList) { console.warn("No tracklist available..."); return; }
 
-            if (!playlistPage) { LoadPage(new ViewPlaylist({ playlistID: this.options.data._id })); return; }
+            if (!playlistPage) { LoadPlaylistPage(this.options.data._id); return; }
             
             if (SitewideSoundBar.getPlaylistID() === this.options.data._id) { SitewideSoundBar.playIfPaused(); }
             else {

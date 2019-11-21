@@ -105,12 +105,12 @@
 			https://soundcloud.com/veila25/naxatras-waves,
 			https://soundcloud.com/blanco-white-1/nocturne,
 			https://soundcloud.com/rubyhaunt/jeune,
-			https://soundcloud.com/silvia-basilio-r-zuri/im-not-human-at-all-sleep,
+			https://soundcloud.com/safena-iii/sleep-party-people-im-not,
 			https://soundcloud.com/todaviamusica/on-the-sea-beach-house-cover,
-			https://soundcloud.com/cokdelibakanadam/daft-punk-veridis-quo,
-			https://soundcloud.com/sebastien-tellier/la-ritournelle,
+			https://soundcloud.com/user-403385365/space-song-beach-house-slowed-and-reverb,
+			https://soundcloud.com/jean-marc-boulier/cover-sebastien-tellier-la-ritournelle,
 			https://soundcloud.com/yasmin-rasputin-1/lorn-anvil,
-			https://soundcloud.com/quixoticsnd/palms
+			https://soundcloud.com/hellometeor/petrichor
 		],
 	"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvcmJlcm9zIiwicGFzc3dvcmQiOiJrcEtzMTJvUzVyM2NLNHNkbkpYQjRNbGFoVDBqUnFsNmlZWFdkL3RsL0FJPSIsImlhdCI6MTU3MDkzNzM2NCwiZXhwIjoxNTcxMDIzNzY0fQ.fNqPk5TP9o52qD8BWtZ5LMoATdnIpJqLMVdm67jsFqM"
 }

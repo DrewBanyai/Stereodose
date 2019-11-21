@@ -81,7 +81,7 @@ class SiteHeader {
 
         mainNavigationBox.appendChild((new Label({ id: "Divider", attributes: { value: "|", }, style: styleConfig.SiteHeaderMenuText, })).content);
 
-        let accountButton = new HeaderLink({ id: "AccountButton", attributes: { value: "ACCOUNT", }, callback: (() => { LoadPage(new ViewAccount({})); }) });
+        let accountButton = new HeaderLink({ id: "AccountButton", attributes: { value: "ACCOUNT", }, callback: (() => { LoadAccountPage(0); }) });
         mainNavigationBox.appendChild(accountButton.content);
 
         mainNavigationBox.appendChild((new Label({ id: "Divider", attributes: { value: "|", }, style: styleConfig.SiteHeaderMenuText, })).content);

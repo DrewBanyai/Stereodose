@@ -15,6 +15,9 @@ class ViewAccount {
 		container.appendChild(this.createAccountSubPageButtons());
 		container.appendChild(this.createSubPages());
 
+		if (this.options.accountID !== 0) { console.warn("User attempted to load account other than their own (index 0). Ignoring."); }
+		window.history.pushState("object or string", "Title", `/?viewAccount=0`);
+
 		return container.content;
 	}
 

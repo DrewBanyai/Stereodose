@@ -3,7 +3,7 @@ let config = {
     SiteName: "StereodoseRedux",
     
     //  MICROSERVICE
-    MicroserviceURL: "http://98.181.198.246:3000/",
+    MicroserviceURL: "https://stereodoseredux.azurewebsites.net/",
     LoginEndpoint: "players/login",
     MicroserviceRequiresLogin: false,
     LogoutTimerMilliseconds: 86400000,      //  24 hours

@@ -99,7 +99,7 @@ class CreatePlaylist {
 					if (!playlistImageSrc) { this.displayError("Can not create a playlist without a thumbnail image source..."); return; }
 
 					let result = await PostOffice.PlaylistCreate(playlistName, playlistDesc, playlistImageSrc, playlistTracks, false, this.filterData.substanceID, this.filterData.moodID);
-					if (result) { LoadPage(new ViewPlaylist({ playlistID: result._id })); }
+					if (result) { LoadPlaylistPage(result._id); }
 					else {
 						let message = (result ? result.message : "Unknown error");
 						this.displayError("Error while creating playlist: " + message);

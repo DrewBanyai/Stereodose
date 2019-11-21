@@ -15,6 +15,8 @@ class ViewPlaylist {
 		container.appendChild(this.createPlaylistTracksListSection());
 		this.fillOutPlaylistData();
 
+		window.history.pushState("object or string", "Title", `/?playlistID=${this.options.playlistID}`);
+
 		return container.content;
 	}
 

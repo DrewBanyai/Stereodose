@@ -14,6 +14,7 @@ let LoadPage = (page) => {
 
 let LoadMainPage = (options = {}) => { LoadPage(new LandingPage(options)); }
 let LoadPlaylistPage = (playlistID) => { LoadPage(new ViewPlaylist({ playlistID: playlistID })); }
+let LoadAccountPage = (accountID) => { LoadPage(new ViewAccount({ accountID: accountID })); }
 
 let LoadSiteContent = async () => {
 	//  Load the default first page users should see
@@ -24,8 +25,8 @@ let LoadSiteContent = async () => {
 	//  Check for URL variables
 	let urlVars = getUrlVars();
 	if (urlVars && (urlVars !== {})) {
-		console.log("URL VARS:", urlVars, urlVars.hasOwnProperty("playlistID"));
-		if (urlVars.hasOwnProperty("playlistID")) { console.log(urlVars.playlistID); LoadPlaylistPage(urlVars.playlistID); return; }
+		if (urlVars.hasOwnProperty("playlistID")) { LoadPlaylistPage(urlVars.playlistID); return; }
+		else if (urlVars.hasOwnProperty("viewAccount")) { LoadAccountPage(urlVars.viewAccount); return; }
 	}
 
 	LoadMainPage();
