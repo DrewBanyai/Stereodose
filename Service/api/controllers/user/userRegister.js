@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
-const jwt = require("jsonwebtoken");
 
 const varcheck = require("../../varcheck");
 const digest = require('../../digest');
+
+const checkAuth = require("../../middleware/checkAuth");
 
 const userModel = require("../../models/user");
 

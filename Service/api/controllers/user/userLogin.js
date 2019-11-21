@@ -1,5 +1,3 @@
-const jwt = require("jsonwebtoken");
-
 const varcheck = require("../../varcheck");
 const digest = require('../../digest');
 
