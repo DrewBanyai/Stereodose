@@ -13,7 +13,7 @@ class LoginBox {
             style: {
                 width: "200px",
                 height: "170px",
-                margin: "0px 0px 0px auto",
+                margin: "0px auto 0px auto",
                 position: "relative",
             },
         });
@@ -29,7 +29,6 @@ class LoginBox {
                 color: "rgb(140, 140, 140)",
                 float: "left",
                 position: "relative",
-                top: "-54px",
             }
         });
         container.appendChild(loginUsernameLabel.content);
@@ -44,7 +43,6 @@ class LoginBox {
                 fontWeight: "bold",
                 display: "block",
                 position: "relative",
-                top: "-54px",
             },
         });
         container.appendChild(this.elements.usernameInput.content);
@@ -60,7 +58,6 @@ class LoginBox {
                 color: "rgb(140, 140, 140)",
                 float: "left",
                 position: "relative",
-                top: "-54px",
             }
         });
         container.appendChild(loginPasswordLabel.content);
@@ -76,7 +73,6 @@ class LoginBox {
                 fontWeight: "bold",
                 display: "block",
                 position: "relative",
-                top: "-54px",
             },
         });
         container.appendChild(this.elements.passwordInput.content);
@@ -91,7 +87,6 @@ class LoginBox {
                 fontFamily: "Open Sans Condensed",
                 fontSize: "12px",
                 position: "relative",
-                top: "-54px",
             },
             events: {
                 click: async () => { await this.submitData(); },
@@ -106,11 +101,16 @@ class LoginBox {
     }
 
     async submitData() {
-        let postFunc = (this.mode === "login") ? PostOffice.UserLogin  : PostOffice.UserRegister;
-        let result = await postFunc(this.elements.usernameInput.content.value, this.elements.passwordInput.content.value);
-        if (!result) { console.warn(`Failed to return any result when attempting to ${this.mode}`); return; }
-        if (result.success) { this.elements.usernameInput.setValue(""); this.elements.passwordInput.setValue(""); }
-        else { console.log("Failed:", result.message); }
+        if (this.options && this.options.submissionCallback) {
+            let data = { username: this.elements.usernameInput.getValue(), password: this.elements.passwordInput.getValue() };
+            let success = await this.options.submissionCallback(data);
+            if (success) {
+                this.elements.usernameInput.setValue("");
+                this.elements.passwordInput.setValue("");
+                if (this.closeDialog) { this.closeDialog(); }
+            }
+            else { console.log("Failed:", result.message); }
+        }
     }
 
     setMode(mode) {

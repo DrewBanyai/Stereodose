@@ -31,7 +31,6 @@ class SiteHeader {
         //  Load the different parts of the header menu
         this.loadSiteNameBox(siteNameBox);
         this.loadRightHandButtonBox(rightHandButtonBox);
-        this.loadLoginInputMenu(this.loginInputMenu);
 
         return container.content;
     }
@@ -87,12 +86,25 @@ class SiteHeader {
         mainNavigationBox.appendChild((new Label({ id: "Divider", attributes: { value: "|", }, style: styleConfig.SiteHeaderMenuText, })).content);
     }
 
+    async loginRegisterPopup(login = true) {
+        let popup = new LoginRegisterPopup({
+            login: login,
+            submissionCallback: async (data) => {
+                let postFunc = login ? PostOffice.UserLogin  : PostOffice.UserRegister;
+                let result = await postFunc(data.username, data.password);
+                if (!result) { console.warn(`Failed to return any result when attempting to ${this.mode}`); return; }
+                return result.success;
+            }
+        });
+        document.body.appendChild(popup.content);
+    }
+
     async loadLoginAndRegisterButtons(loginAndRegisterButtonBox) {
         let loginButton = new Label({
             id: "LoginButton",
             attributes: { value: "LOGIN", },
             style: styleConfig.SiteHeaderMenuButton,
-            events: { click: () => { this.loginBox.setMode("login"); this.toggleExpandedHeader(); } },
+            events: { click: () => { this.loginRegisterPopup(true); }, },
         });
         loginAndRegisterButtonBox.appendChild(loginButton.content);
 
@@ -103,7 +115,7 @@ class SiteHeader {
             id: "RegisterButton",
             attributes: { value: "REGISTER", },
             style: styleConfig.SiteHeaderMenuButton,
-            events: { click: () => { this.loginBox.setMode("register"); this.toggleExpandedHeader(); } },
+            events: { click: () => { this.loginRegisterPopup(false); }, },
         });
         loginAndRegisterButtonBox.appendChild(registerButton.content);
     }
@@ -119,11 +131,6 @@ class SiteHeader {
             events: { click: () => { this.logout(); }}
         });
         accountLinkBox.appendChild(this.loggedInUsernameLabel.content);
-    }
-
-    async loadLoginInputMenu(loginInputMenu) {
-        this.loginBox = new LoginBox({});
-        loginInputMenu.appendChild(this.loginBox.content);
     }
 
     async logout() {

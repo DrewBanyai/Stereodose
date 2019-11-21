@@ -1,4 +1,4 @@
-let siteHeaderHeight = { collapsed: "50px", expanded: "220px" };
+let siteHeaderHeight = { collapsed: "50px", expanded: "50px" };//220px" };
 
 let styleConfig = {
     SiteHeader: {
