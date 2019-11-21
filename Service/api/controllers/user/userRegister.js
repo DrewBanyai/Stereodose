@@ -32,7 +32,8 @@ exports.userRegister = async (req, res, next) => {
     userEntry.password = undefined;
     userEntry.__v = undefined;
 
-    checkAuth.saveOffToken(username, passwordHash);
+    //  Return a token if successful
+    //checkAuth.saveOffToken(username, passwordHash);
     //const token = jwt.sign({ username: username, password: passwordHash, }, process.env.JWT_KEY, { subject: username, expiresIn: "1d" });
-    res.status(200).json({ success: true, token: passwordHash, user: userEntry, message: "User registration successful", });
+    res.status(200).json({ success: true, token: 0, user: userEntry, message: "User registration successful", });
 }
