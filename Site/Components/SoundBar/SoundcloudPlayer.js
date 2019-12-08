@@ -15,7 +15,9 @@ class SoundcloudPlayer {
 
     async initialize(trackLinkList) {
         //  Initialize the Soundcloud API, and load the track link list
-        this.player = await SC.initialize({ client_id: "dV0jpQ1RaaPeGmiJcmR05K9OPzSaUAZJ", /*redirect_uri: "CALLBACK_URL"*/ });
+        try { this.player = await SC.initialize({ client_id: "Vu5tlmvC9eCLFZkxXG32N1yQMfDSAPAA", /*redirect_uri: "CALLBACK_URL"*/ }); }
+        catch (err) { console.error(err); }
+
         if (trackLinkList) { await this.loadTrackLinks(trackLinkList); }
     }
 

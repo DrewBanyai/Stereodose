@@ -12,7 +12,8 @@ class LandingPage {
 		container.appendChild(this.createPlaylistFilterBox());
 		container.appendChild(this.createPlaylistListBox());
 
-		window.history.pushState("object or string", "Title", `/`);
+		try { window.history.pushState("object or string", "Title", `/`); } catch (err) { console.error(err); }
+		
 
 		return container.content;
 	}
