@@ -13,9 +13,9 @@ let isURLUnitTest = () => {
 }
 
 let loadImageToBase64 = async (imageURL) => {
-    if (!isURL(imageURL)) { return null; }
+    if (!isURL(imageURL)) { console.log(`${imageURL} is not a valid URL`); return null; }
     try {
-        let result = await fetch(imageURL);
+        let result = await fetch(imageURL, { method: "GET", mode: "no-cors" });
         var imageBlob = await result.blob();
 
         return new Promise((resolve, reject) => {
